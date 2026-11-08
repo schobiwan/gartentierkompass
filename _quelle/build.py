@@ -3,6 +3,7 @@
 import json, os, re, html, hashlib, datetime
 from urllib.parse import quote_plus
 from data_species import S, GROUPS, GROUP_FORMS, HABS, ROLE, EXTRA
+from data_vk import MERKMALE, RATGEBER, GESCHENKE, GESCHENKE_OHNE, LINKS
 from data_more import PAIRS, DAMAGE, DAMAGE_STEPS, MONTH_EVENTS, MONTH_PRODS, ICONS, PRODUCTS, GEAR_SECTIONS, HOME_GEAR
 from assets import LOGO_SYMBOL
 
@@ -50,28 +51,38 @@ SEARCH_ICO = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11
 ARROW = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"></path></svg>'
 NEWWIN = '<span class="sr-only"> (öffnet in neuem Fenster)</span>'
 
-def head(R, title, desc, path, og_type="website", og_img="photos/og.jpg", og_alt="Gartentierkompass", extra=""):
+ORG_ID = BASE + "#org"
+def head(R, title, desc, path, og_type="website", og_img="photos/og.jpg", og_alt="Gartentierkompass", extra="", ld=None):
     css = ver("assets/site.css")
+    lds = "".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>' for x in (ld or []))
     return (f'<!DOCTYPE html><html lang="de" data-root="{R or "./"}"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">'
-            f'<title>{e(title)}</title><meta name="description" content="{e(desc)}"><link rel="canonical" href="{BASE}{path}">'
+            f'<title>{e(title)}</title><meta name="description" content="{e(desc)}"><link rel="canonical" href="{BASE}{path}"><meta name="robots" content="max-image-preview:large">'
             '<meta name="theme-color" content="#f2f7e8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#14231a" media="(prefers-color-scheme: dark)"><meta name="color-scheme" content="light dark">'
             f'<link rel="icon" href="{R}favicon.ico" sizes="48x48"><link rel="icon" href="{R}favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="{R}apple-touch-icon.png"><link rel="manifest" href="{R}site.webmanifest">'
-            f'<link rel="preload" href="{R}fonts/young-serif-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="{R}fonts/atkinson-hyperlegible-next-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="{R}fonts/atkinson-hyperlegible-next-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>'
+            f'<link rel="preload" href="{R}fonts/lora-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="{R}fonts/mulish-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>'
             f'<meta property="og:type" content="{og_type}"><meta property="og:site_name" content="{SITE}"><meta property="og:locale" content="de_DE"><meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(desc)}">'
-            f'<meta property="og:url" content="{BASE}{path}"><meta property="og:image" content="{BASE}{og_img}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="{e(og_alt)}"><meta name="twitter:card" content="summary_large_image">'
-            f'{extra}<link rel="stylesheet" href="{R}assets/site.css?v={css}"></head> <body> <svg class="logo-defs" aria-hidden="true" focusable="false">{LOGO_SYMBOL}{ICON_DEFS}</svg> <a class="skip" href="#main">Zum Inhalt springen</a> ')
+            f'<meta property="og:url" content="{BASE}{path}"><meta property="og:image" content="{BASE}{og_img}"><meta property="og:image:alt" content="{e(og_alt)}"><meta name="twitter:card" content="summary_large_image">'
+            f'{lds}{extra}<link rel="stylesheet" href="{R}assets/site.css?v={css}"></head> <body> <svg class="logo-defs" aria-hidden="true" focusable="false">{LOGO_SYMBOL}{ICON_DEFS}</svg> <a class="skip" href="#main">Zum Inhalt springen</a> ')
 
+CHEV = '<svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg>'
 def nav(R, cur):
     def ac(k): return ' aria-current="true"' if cur == k else ""
-    items = [f'<li><a href="{R}index.html#arten"><b>Nach Name oder Merkmal</b><span>Suchen und filtern, z. B. „rote Punkte“</span></a></li>']
-    for g, slug, d in GROUPS:
-        n = sum(1 for s in S if s["grp"] == g)
-        items.append(f'<li><a href="{R}arten/index.html#g-{slug}"><b>{e(g)}</b><span>{n} Arten: {e(d)}</span></a></li>')
-    items.append(f'<li><a href="{R}unterscheiden/index.html"><b>Doppelgänger unterscheiden</b><span>{len(PAIRS)} ähnliche Arten im direkten Vergleich</span></a></li>')
-    items.append(f'<li><a href="{R}arten/index.html"><b>Alle Arten im Überblick</b><span>{len(S)} Steckbriefe nach Gruppen</span></a></li>')
+    best = [("index.html#arten", "Nach Name oder Aussehen", "Suchen und filtern, z. B. „rote Punkte“"),
+            ("merkmale/index.html", "Nach Farbe und Merkmal", "Roter Käfer, grüne Raupe, Schnecke …"),
+            ("schadbilder/index.html", "Nach Fraßspuren", "Löcher, Gespinste, Hügel im Rasen"),
+            ("unterscheiden/index.html", "Ähnliche Tiere unterscheiden", f"{len(PAIRS)} Doppelgänger im Vergleich"),
+            ("groessen/index.html", "Nach Größe", "Von der Blattlaus bis zum Steinmarder"),
+            ("arten/index.html", "Alle Arten von A bis Z", f"{len(S)} Steckbriefe mit Foto und Merkmalen")]
+    garten = [("ratgeber/nuetzlinge/index.html", RATGEBER["nuetzlinge"]["nav"], RATGEBER["nuetzlinge"]["navsub"]),
+              ("ratgeber/schnecken/index.html", RATGEBER["schnecken"]["nav"], RATGEBER["schnecken"]["navsub"]),
+              ("schadbilder/index.html", "Was frisst an meiner Pflanze?", "Vom Schadbild zum Verursacher"),
+              ("ausruestung/index.html#lebensraum", "Nisthilfen und Igelhaus", "Unterschlupf für Helfer"),
+              ("ausruestung/index.html", "Lupe, Bücher und Schutz", "Alle Ausrüstungstipps"),
+              ("geschenke/index.html", "Geschenke für Gartenfreunde", "Ideen für jeden Anlass")]
+    li = lambda items: "".join(f'<li><a href="{R}{h}"><b>{e(t)}</b><span>{e(s)}</span></a></li>' for h, t, s in items)
     return (f'<nav class="appnav" aria-label="Hauptnavigation"> <div class="wrap"> <a class="brand" href="{R}index.html"><svg class="logo" aria-hidden="true"><use href="#logo-mark"></use></svg><span>{SITE}</span><span class="sr-only">, zur Startseite</span></a> <ul class="tabs" id="tabs"> '
-            f'<li class="has-menu"><a class="tab" href="{R}index.html" data-menu="bestimmen"{ac("bestimmen")}>{SEARCH_ICO}<span>Bestim&shy;men</span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg></a><div class="mpanel" id="menu-bestimmen" hidden><p class="mintro">Wer ist das?</p><ul>{"".join(items)}</ul></div></li>'
-            f'<li><a class="tab" href="{R}schadbilder/index.html"{ac("schaden")}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21c-5-3-8-7.5-8-12.5C4 6 6 4 8.5 4 10 4 11.3 4.7 12 6c.7-1.3 2-2 3.5-2C18 4 20 6 20 8.5 20 13.5 17 18 12 21z"/><circle cx="9.5" cy="10" r="1.3"/><circle cx="14.5" cy="13" r="1.6"/></svg><span>Was frisst?</span></a></li>'
+            f'<li class="has-menu"><a class="tab" href="{R}index.html" data-menu="bestimmen"{ac("bestimmen")}>{SEARCH_ICO}<span>Bestim&shy;men</span>{CHEV}</a><div class="mpanel" id="menu-bestimmen" hidden><p class="mintro">Wer ist das?</p><ul>{li(best)}</ul></div></li>'
+            f'<li class="has-menu"><a class="tab" href="{R}ratgeber/nuetzlinge/index.html" data-menu="garten"{ac("garten")}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21V11"/><path d="M12 11c0-3 2.5-5.5 6-5.5 0 3.5-2.5 5.5-6 5.5z"/><path d="M12 14c0-2.6-2-4.5-5-4.5 0 3 2 4.5 5 4.5z"/></svg><span>Im Garten</span>{CHEV}</a><div class="mpanel" id="menu-garten" hidden><p class="mintro">Helfer fördern, Pflanzen schützen</p><ul>{li(garten)}</ul></div></li>'
             f'<li><a class="tab" href="{R}gartenjahr/index.html"{ac("jahr")}><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg><span>Garten&shy;jahr</span></a></li>'
             f'<li><a class="tab" href="{R}ausruestung/index.html"{ac("gear")}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6V4.5A1.5 1.5 0 0 1 10.5 3h3A1.5 1.5 0 0 1 15 4.5V6"/><rect x="5" y="6" width="14" height="15" rx="4"/><path d="M9 13h6M9 13v3h6v-3"/></svg><span>Aus&shy;rüstung</span></a></li> </ul> '
             f'<button class="navsearch" type="button" id="navsearch" aria-haspopup="dialog" aria-controls="sdlg">{SEARCH_ICO}<span class="sr-only">Tier suchen</span><span class="nsl" aria-hidden="true">Suchen</span></button> </div> <div class="mbackdrop" id="mbackdrop" hidden></div> </nav> '
@@ -87,12 +98,17 @@ def crumbs(R, trail):
             f'<script type="application/ld+json">{json.dumps({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": ld}, ensure_ascii=False)}</script> ')
 
 def footer(R, script="app.js"):
-    sis = "".join(f'<li><a href="{u}" rel="noopener">{e(t)}</a></li>' for u, t in SISTERS)
+    col = lambda title, items: f'<nav aria-label="{e(title)}"><p class="fhead">{e(title)}</p><ul>' + "".join(
+        f'<li><a href="{h if h.startswith("http") else R + h}"{" rel=\"noopener\"" if h.startswith("http") else ""}>{e(t)}</a></li>' for h, t in items) + '</ul></nav>'
+    c1 = [("index.html#arten", "Nach Name oder Aussehen"), ("merkmale/index.html", "Nach Farbe und Merkmal"), ("schadbilder/index.html", "Nach Fraßspuren"),
+          ("unterscheiden/index.html", "Ähnliche Tiere unterscheiden"), ("groessen/index.html", "Nach Größe"), ("arten/index.html", "Alle Arten von A bis Z")]
+    c2 = [("ratgeber/nuetzlinge/index.html", "Nützlinge fördern"), ("ratgeber/schnecken/index.html", "Schnecken ohne Gift"), ("schadbilder/index.html", "Was frisst an meiner Pflanze?"),
+          ("ausruestung/index.html", "Ausrüstung"), ("geschenke/index.html", "Geschenke für Gartenfreunde")]
+    c3 = [("gartenjahr/index.html", "Gartenjahr und Kalender"), ("links/index.html", "Weiterführende Websites")] + [(u, t) for u, t in SISTERS]
+    c4 = [("ueber/index.html", f"Über den {SITE}"), ("impressum/index.html", "Impressum"), ("datenschutz/index.html", "Datenschutz"), ("bildnachweis/index.html", "Bildnachweis und Lizenzen")]
     return (f'<footer> <div class="wrap"> <a class="flogo" href="{R}index.html"><svg class="logo" aria-hidden="true"><use href="#logo-mark"></use></svg><span>{SITE}</span></a> <div class="fcols"> '
-            f'<nav aria-label="Entdecken"><p class="fhead">Entdecken</p><ul><li><a href="{R}arten/index.html">Alle Gartentiere</a></li><li><a href="{R}schadbilder/index.html">Was frisst an meiner Pflanze?</a></li><li><a href="{R}unterscheiden/index.html">Doppelgänger unterscheiden</a></li><li><a href="{R}gartenjahr/index.html">Gartenjahr und Kalender</a></li><li><a href="{R}ausruestung/index.html">Ausrüstung</a></li></ul></nav> '
-            f'<nav aria-label="Rechtliches"><p class="fhead">Rechtliches</p><ul><li><a href="{R}impressum/index.html">Impressum</a></li><li><a href="{R}datenschutz/index.html">Datenschutz</a></li><li><a href="{R}bildnachweis/index.html">Bildnachweis und Lizenzen</a></li></ul></nav> '
-            f'<nav aria-label="Schwesterseiten"><p class="fhead">Schwesterseiten</p><ul>{sis}</ul></nav> </div> '
-            f'<p class="footnote">{"Fotos: Wikimedia Commons, unter freien Lizenzen. " if PHOTOS else ""}Illustrationen und Zeichnungen sind eigene Grafiken. Mit * markierte Links sind Werbelinks. Als Amazon-Partner verdiene ich an qualifizierten Verkäufen.</p> </div> </footer> '
+            f'{col("Bestimmen", c1)} {col("Im Garten", c2)} {col("Mehr entdecken", c3)} {col("Rechtliches", c4)} </div> '
+            f'<p class="footnote">Fotos: Wikimedia Commons, unter freien Lizenzen. Mit * markierte Links sind Werbelinks. Als Amazon-Partner verdiene ich an qualifizierten Verkäufen.</p> </div> </footer> '
             f'<script type="module" src="{R}assets/{script}?v={ver("assets/" + script)}"></script> </body> </html>')
 
 def cred_short(R, key):
@@ -180,38 +196,72 @@ def month_range(s):
     return f"von {MN[p[0]-1]} bis {MN[p[-1]-1]} zu sehen" if p == list(range(p[0], p[-1] + 1)) else "zu sehen im " + join_de(MN[m-1] for m in p)
 
 # ---------------------------------------------------------------- Seiten
+ART = {"ihn": ("der", "den", "dem"), "sie": ("die", "die", "der"), "es": ("das", "das", "dem")}
+def merkmal_links_for(k):
+    return [(slug, short) for slug, title, short, intro, items in MERKMALE if any(x == k for x, _ in items)]
+
+def related_for(s):
+    same = [x for x in S if x["grp"] == s["grp"] and x["key"] != s["key"]]
+    hab = set(s["hab"])
+    same.sort(key=lambda x: (-len(hab & set(x["hab"])), x["name"]))
+    return same[:4]
+
 def page_species(s):
     R = "../../"; k = s["key"]
-    desc = f'{s["name"]} ({s["latin"]}): {s["short"]} Merkmale, Rolle im Garten und wann du {s["pron"]} siehst.'
+    nom, akk, dat = ART[s["pron"]]
+    N = s["name"]
+    desc = f'{N} ({s["latin"]}): {s["short"]} Merkmale, Rolle im Garten und wann du {s["pron"]} siehst.'
     peaks = join_de(f'<a href="{R}gartenjahr/{MS[m-1]}/index.html">{MN[m-1]}</a>' for m in s["peak"])
     pres = [m for m in range(1, 13) if m in s["present"]]
     hidden_sr = f'Aktiv: {join_de(MN[m-1] for m in pres)}. Hauptzeit: {join_de(MN[m-1] for m in s["peak"])}.'
     lifes = "".join(f'<details class="fold" open data-fold><summary><h3>{e(t)}</h3></summary><p>{e(x)}</p></details>' for t, x in s["life"])
     pairs = [p for p in PAIRS if k in (p[1], p[2])]
-    pairlinks = "".join(f'<li><a href="{R}unterscheiden/{p[0]}/index.html">{e(NAMES[p[1]])} oder {e(NAMES[p[2]])}?</a></li>' for p in pairs)
-    more = (f'<li><a href="https://de.wikipedia.org/w/index.php?search={quote_plus(s["latin"])}" target="_blank" rel="noopener">Wikipedia{NEWWIN}</a></li>')
+    alike = ""
+    if pairs:
+        p = pairs[0]; other = p[2] if p[1] == k else p[1]
+        cred = cred_long(other, cropped=False)
+        more_p = [q for q in pairs[1:]]
+        also = (" <p>Wird auch verwechselt mit: " + ", ".join(f'<a href="{R}unterscheiden/{q[0]}/index.html">{e(NAMES[q[2] if q[1] == k else q[1]])}</a>' for q in more_p) + "</p>") if more_p else ""
+        port = f' · <a href="{R}arten/{other}/index.html">{e(NAMES[other])} im Porträt</a>' if other in SP else ""
+        alike = (f'<section class="alike" aria-labelledby="h-alike"> {img(R, other, "(max-width: 600px) 92vw, 400px", alt=NAMES[other])} <div> <h2 id="h-alike">Nicht verwechseln: {e(NAMES[other])}</h2> '
+                 f'<p>{e(p[4])}</p> <p class="alike-cred"><small class="cred-inline">{cred}</small></p> '
+                 f'<p><a href="{R}unterscheiden/{p[0]}/index.html">{e(NAMES[p[1]])} oder {e(NAMES[p[2]])}? Alle Unterschiede</a>{port}</p>{also} </div> </section> ')
+    ml = merkmal_links_for(k)
+    inmerk = (f'<p class="inmerk">Auch zu finden unter: ' + " · ".join(f'<a href="{R}merkmale/{slug}/index.html">{e(short)}</a>' for slug, short in ml) + '</p>') if ml else ""
+    wiki = f'https://de.wikipedia.org/wiki/{quote_plus(N.replace(" ", "_"), safe="_")}'
+    more = (f'<li><a href="{wiki}" target="_blank" rel="noopener">Wikipedia: {e(N)}{NEWWIN}</a></li>'
+            f'<li><a href="https://www.inaturalist.org/search?q={quote_plus(s["latin"])}" target="_blank" rel="noopener">Beobachtungen bei iNaturalist{NEWWIN}</a></li>')
+    if s["grp"] in ("Säugetiere", "Amphibien & Reptilien"):
+        more += '<li><a href="https://waldtierkompass.de/" rel="noopener">Mehr Wildtiere im Waldtierkompass</a></li>'
+    else:
+        more += '<li><a href="https://vogelkompass.de/" rel="noopener">Vögel im Garten im Vogelkompass</a></li>'
+    rg = [r for r, d in RATGEBER.items() if k in d["related"]]
+    rgline = (" <p>" + " · ".join(f'<a href="{R}ratgeber/{r}/index.html">{e(RATGEBER[r]["title"])}</a>' for r in rg) + "</p>") if rg else ""
     dmg = [it for _, _, _, items in DAMAGE for it in items if k in it[3]]
     dmgline = (f'<p class="yeartext">Typisches Schadbild: <a href="{R}schadbilder/index.html">{e(dmg[0][1])}</a>.</p>' if dmg else "")
-    ld = {"@context": "https://schema.org", "@type": "Article", "headline": f'{s["name"]} erkennen', "about": {"@type": "Thing", "name": s["name"], "alternateName": s["latin"]},
-          "inLanguage": "de-DE", "image": f'{BASE}photos/{k}.webp', "publisher": {"@type": "Organization", "name": SITE, "url": BASE}}
-    body = (head(R, f'{s["name"]} erkennen · {SITE}', desc, f'arten/{k}/', "article", og_alt=s["name"], extra=f'<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>')
-            + nav(R, "bestimmen") + '<main id="main" tabindex="-1"> ' + crumbs(R, [("Arten", "arten/"), (s["name"], f"arten/{k}/")]) +
-            f'<article class="sp wrap"> <div class="sp-top"> <figure class="sp-photo"> {img(R, k, "(max-width: 760px) 92vw, 560px", eager=True, alt=s["name"] if k in PHOTOS else "")} <figcaption>{cred_long(k)}</figcaption> </figure> '
-            f'<div class="sp-intro"> <h1>{e(s["name"])}</h1> <p class="latin" lang="la">{e(s["latin"])}</p> <p class="row"><span class="tag status">{e(s["grp"])}</span><span class="tag">{e(s["size"])}</span>'
+    rel = related_for(s)
+    ld = [{"@context": "https://schema.org", "@type": "WebPage", "name": f'{N} erkennen', "description": desc, "inLanguage": "de-DE",
+           "isPartOf": {"@id": BASE + "#website"}, "publisher": {"@id": ORG_ID}, "author": {"@type": "Person", "name": "Nico Schober"},
+           "about": {"@type": "Taxon", "name": s["latin"], "alternateName": N, "taxonRank": "species"},
+           "image": f'{BASE}photos/{k}.webp', "primaryImageOfPage": {"@type": "ImageObject", "url": f'{BASE}photos/{k}.webp', "width": 720, "height": 576}}]
+    body = (head(R, f'{N} erkennen · {SITE}', desc, f'arten/{k}/', "article", og_img=f'photos/{k}.webp', og_alt=N, ld=ld)
+            + nav(R, "bestimmen") + '<main id="main" tabindex="-1"> ' + crumbs(R, [("Arten", "arten/"), (N, f"arten/{k}/")]) +
+            f'<article class="sp wrap"> <div class="sp-top"> <figure class="sp-photo"> {img(R, k, "(max-width: 760px) 92vw, 560px", eager=True, alt=N if k in PHOTOS else "")} <figcaption>{cred_long(k)}</figcaption> </figure> '
+            f'<div class="sp-intro"> <h1>{e(N)}</h1> <p class="latin" lang="la">{e(s["latin"])}</p> <p class="row"><span class="tag status">{e(s["grp"])}</span><span class="tag">{e(s["size"])}</span>'
             + "".join(f'<span class="tag act-tag"><svg aria-hidden="true"><use href="#{ACT[a][1]}"></use></svg>{ACT[a][0]}</span>' for a in s["acts"]) +
             f'</p> <p class="habs">{"".join(f"<span>{e(h)}</span>" for h in s["hab"])}</p> <p class="text">{e(s["short"])} {e(s["hl"])}</p> '
             f'<div class="trackbox rolebox"><span class="trk-img"><svg viewBox="0 0 24 24" aria-hidden="true">{ROLE_ICO[s["role"]]}</svg></span><p><b>{e(ROLE[s["role"]])}</b>{e(s["roleline"])}</p></div> </div> </div>\n'
-            f'<div class="sp-cols"> <div class="sp-main"> <section aria-labelledby="h-marks"> <h2 id="h-marks">So erkennst du {s["pron"]}</h2> <ul class="marks">{"".join(f"<li>{e(m)}</li>" for m in s["marks"])}</ul> '
+            f'<div class="sp-cols"> <div class="sp-main"> <section aria-labelledby="h-marks"> <h2 id="h-marks">So erkennst du {akk} {e(N)}</h2> <ul class="marks">{"".join(f"<li>{e(m)}</li>" for m in s["marks"])}</ul> {inmerk} '
             f'<dl class="facts"><dt>Rolle im Garten</dt><dd>{e(ROLE[s["role"]])}</dd><dt>Wo im Garten</dt><dd>{e(s["where"])}</dd><dt>Größe</dt><dd>{e(s["size"])}</dd><dt>Aktiv</dt><dd>{act_text(s)}</dd></dl> </section> '
-            f'<section aria-labelledby="h-year"> <h2 id="h-year">Wann im Jahr</h2> <div class="months" aria-hidden="true"> {months_bar(s)} </div> <p class="legend"><span><i></i>kaum zu sehen</span><span><i class="p"></i>aktiv</span><span><i class="h"></i>beste Zeit</span></p> '
-            f'<p class="sr-only">{hidden_sr}</p> <p class="yeartext">{e(s["name"])} ist {month_range(s)}. Besonders viel los ist im {peaks}. {e(s["hl"])}</p>{dmgline} </section> '
+            f'<section aria-labelledby="h-year"> <h2 id="h-year">Wann ist {nom} {e(N)} zu sehen?</h2> <div class="months" aria-hidden="true"> {months_bar(s)} </div> <p class="legend"><span><i></i>kaum zu sehen</span><span><i class="p"></i>aktiv</span><span><i class="h"></i>beste Zeit</span></p> '
+            f'<p class="sr-only">{hidden_sr}</p> <p class="yeartext">{e(N)} ist {month_range(s)}. Besonders viel los ist im {peaks}. {e(s["hl"])}</p>{dmgline} </section> '
             f'<section class="life" aria-labelledby="h-life"> <h2 id="h-life">Lebensweise</h2> {lifes} </section> '
-            f'<section class="helpbox" aria-label="Tipps"> <details class="fold" open><summary><h2>{e(s["help"][0])}</h2></summary><p>{e(s["help"][1])}</p></details> <details class="fold" open><summary><h2>{e(s["tip"][0])}</h2></summary><p>{e(s["tip"][1])}</p></details> </section> '
-            + (f'<section class="more" aria-labelledby="h-pairs"> <h2 id="h-pairs">Verwechslungsgefahr</h2> <ul class="morelinks">{pairlinks}</ul> </section>' if pairs else "") +
-            f' <section class="more" aria-labelledby="h-more"> <h2 id="h-more">Mehr erfahren</h2> <ul class="morelinks"> {more} </ul> </section> </div>\n'
+            f'<section class="helpbox" aria-label="Tipps"> <details class="fold" open><summary><h2>{e(s["help"][0])}</h2></summary><p>{e(s["help"][1])}</p>{rgline}</details> <details class="fold" open><summary><h2>{e(s["tip"][0])}</h2></summary><p>{e(s["tip"][1])}</p></details> </section> '
+            f'{alike}<section class="more" aria-labelledby="h-more"> <h2 id="h-more">Mehr erfahren</h2> <ul class="morelinks"> {more} </ul> </section> </div>\n'
             f'<aside class="sp-side" aria-label="Empfehlungen"> <section class="gearbox" aria-labelledby="h-gear"><h2 id="h-gear">Passend dazu</h2><ul class="products compact"> '
             + "".join(product(R, p, compact=True, why=False) for p in s["prods"]) +
-            f' </ul>{ADNOTE}<p class="gearall"><a href="{R}ausruestung/index.html">Alle Ausrüstungstipps ansehen</a></p></section> </aside> </div> </article> </main> ' + footer(R))
+            f' </ul>{ADNOTE}<p class="gearall"><a href="{R}ausruestung/index.html">Alle Ausrüstungstipps ansehen</a></p></section> </aside> </div> '
+            f'<section class="related" aria-labelledby="h-rel"> <h2 id="h-rel">Oft in der Nähe</h2> <ul class="grid">{"".join(card(R, x, i) for i, x in enumerate(rel))}</ul> </section> </article> </main> ' + footer(R))
     write(f"arten/{k}/index.html", body)
 
 def filter_bar():
@@ -242,7 +292,9 @@ def spot_cred(k):
 def page_home():
     R = ""
     desc = f"Gartentiere bestimmen: {len(S)} Nützlinge, Schädlinge und Gartengäste mit Merkmalen, Schadbildern, Doppelgängern und Gartenjahr."
-    ld = {"@context": "https://schema.org", "@type": "WebSite", "name": SITE, "url": BASE, "inLanguage": "de-DE", "description": "Tiere im Garten bestimmen: Nützlinge, Schädlinge, Schadbilder und Gartenjahr."}
+    ld = [{"@context": "https://schema.org", "@type": "WebSite", "@id": BASE + "#website", "name": SITE, "url": BASE, "inLanguage": "de-DE", "publisher": {"@id": ORG_ID}, "description": "Tiere im Garten bestimmen: Nützlinge, Schädlinge, Schadbilder und Gartenjahr.",
+           "potentialAction": {"@type": "SearchAction", "target": BASE + "?q={search_term_string}", "query-input": "required name=search_term_string"}},
+          {"@context": "https://schema.org", "@type": "Organization", "@id": ORG_ID, "name": SITE, "url": BASE, "logo": BASE + "icon-512.png", "email": "info@nicoschober.com", "founder": {"@type": "Person", "name": "Nico Schober"}}]
     chips = "".join(f'<button type="button" class="hchip" data-hgrp="{e(g)}">{e(g)}<span class="sr-only"> ({sum(1 for s in S if s["grp"] == g)})</span></button>' for g, _, _ in GROUPS)
     events = "".join(f'<ul class="h5-events" data-m="{m}"{"" if m == NOW else " hidden"}>{"".join(f"<li>{e(x)}</li>" for x in MONTH_EVENTS[m])}</ul>' for m in range(1, 13))
     nowsp = [s for s in S if NOW in s["peak"]] + [s for s in S if NOW in s["present"] and NOW not in s["peak"]]
@@ -259,10 +311,14 @@ def page_home():
     explore = (f'<li><a href="schadbilder/index.html"><b>Was frisst an meiner Pflanze?</b><span>Löcher, Buchten, Gespinste und Hügel: vom Schadbild zum Verursacher, mit sanften Lösungen.</span></a></li>'
                f'<li><a href="unterscheiden/index.html"><b>Doppelgänger unterscheiden</b><span>Marienkäfer oder Asiatischer Marienkäfer, Schwebfliege oder Wespe: {len(PAIRS)} Vergleiche.</span></a></li>'
                f'<li><a href="gartenjahr/index.html"><b>Das Gartenjahr</b><span>Krötenwanderung, Schneckenzeit, Leimring: was im Garten wann passiert, Monat für Monat.</span></a></li>'
+               f'<li><a href="merkmale/index.html"><b>Nach Aussehen bestimmen</b><span>Roter Käfer, grüne Raupe, weißer Schmetterling: {len(MERKMALE)} Merkmale führen zur Art.</span></a></li>'
+               f'<li><a href="ratgeber/nuetzlinge/index.html"><b>Nützlinge fördern</b><span>Wildbienenhotel, Igelhaus, Totholz und Teich: so holst du Helfer in den Garten.</span></a></li>'
+               f'<li><a href="ratgeber/schnecken/index.html"><b>Schnecken ohne Gift</b><span>Schneckenzaun, Absammeln, Nematoden und Laufenten im Vergleich.</span></a></li>'
+               f'<li><a href="groessen/index.html"><b>Größenvergleich</b><span>Von der Blattlaus bis zum Steinmarder auf einer Skala.</span></a></li>'
                f'<li><a href="ausruestung/index.html"><b>Ausrüstung</b><span>Nützlinge, Schneckenzaun, Nisthilfen und Lupe für einen naturnahen Garten.</span></a></li>'
                f'<li><a href="https://vogelkompass.de/" rel="noopener"><b>Vögel im Garten?</b><span>Meise, Rotkehlchen und Co. findest du auf der Schwesterseite Vogelkompass.</span></a></li>'
                f'<li><a href="https://waldtierkompass.de/" rel="noopener"><b>Fuchs, Reh oder Dachs?</b><span>Größere Wildtiere und ihre Spuren findest du auf der Schwesterseite Waldtierkompass.</span></a></li>')
-    body = (head(R, f"{SITE} – Tiere im Garten bestimmen", desc, "", extra=f'<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>') + nav(R, "bestimmen") +
+    body = (head(R, f"{SITE} – Tiere im Garten bestimmen", desc, "", ld=ld) + nav(R, "bestimmen") +
             '<main id="main" tabindex="-1"> <header class="hero6"> <div class="wrap hero6-in"> <div class="h6-text"> '
             f'<p class="h6-kicker"><svg class="buoy" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21V11" stroke="#2f6b3f" stroke-width="1.8" stroke-linecap="round"/><path d="M12 11c0-3 2.5-5.5 6-5.5 0 3.5-2.5 5.5-6 5.5z" fill="#6b9a3c"/><path d="M12 14c0-2.6-2-4.5-5-4.5 0 3 2 4.5 5 4.5z" fill="#8fbf55"/></svg><span>Naturgarten</span><span aria-hidden="true">·</span><span>{len(S)} Gartentiere</span></p> '
             '<h1 class="h6-title h6-single">Wer lebt in deinem Garten?</h1> '
@@ -445,7 +501,7 @@ def legal_pages():
             f'<section class="block page"> <div class="wrap prose"> <h1>Bildnachweis und Lizenzen</h1> <h2>Bilder</h2> <p>{photos_intro}</p> </div> '
             f'<div class="wrap"><div class="cmp-wrap" tabindex="0" role="region" aria-label="Bildnachweis der Tierbilder"><table class="cmp"><thead><tr><th scope="col">Art</th><th scope="col">Urheber</th><th scope="col">Lizenz</th><th scope="col">Quelle</th></tr></thead><tbody>{"".join(rows)}</tbody></table></div></div> '
             '<div class="wrap prose"> <h2>Zeichnungen und Symbole</h2> <p>Logo, Schadbild-Zeichnungen, Produktsymbole und Illustrationen sind eigene Grafiken des Betreibers. Produktfotos sind Beispielbilder von Wikimedia Commons und zeigen nicht das konkrete Angebot; wo kein Foto vorhanden ist, steht ein neutrales Symbol. Das konkrete Angebot siehst du bei Amazon.</p> '
-            '<h2>Schriften</h2> <p>Young Serif (Copyright 2023 The Young Serif Project Authors) und Atkinson Hyperlegible Next (Copyright 2020–2024 The Atkinson Hyperlegible Next Project Authors) stehen unter der SIL Open Font License 1.1. Die Lizenztexte liegen im Ordner <a href="../fonts/LICENSE-Young-Serif.txt">fonts</a> (<a href="../fonts/LICENSE-Atkinson-Hyperlegible-Next.txt">Atkinson Hyperlegible Next</a>).</p> </div> </section> </main> ' + footer(R))
+            '<h2>Schriften</h2> <p>Lora (Copyright 2011 The Lora Project Authors) und Mulish (Copyright 2016 The Mulish Project Authors) stehen unter der SIL Open Font License 1.1. Die Lizenztexte: <a href="../fonts/LICENSE-Lora.txt">Lora</a>, <a href="../fonts/LICENSE-Mulish.txt">Mulish</a>.</p> </div> </section> </main> ' + footer(R))
     write("bildnachweis/index.html", body)
 
 def scripts():
@@ -464,7 +520,8 @@ def meta_files():
         looks = " ".join(NAMES[p[2] if p[1] == s["key"] else p[1]] for p in PAIRS if s["key"] in (p[1], p[2]))
         idx.append([s["name"], s["key"], f'{s["name"]} {s["latin"]} {s["alias"]}', looks, f'{s["grp"]} {GROUP_FORMS[s["grp"]]} {ROLE[s["role"]]}|{s["short"]}|{act_text(s)}'])
     write("search.json", json.dumps(idx, ensure_ascii=False))
-    urls = ["", "arten/", "ausruestung/", "bildnachweis/", "datenschutz/", "impressum/", "schadbilder/", "unterscheiden/", "gartenjahr/"]
+    urls = ["", "arten/", "ausruestung/", "bildnachweis/", "datenschutz/", "impressum/", "schadbilder/", "unterscheiden/", "gartenjahr/", "merkmale/", "groessen/", "ratgeber/schnecken/", "ratgeber/nuetzlinge/", "geschenke/", "ueber/", "links/"]
+    urls += [f"merkmale/{m[0]}/" for m in MERKMALE]
     urls += [f"arten/{s['key']}/" for s in S] + [f"unterscheiden/{p[0]}/" for p in PAIRS] + [f"gartenjahr/{m}/" for m in MS]
     write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(f"  <url><loc>{BASE}{u}</loc></url>\n" for u in urls) + "</urlset>\n")
     write("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {BASE}sitemap.xml\n")
@@ -472,9 +529,138 @@ def meta_files():
            "icons": [{"src": "/icon-192.png", "sizes": "192x192", "type": "image/png"}, {"src": "/icon-512.png", "sizes": "512x512", "type": "image/png"}, {"src": "/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}]}, indent=1))
     write("version.txt", datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"))
 
+
+# ================================================================ Vogelkompass-Standard: neue Seiten
+ADBANNER = '<p class="adbanner"><b>Werbung:</b> Diese Seite enthält Werbelinks zu Amazon, gekennzeichnet mit einem Sternchen. Kaufst du darüber, erhalte ich eine kleine Provision, für dich ändert sich am Preis nichts.</p>'
+
+def cred_small(k):
+    return f'<small class="cred"><span>{cred_long(k, cropped=False)}</span></small>'
+
+def mcard(R, href, imgkey, name, why, meta=""):
+    return (f'<li class="mcard"><a href="{href}"> {img(R, imgkey, "(max-width: 600px) 92vw, 300px")} <span class="mname">{e(name)}</span><span class="mwhy">{e(why)}</span>'
+            + (f'<span class="mmeta">{e(meta)}</span>' if meta else "") + f' </a>{cred_small(imgkey)}</li>')
+
+def crumb_ld(trail):
+    return None
+
+def page_merkmale():
+    R = "../"
+    cards = []
+    for slug, title, short, intro, items in MERKMALE:
+        names = [SP[k]["name"] for k, _ in items]
+        cards.append(mcard(R, f"{R}merkmale/{slug}/index.html", items[0][0], title, f'{len(items)} Arten, zum Beispiel {join_de(names[:2])}'))
+    body = (head(R, f"Gartentiere nach Aussehen bestimmen · {SITE}", "Roter Käfer, grüne Raupe, Schnecke oder weißer Schmetterling? Gartentiere nach dem auffälligsten Merkmal bestimmen.", "merkmale/") + nav(R, "bestimmen") +
+            '<main id="main" tabindex="-1"> ' + crumbs(R, [("Nach Aussehen", "merkmale/")]) +
+            '<section class="block page"> <div class="wrap"> <h1>Gartentiere nach Aussehen bestimmen</h1> <p class="intro">Du hast ein Tier im Garten entdeckt, kennst aber den Namen nicht? Wähle das auffälligste Merkmal. Auf jeder Seite findest du die passenden Arten mit Foto und dem Merkmal, an dem du sie erkennst.</p> '
+            f'<ul class="mlist">{"".join(cards)}</ul> </div> </section> </main> ' + footer(R))
+    write("merkmale/index.html", body)
+    R = "../../"
+    for slug, title, short, intro, items in MERKMALE:
+        lis = "".join(mcard(R, f"{R}arten/{k}/index.html", k, SP[k]["name"], why, f'{SP[k]["size"]} · {ROLE[SP[k]["role"]]}') for k, why in items)
+        ld = [{"@context": "https://schema.org", "@type": "ItemList", "name": title, "numberOfItems": len(items),
+               "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": SP[k]["name"], "url": f"{BASE}arten/{k}/"} for i, (k, _) in enumerate(items)]}]
+        others = [m for m in MERKMALE if m[0] != slug][:6]
+        ol = "".join(f'<li><a href="{R}merkmale/{m[0]}/index.html">{e(m[1])}</a></li>' for m in others)
+        body = (head(R, f"{title} – was ist das? · {SITE}", intro[:155], f"merkmale/{slug}/", ld=ld, og_img=f"photos/{items[0][0]}.webp", og_alt=SP[items[0][0]]["name"]) + nav(R, "bestimmen") +
+                '<main id="main" tabindex="-1"> ' + crumbs(R, [("Nach Aussehen", "merkmale/"), (title, f"merkmale/{slug}/")]) +
+                f'<section class="block page"> <div class="wrap"> <h1>{e(title)}</h1> <p class="intro">{e(intro)}</p> <ul class="mlist">{lis}</ul> '
+                f'<h2 class="h3 mt">Andere Merkmale</h2> <ul class="morelinks">{ol}<li><a href="{R}merkmale/index.html">Alle Merkmale</a></li></ul> </div> </section> </main> ' + footer(R))
+        write(f"merkmale/{slug}/index.html", body)
+
+def size_range(s):
+    t = s["size"].replace("plus Schwanz", "").replace("Spannweite", "").replace("Gehäuse", "").replace("Raupe bis", "").strip()
+    unit = 0.1 if "mm" in t else 1.0
+    nums = [float(x.replace(",", ".")) for x in re.findall(r"\d+(?:,\d+)?", t)]
+    lo, hi = (nums[0], nums[-1]) if len(nums) > 1 else (nums[0] * 0.8, nums[0])
+    return lo * unit, hi * unit
+
+def page_sizes():
+    R = "../"
+    import math
+    lo_all, hi_all = math.log10(0.08), math.log10(160)
+    pos = lambda v: (math.log10(v) - lo_all) / (hi_all - lo_all) * 100
+    rows = []
+    for i, s in enumerate(sorted(S, key=lambda x: -size_range(x)[1])):
+        lo, hi = size_range(s)
+        l, r = pos(lo), pos(hi)
+        rows.append(f'<div class="srow" role="listitem"><a class="n" href="{R}arten/{s["key"]}/index.html">{e(s["name"])}</a> <div class="track"><span class="rng" style="left:{l:.2f}%;width:{max(r - l, 1.2):.2f}%;--i:{i}"><span>{e(s["size"])}</span></span></div> </div>')
+    marks = "".join(f'<span style="position:absolute;left:{pos(v):.2f}%;top:0;transform:translateX(-50%);white-space:nowrap;font-size:.72rem;color:var(--muted)">{lab}</span>' for v, lab in [(0.1, "1 mm"), (1, "1 cm"), (10, "10 cm"), (50, "50 cm")])
+    body = (head(R, f"Größenvergleich: wie groß sind Gartentiere? · {SITE}", "Von der winzigen Blattlaus bis zum Steinmarder: alle Gartentiere im Größenvergleich.", "groessen/") + nav(R, "bestimmen") +
+            '<main id="main" tabindex="-1"> ' + crumbs(R, [("Größenvergleich", "groessen/")]) +
+            '<section class="block page"> <div class="wrap"> <h1>Wie groß ist welches Gartentier?</h1> <p class="intro">Körperlänge, bei Schmetterlingen die Flügelspannweite, bei der Weinbergschnecke das Gehäuse. Weil eine Blattlaus und ein Steinmarder so verschieden sind, wächst die Skala in Zehnerschritten: 1 mm, 1 cm, 10 cm.</p> '
+            f'<p class="swipe">Seitlich wischen, um die ganze Skala zu sehen.</p> <div class="scale"><div class="scale-inner" role="list"> <div class="srow" aria-hidden="true"><span class="n"></span><div class="track" style="position:relative;height:1.2em;background:none">{marks}</div></div> {"".join(rows)} </div></div> </div> </section> </main> ' + footer(R))
+    write("groessen/index.html", body)
+
+def rlist(items, cls):
+    return f'<ul class="rlist {cls}">' + "".join(f"<li>{e(x)}</li>" for x in items) + "</ul>"
+
+def page_ratgeber():
+    for slug, d in RATGEBER.items():
+        R = "../../"
+        toc = "".join(f'<a href="#{sid}">{e(t)}</a>' for sid, t, *_ in d["sections"]) + '<a href="#tipps">Tipps</a><a href="#fragen">Fragen</a>'
+        th = "".join(f'<th scope="col">{e(h)}</th>' for h in d["table_head"])
+        trs = "".join(f'<tr><th scope="row"><a href="#{rid}">{e(name)}</a></th>' + "".join(f"<td>{e(c)}</td>" for c in cells) + "</tr>" for rid, name, cells in d["rows"])
+        secs = []
+        for sid, t, verdict, plus, minus, species, prods in d["sections"]:
+            sp = (f'<p class="rbirds"><span>Passende Arten:</span> ' + ", ".join(f'<a href="{R}arten/{k}/index.html">{e(SP[k]["name"])}</a>' for k in species) + "</p>") if species else ""
+            pr = (f'<ul class="products">{"".join(product(R, p) for p in prods)}</ul>{ADNOTE}') if prods else ""
+            secs.append(f'<section class="block rtype" id="{sid}" aria-labelledby="h-{sid}"> <div class="wrap"> <h2 id="h-{sid}">{e(t)}</h2> <p class="rverdict"><b>{e(verdict)}</b></p> '
+                        f'<div class="rcols"> <div><h3>Vorteile</h3>{rlist(plus, "plus")}</div> <div><h3>Nachteile</h3>{rlist(minus, "minus")}</div> </div> {sp} {pr} </div> </section>')
+        tips = "".join(f"<li><b>{e(a)}</b><span>{e(x)}</span></li>" for a, x in d["tips"])
+        faq = "".join(f"<dt>{e(q)}</dt><dd>{e(a)}</dd>" for q, a in d["faq"])
+        rel = "".join(card(R, SP[k], i) for i, k in enumerate(d["related"]))
+        ld = [{"@context": "https://schema.org", "@type": "Article", "headline": d["title"], "inLanguage": "de-DE", "author": {"@type": "Person", "name": "Nico Schober"}, "publisher": {"@id": ORG_ID}, "datePublished": "2026-11-08"},
+              {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in d["faq"]]}]
+        body = (head(R, f'{d["title"]} · {SITE}', d["desc"], f"ratgeber/{slug}/", "article", ld=ld) + nav(R, "garten") +
+                '<main id="main" tabindex="-1"> ' + crumbs(R, [("Im Garten", "ratgeber/nuetzlinge/") if slug != "nuetzlinge" else ("Ratgeber", "ratgeber/nuetzlinge/"), (d["nav"], f"ratgeber/{slug}/")] if slug != "nuetzlinge" else [(d["nav"], f"ratgeber/{slug}/")]) +
+                f'<section class="block page"> <div class="wrap"> <h1>{e(d["title"])}</h1> <p class="intro">{e(d["intro"])}</p> {ADBANNER} <p>{d["short"]}</p> <nav class="toc" aria-label="Auf dieser Seite">{toc}</nav> </div> </section> '
+                f'<section class="block" id="vergleich" aria-labelledby="h-vgl"> <div class="wrap"> <h2 id="h-vgl">Im Vergleich</h2> <div class="cmp-wrap" tabindex="0" role="region" aria-label="Vergleichstabelle, seitlich scrollbar"><table class="cmp"> <thead><tr><td></td>{th}</tr></thead> <tbody>{trs}</tbody> </table></div> <p class="thumbnote">Preise sind grobe Richtwerte, Stand November 2026.</p> </div> </section> '
+                + "".join(secs) +
+                f'<section class="block" id="tipps" aria-labelledby="h-tipps"> <div class="wrap"> <h2 id="h-tipps">{e(d["tips_title"])}</h2> <ul class="tips">{tips}</ul> </div> </section> '
+                f'<section class="block" id="fragen" aria-labelledby="h-faq"> <div class="wrap"> <h2 id="h-faq">Häufige Fragen</h2> <dl class="faq">{faq}</dl> </div> </section> '
+                f'<section class="block related" aria-labelledby="h-rel"> <div class="wrap"> <h2 id="h-rel">Passende Arten</h2> <ul class="grid">{rel}</ul> </div> </section> </main> ' + footer(R))
+        write(f"ratgeber/{slug}/index.html", body)
+
+def page_gifts():
+    R = "../"
+    toc = "".join(f'<a href="#{sid}">{e(t)}</a>' for sid, t, _, _ in GESCHENKE) + '<a href="#ohne">Ohne Kaufen</a>'
+    secs = "".join(f'<section class="block" id="{sid}" aria-labelledby="h-{sid}"><div class="wrap"><h2 id="h-{sid}">{e(t)}</h2> <p class="intro">{e(txt)}</p> <ul class="products">{"".join(product(R, p) for p in prods)}</ul>{ADNOTE}</div></section> ' for sid, t, txt, prods in GESCHENKE)
+    ohne = "".join(f"<li><b>{e(a)}</b>: {e(x)}</li>" for a, x in GESCHENKE_OHNE)
+    ld = [{"@context": "https://schema.org", "@type": "WebPage", "name": "Geschenke für Gartenfreunde", "inLanguage": "de-DE", "description": "Geschenkideen für Naturgärtner, Kinder und Technikfreunde."}]
+    body = (head(R, f"Geschenke für Gartenfreunde und Naturgärtner · {SITE}", "Geschenkideen für Gartenfreunde: Nisthilfe, Igelhaus, Hochbeet, Becherlupe und Wildkamera, für Einsteiger, Kinder und Naturgärtner.", "geschenke/", ld=ld) + nav(R, "garten") +
+            '<main id="main" tabindex="-1"> ' + crumbs(R, [("Ausrüstung", "ausruestung/"), ("Geschenke", "geschenke/")]) +
+            '<section class="block page"> <div class="wrap"> <h1>Geschenke für Gartenfreunde</h1> <p class="intro">Wer gern im Garten ist, freut sich über Dinge, die wirklich benutzt werden: eine Nisthilfe, in die im Frühling Wildbienen einziehen, ein Igelhaus für den Winter oder eine Lupe, mit der jeder Käfer spannend wird. Hier findest du Ideen für jeden Kenntnisstand.</p> '
+            f'{ADBANNER} <nav class="toc" aria-label="Auf dieser Seite">{toc}</nav> </div> </section> {secs}'
+            f'<section class="block" aria-labelledby="h-ohne" id="ohne"> <div class="wrap"> <h2 id="h-ohne">Geschenke ohne Kaufen</h2> <div class="advice"> <ul>{ohne}</ul> </div> </div> </section> </main> ' + footer(R))
+    write("geschenke/index.html", body)
+
+def page_about():
+    n_pairs = len(PAIRS)
+    sis = "".join(f'<li><a href="{u}" target="_blank" rel="noopener">{e(t.split(":")[0])}{NEWWIN}</a>: {e(t.split(": ", 1)[1])}</li>' for u, t in SISTERS)
+    inner = (f'<h1>Über den {SITE}</h1> <p class="intro">Der {SITE} hilft dir, die Tiere zu erkennen, die in deinem Garten leben: Nützlinge, Bestäuber, Schädlinge und Gäste wie Igel oder Erdkröte. Er zeigt {len(S)} typische Arten mit Foto und Merkmalen, erklärt in {n_pairs} Vergleichen die häufigsten Verwechslungen und führt vom Schadbild zum Verursacher.</p> '
+             f'<h2>Wer den {SITE} macht</h2> <p>Den {SITE} betreibt Nico Schober aus Bremen als privates, unabhängiges Angebot. Texte, Auswahl der Arten und Gestaltung stammen von ihm. Die Seite gehört zu keinem Verband und keinem Hersteller. Die Kontaktdaten stehen im <a href="../impressum/index.html">Impressum</a>.</p> '
+             '<h2>Woher die Inhalte stammen</h2> <ul> <li><b>Steckbriefe:</b> Merkmale, Größe, Nahrung und Lebensweise sind mit gängigen Bestimmungsliteratur und der deutschsprachigen Wikipedia abgeglichen. Jede Artseite verlinkt weiterführende Quellen unter „Mehr erfahren“.</li> '
+             '<li><b>Jahreszeiten:</b> Die Angaben, wann eine Art zu sehen ist, sind grobe Richtwerte für Deutschland. Je nach Region und Wetter weichen sie ab.</li> '
+             '<li><b>Fotos:</b> von Wikimedia Commons, unter freien Lizenzen, mit Namen der Fotografinnen und Fotografen an jedem Bild.</li> </ul> '
+             '<p>Alle Urheber und Lizenzen stehen gesammelt unter <a href="../bildnachweis/index.html">Bildnachweis und Lizenzen</a>.</p> '
+             f'<h2>Wie sich die Seite finanziert</h2> <p>Der {SITE} ist kostenlos und ohne Anmeldung nutzbar. Einige Seiten empfehlen Nisthilfen, Schneckenzäune oder Bücher mit Werbelinks zu Amazon, die mit * gekennzeichnet sind. Kaufst du über einen solchen Link, erhält der Betreiber eine kleine Provision, für dich ändert sich am Preis nichts. Die Empfehlungen sind nicht selbst getestet, wenn es nicht ausdrücklich dabeisteht, und Hersteller haben keinen Einfluss auf die Auswahl.</p> '
+             f'<h2>Deine Daten</h2> <p>Der {SITE} setzt keine Tracking-Cookies und speichert nichts in deinem Browser. Mehr dazu in der <a href="../datenschutz/index.html">Datenschutzerklärung</a>.</p> '
+             '<h2>Fehler gefunden?</h2> <p>Wenn dir eine falsche Angabe oder ein falsch zugeordnetes Foto auffällt, schreib gern an <a href="mailto:info@nicoschober.com">info@nicoschober.com</a>. Hinweise werden geprüft und eingearbeitet.</p> '
+             f'<h2>Schwesterseiten</h2> <ul>{sis}</ul>')
+    prose_page("ueber/", f"Über den {SITE}", "Über", inner, f"Wer den {SITE} macht, woher die Inhalte stammen und wie sich die Seite finanziert.")
+
+def page_links():
+    groups = "".join(f'<div class="lg"><h2 class="h3">{e(t)}</h2><ul class="weblist">' + "".join(f'<li><a href="{u}" target="_blank" rel="noopener">{e(n)}{NEWWIN}</a><span>{e(d)}</span></li>' for u, n, d in items) + "</ul></div>" for t, items in LINKS)
+    R = "../"
+    body = (head(R, f"Weiterführende Websites · {SITE}", "Seriöse Anlaufstellen zum Bestimmen von Gartentieren, für naturnahes Gärtnern und zum Mitmachen.", "links/") + nav(R, "") +
+            '<main id="main" tabindex="-1"> ' + crumbs(R, [("Links", "links/")]) +
+            f'<section class="block page legal"> <div class="wrap"> <h1>Weiterführende Websites</h1> <p class="intro">Seriöse Anlaufstellen zum Bestimmen, Mitmachen und Weiterlesen. Alle Links öffnen sich in einem neuen Fenster.</p> <div class="linkgroups">{groups}</div> </div> </section> </main> ' + footer(R))
+    write("links/index.html", body)
+
 if __name__ == "__main__":
     scripts()
     for s in S:
         page_species(s)
-    page_home(); page_arten(); page_pairs(); page_damage(); page_year(); page_gear(); legal_pages(); meta_files()
+    page_home(); page_arten(); page_pairs(); page_damage(); page_year(); page_gear(); legal_pages()
+    page_merkmale(); page_sizes(); page_ratgeber(); page_gifts(); page_about(); page_links(); meta_files()
     print("fertig")
