@@ -1,0 +1,89 @@
+# Gartentierkompass
+
+> Tiere im Garten erkennen: 35 typische Gartentiere mit Foto, Merkmalen, Rolle im Garten (Nützling, Bestäuber, Schädling) und Vorkommen im Jahresverlauf, 11 Vergleiche ähnlicher Arten, Schadbilder und Ratgeber für naturnahes Gärtnern ohne Gift. Privates, unabhängiges Angebot von Nico Schober aus Bremen. Fotos von Wikimedia Commons, Steckbriefe abgeglichen mit Bestimmungsliteratur und Wikipedia.
+
+Sprache: Deutsch. Angaben zu Vorkommen sind grobe Richtwerte für Deutschland.
+
+## Bestimmen
+- [Alle Arten von A bis Z](https://gartentierkompass.de/arten/): Steckbriefe mit Foto und Merkmalen
+- [Nach Farbe und Merkmal](https://gartentierkompass.de/merkmale/): z. B. roter Käfer, grüne Raupe, Schnecke
+- [Was frisst an meiner Pflanze?](https://gartentierkompass.de/schadbilder/): vom Schadbild zum Verursacher
+- [Ähnliche Tiere unterscheiden](https://gartentierkompass.de/unterscheiden/): Doppelgänger im direkten Vergleich
+- [Nach Größe](https://gartentierkompass.de/groessen/)
+- [Gartenjahr](https://gartentierkompass.de/gartenjahr/): welche Tiere in welchem Monat aktiv sind
+
+## Im Garten
+- [Nützlinge fördern](https://gartentierkompass.de/ratgeber/nuetzlinge/)
+- [Schnecken ohne Gift loswerden](https://gartentierkompass.de/ratgeber/schnecken/)
+- [Insektensommer: Insekten zählen](https://gartentierkompass.de/insektensommer/)
+- [Ausrüstung](https://gartentierkompass.de/ausruestung/)
+- [Geschenke für Gartenfreunde](https://gartentierkompass.de/geschenke/)
+
+## Merkmale
+- [Roter Käfer im Garten](https://gartentierkompass.de/merkmale/roter-kaefer/)
+- [Gelb-schwarz gestreiftes Insekt](https://gartentierkompass.de/merkmale/gelb-schwarz-gestreift/)
+- [Schnecke im Garten bestimmen](https://gartentierkompass.de/merkmale/schnecke-im-garten/)
+- [Weißer Schmetterling im Garten](https://gartentierkompass.de/merkmale/weisser-schmetterling/)
+- [Bunter Schmetterling im Garten](https://gartentierkompass.de/merkmale/bunter-schmetterling/)
+- [Grüne Raupe im Garten](https://gartentierkompass.de/merkmale/gruene-raupe/)
+- [Winzige Insekten an Pflanzen](https://gartentierkompass.de/merkmale/winzige-insekten/)
+- [Grün glänzender Käfer](https://gartentierkompass.de/merkmale/gruen-glaenzender-kaefer/)
+- [Braunes oder schwarzes Krabbeltier](https://gartentierkompass.de/merkmale/dunkles-krabbeltier/)
+- [Langes Tier ohne Beine](https://gartentierkompass.de/merkmale/langes-tier-ohne-beine/)
+- [Tiere am Gartenteich](https://gartentierkompass.de/merkmale/tiere-am-teich/)
+- [Kleines Säugetier im Garten](https://gartentierkompass.de/merkmale/kleine-saeugetiere/)
+
+## Arten
+- [Apfelwickler](https://gartentierkompass.de/arten/apfelwickler/): Unscheinbarer grauer Falter, dessen Raupe sich bis zum Kerngehäuse in Äpfel frisst.
+- [Asiatischer Marienkäfer](https://gartentierkompass.de/arten/asiatischer-marienkaefer/): Eingeschleppter Marienkäfer mit wechselndem Kleid: gelb, orange oder schwarz, mit null bis neunzehn Punkten.
+- [Blindschleiche](https://gartentierkompass.de/arten/blindschleiche/): Beinlose Echse mit glatten, glänzenden Schuppen. Sie ist keine Schlange und frisst gern Nacktschnecken.
+- [Buchsbaumzünsler](https://gartentierkompass.de/arten/buchsbaumzuensler/): Eingeschleppter Falter, dessen grün-schwarze Raupen Buchsbäume von innen heraus kahl fressen.
+- [Dunkle Erdhummel](https://gartentierkompass.de/arten/erdhummel/): Pelzige, laut brummende Hummel mit gelben Binden und weißem Hinterleibsende. Eine der ersten im Frühjahr.
+- [Eichhörnchen](https://gartentierkompass.de/arten/eichhoernchen/): Flinker Kletterer mit buschigem Schwanz, der im Herbst Nüsse für den Winter vergräbt.
+- [Erdkröte](https://gartentierkompass.de/arten/erdkroete/): Warzige, braune Kröte mit kupferroten Augen, die nachts Schnecken und Käfer frisst.
+- [Florfliege](https://gartentierkompass.de/arten/florfliege/): Zartes, hellgrünes Insekt mit goldenen Augen und durchsichtigen Flügeln, das nachts ans Licht fliegt.
+- [Gartenkreuzspinne](https://gartentierkompass.de/arten/gartenkreuzspinne/): Die Spinne mit dem weißen Kreuz auf dem Rücken und den großen Radnetzen zwischen Sträuchern.
+- [Gartenlaubkäfer](https://gartentierkompass.de/arten/gartenlaubkaefer/): Kleiner Käfer mit grün glänzendem Halsschild, der im Juni schwärmt. Seine Engerlinge fressen Rasenwurzeln.
+- [Gefurchter Dickmaulrüssler](https://gartentierkompass.de/arten/dickmaulruessler/): Nachtaktiver Rüsselkäfer, der halbrunde Buchten in Blätter frisst. Seine Larven zerstören Wurzeln.
+- [Gemeiner Ohrwurm](https://gartentierkompass.de/arten/ohrwurm/): Brauner Nachtjäger mit Zange am Hinterleib. Er kriecht weder in Ohren noch kneift er ernsthaft.
+- [Goldlaufkäfer](https://gartentierkompass.de/arten/goldlaufkaefer/): Metallisch goldgrün glänzender Laufkäfer, der flink über die Beete rennt und Schnecken jagt.
+- [Großer Kohlweißling](https://gartentierkompass.de/arten/grosser-kohlweissling/): Weißer Schmetterling mit schwarzen Flügelspitzen, dessen Raupen in Gruppen Kohl kahl fressen.
+- [Hainschwebfliege](https://gartentierkompass.de/arten/hainschwebfliege/): Gelb-schwarz gebänderte Fliege, die wie festgenagelt in der Luft steht. Harmlos, denn sie kann nicht stechen.
+- [Honigbiene](https://gartentierkompass.de/arten/honigbiene/): Die Biene des Imkers: schlank, bräunlich und im Frühjahr unermüdlich in den Obstblüten unterwegs.
+- [Igel](https://gartentierkompass.de/arten/igel/): Stacheliger Nachtwanderer, der auf seiner Runde mehrere Gärten besucht und dabei Käfer und Raupen frisst.
+- [Kleiner Frostspanner](https://gartentierkompass.de/arten/kleiner-frostspanner/): Falter, der im Spätherbst fliegt. Die Weibchen können nicht fliegen und klettern die Obstbäume hinauf.
+- [Lilienhähnchen](https://gartentierkompass.de/arten/lilienhaehnchen/): Leuchtend lackroter Käfer, der mit seinen Larven Lilien und Kaiserkronen zerfrisst.
+- [Maulwurf](https://gartentierkompass.de/arten/maulwurf/): Samtschwarzer Gräber mit Schaufelhänden. Seine runden Hügel zeigen einen gesunden, wurmreichen Boden.
+- [Regenwurm](https://gartentierkompass.de/arten/regenwurm/): Der wichtigste Gärtner unter der Erde: Er zieht Laub in seine Gänge und macht daraus fruchtbaren Humus.
+- [Rote Mauerbiene](https://gartentierkompass.de/arten/rote-mauerbiene/): Fuchsrot behaarte Wildbiene, die im Frühling in Insektenhotels und Mauerritzen nistet.
+- [Schermaus](https://gartentierkompass.de/arten/schermaus/): Die „Wühlmaus“ des Gartens: Sie frisst Wurzeln, Möhren und Tulpenzwiebeln und hinterlässt flache Erdhügel.
+- [Schwarze Bohnenlaus](https://gartentierkompass.de/arten/schwarze-bohnenlaus/): Mattschwarze Blattlaus, die im Frühsommer dichte Kolonien an Bohnen, Mohn und Dahlien bildet.
+- [Siebenpunkt-Marienkäfer](https://gartentierkompass.de/arten/siebenpunkt-marienkaefer/): Der bekannteste Glücksbringer im Garten: rot mit sieben schwarzen Punkten und ein eifriger Blattlausjäger.
+- [Spanische Wegschnecke](https://gartentierkompass.de/arten/spanische-wegschnecke/): Die häufigste Nacktschnecke im Gemüsebeet: einfarbig orange bis rotbraun und nach Regen in Massen unterwegs.
+- [Steinmarder](https://gartentierkompass.de/arten/steinmarder/): Der Marder der Siedlungen: lebt gern in Scheunen und auf Dachböden und ist nachts unterwegs.
+- [Tagpfauenauge](https://gartentierkompass.de/arten/tagpfauenauge/): Rotbrauner Schmetterling mit vier großen, schillernden Augenflecken auf den Flügeln.
+- [Taubenschwänzchen](https://gartentierkompass.de/arten/taubenschwaenzchen/): Ein Schmetterling, der wie ein Kolibri schwirrend vor Blüten steht und mit langem Rüssel Nektar saugt.
+- [Teichmolch](https://gartentierkompass.de/arten/teichmolch/): Kleiner Molch, der im Frühjahr im Gartenteich lebt. Das Männchen trägt dann einen gewellten Rückenkamm.
+- [Tigerschnegel](https://gartentierkompass.de/arten/tigerschnegel/): Große, getigerte Nacktschnecke, die vor allem Welkes frisst und Gelege anderer Schnecken vertilgt.
+- [Weinbergschnecke](https://gartentierkompass.de/arten/weinbergschnecke/): Die größte heimische Gehäuseschnecke. Sie frisst vor allem welke Pflanzen und ist besonders geschützt.
+- [Weiße Fliege](https://gartentierkompass.de/arten/weisse-fliege/): Winzige weiße Insekten, die wie eine Wolke auffliegen, sobald man die Pflanze berührt.
+- [Zauneidechse](https://gartentierkompass.de/arten/zauneidechse/): Kräftige Eidechse, die sich an sonnigen Mauern wärmt. Die Männchen tragen im Frühjahr grüne Flanken.
+- [Zitronenfalter](https://gartentierkompass.de/arten/zitronenfalter/): Zitronengelber Schmetterling, der schon an den ersten warmen Februartagen durch den Garten fliegt.
+
+## Vergleiche
+- [Siebenpunkt-Marienkäfer oder Asiatischer Marienkäfer?](https://gartentierkompass.de/unterscheiden/siebenpunkt-marienkaefer-oder-asiatischer-marienkaefer/)
+- [Hainschwebfliege oder Gemeine Wespe?](https://gartentierkompass.de/unterscheiden/hainschwebfliege-oder-wespe/)
+- [Tigerschnegel oder Spanische Wegschnecke?](https://gartentierkompass.de/unterscheiden/tigerschnegel-oder-spanische-wegschnecke/)
+- [Maulwurf oder Schermaus?](https://gartentierkompass.de/unterscheiden/maulwurf-oder-schermaus/)
+- [Erdkröte oder Grasfrosch?](https://gartentierkompass.de/unterscheiden/erdkroete-oder-grasfrosch/)
+- [Zauneidechse oder Waldeidechse?](https://gartentierkompass.de/unterscheiden/zauneidechse-oder-waldeidechse/)
+- [Dunkle Erdhummel oder Honigbiene?](https://gartentierkompass.de/unterscheiden/erdhummel-oder-honigbiene/)
+- [Taubenschwänzchen oder Kolibri?](https://gartentierkompass.de/unterscheiden/taubenschwaenzchen-oder-kolibri/)
+- [Gartenlaubkäfer oder Feldmaikäfer?](https://gartentierkompass.de/unterscheiden/gartenlaubkaefer-oder-maikaefer/)
+- [Großer Kohlweißling oder Kleiner Kohlweißling?](https://gartentierkompass.de/unterscheiden/grosser-oder-kleiner-kohlweissling/)
+- [Blindschleiche oder Ringelnatter?](https://gartentierkompass.de/unterscheiden/blindschleiche-oder-ringelnatter/)
+
+## Über die Seite
+- [Über den Gartentierkompass](https://gartentierkompass.de/ueber/)
+- [Bildnachweis](https://gartentierkompass.de/bildnachweis/)
+- [Impressum](https://gartentierkompass.de/impressum/)

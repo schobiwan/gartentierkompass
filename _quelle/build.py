@@ -76,6 +76,7 @@ def nav(R, cur):
     garten = [("ratgeber/nuetzlinge/index.html", RATGEBER["nuetzlinge"]["nav"], RATGEBER["nuetzlinge"]["navsub"]),
               ("ratgeber/schnecken/index.html", RATGEBER["schnecken"]["nav"], RATGEBER["schnecken"]["navsub"]),
               ("schadbilder/index.html", "Was frisst an meiner Pflanze?", "Vom Schadbild zum Verursacher"),
+              ("insektensommer/index.html", "Insektensommer", "Insekten zählen im Juni und August"),
               ("ausruestung/index.html#lebensraum", "Nisthilfen und Igelhaus", "Unterschlupf für Helfer"),
               ("ausruestung/index.html", "Lupe, Bücher und Schutz", "Alle Ausrüstungstipps"),
               ("geschenke/index.html", "Geschenke für Gartenfreunde", "Ideen für jeden Anlass")]
@@ -102,7 +103,7 @@ def footer(R, script="app.js"):
         f'<li><a href="{h if h.startswith("http") else R + h}"{" rel=\"noopener\"" if h.startswith("http") else ""}>{e(t)}</a></li>' for h, t in items) + '</ul></nav>'
     c1 = [("index.html#arten", "Nach Name oder Aussehen"), ("merkmale/index.html", "Nach Farbe und Merkmal"), ("schadbilder/index.html", "Nach Fraßspuren"),
           ("unterscheiden/index.html", "Ähnliche Tiere unterscheiden"), ("groessen/index.html", "Nach Größe"), ("arten/index.html", "Alle Arten von A bis Z")]
-    c2 = [("ratgeber/nuetzlinge/index.html", "Nützlinge fördern"), ("ratgeber/schnecken/index.html", "Schnecken ohne Gift"), ("schadbilder/index.html", "Was frisst an meiner Pflanze?"),
+    c2 = [("ratgeber/nuetzlinge/index.html", "Nützlinge fördern"), ("ratgeber/schnecken/index.html", "Schnecken ohne Gift"), ("insektensommer/index.html", "Insektensommer: Insekten zählen"), ("schadbilder/index.html", "Was frisst an meiner Pflanze?"),
           ("ausruestung/index.html", "Ausrüstung"), ("geschenke/index.html", "Geschenke für Gartenfreunde")]
     c3 = [("gartenjahr/index.html", "Gartenjahr und Kalender"), ("links/index.html", "Weiterführende Websites")] + [(u, t) for u, t in SISTERS]
     c4 = [("ueber/index.html", f"Über den {SITE}"), ("impressum/index.html", "Impressum"), ("datenschutz/index.html", "Datenschutz"), ("bildnachweis/index.html", "Bildnachweis und Lizenzen")]
@@ -147,7 +148,16 @@ def card(R, s, i, eager=False):
 def amazon(q):
     return f"https://www.amazon.de/s?k={quote_plus(q)}&tag={TAG}"
 
-def product(R, key, compact=False, why=True):
+GUIDE_FOR = {}
+def _guide_map():
+    if not GUIDE_FOR:
+        for slug, d in RATGEBER.items():
+            for sec in d["sections"]:
+                for p in sec[6]:
+                    GUIDE_FOR.setdefault(p, (slug, d["nav"]))
+    return GUIDE_FOR
+
+def product(R, key, compact=False, why=True, guide=True):
     cat, name, by, pwhy, q, ico, _, pick = PRODUCTS[key]
     tip = '<span class="ptip">Unser Tipp</span>' if pick and not compact else ""
     meta = cat + (" · Unser Tipp" if pick and compact else "")
@@ -165,7 +175,7 @@ def product(R, key, compact=False, why=True):
     return (f'<li class="product{" pick" if pick else ""}"> {pimg} <div class="pbody"> '
             f'<p class="pmeta"><span>{e(meta)}</span><span class="pad">Anzeige</span></p> <h3 class="pname">{e(name)}</h3> <p class="pby">{e(by)}</p> '
             + (f'<p class="pwhy">{e(pwhy)}</p> ' if why else "") + pcred2 +
-            f' <a class="plink" href="{e(amazon(q))}" target="_blank" rel="sponsored nofollow noopener"><span>Bei Amazon ansehen<span aria-hidden="true">*</span></span>{ARROW}<span class="sr-only"> {e(name)} (Werbelink, öffnet in neuem Fenster)</span></a> </div> </li>')
+            f' <a class="plink" href="{e(amazon(q))}" target="_blank" rel="sponsored nofollow noopener"><span>Bei Amazon ansehen<span aria-hidden="true">*</span></span>{ARROW}<span class="sr-only"> {e(name)} (Werbelink, öffnet in neuem Fenster)</span></a> ' + (f'<a class="pguide" href="{R}ratgeber/{_guide_map()[key][0]}/index.html">Ratgeber: {e(_guide_map()[key][1])}</a> ' if guide and key in _guide_map() else "") + '</div> </li>')
 
 ADNOTE = f'<p class="adnote"><span aria-hidden="true">*</span> Werbelink: Wenn du über diesen Link etwas kaufst, erhält der {SITE} eine kleine Provision von Amazon. Für dich ändert sich am Preis nichts. Als Amazon-Partner verdiene ich an qualifizierten Verkäufen.</p>'
 
@@ -205,6 +215,14 @@ def related_for(s):
     hab = set(s["hab"])
     same.sort(key=lambda x: (-len(hab & set(x["hab"])), x["name"]))
     return same[:4]
+
+def tldr(s):
+    mr = month_range(s).replace(" zu sehen", "").replace("zu sehen im ", "im ")
+    mr = mr[0].upper() + mr[1:]
+    return (f'<section class="tldr" aria-labelledby="h-tldr"> <h2 id="h-tldr">Kurz gesagt</h2> <dl>'
+            f'<dt>Erkennen</dt><dd>{e(s["marks"][0])} · {e(s["marks"][1])}</dd>'
+            f'<dt>Zu sehen</dt><dd>{e(mr)}: {e(s["where"])}</dd>'
+            f'<dt>Im Garten</dt><dd>{e(ROLE[s["role"]])}: {e(s["roleline"])}</dd></dl> </section>')
 
 def page_species(s):
     R = "../../"; k = s["key"]
@@ -249,7 +267,7 @@ def page_species(s):
             f'<article class="sp wrap"> <div class="sp-top"> <figure class="sp-photo"> {img(R, k, "(max-width: 760px) 92vw, 560px", eager=True, alt=N if k in PHOTOS else "")} <figcaption>{cred_long(k)}</figcaption> </figure> '
             f'<div class="sp-intro"> <h1>{e(N)}</h1> <p class="latin" lang="la">{e(s["latin"])}</p> <p class="row"><span class="tag status">{e(s["grp"])}</span><span class="tag">{e(s["size"])}</span>'
             + "".join(f'<span class="tag act-tag"><svg aria-hidden="true"><use href="#{ACT[a][1]}"></use></svg>{ACT[a][0]}</span>' for a in s["acts"]) +
-            f'</p> <p class="habs">{"".join(f"<span>{e(h)}</span>" for h in s["hab"])}</p> <p class="text">{e(s["short"])} {e(s["hl"])}</p> '
+            f'</p> <p class="habs">{"".join(f"<span>{e(h)}</span>" for h in s["hab"])}</p> {tldr(s)} <p class="text">{e(s["short"])} {e(s["hl"])}</p> '
             f'<div class="trackbox rolebox"><span class="trk-img"><svg viewBox="0 0 24 24" aria-hidden="true">{ROLE_ICO[s["role"]]}</svg></span><p><b>{e(ROLE[s["role"]])}</b>{e(s["roleline"])}</p></div> </div> </div>\n'
             f'<div class="sp-cols"> <div class="sp-main"> <section aria-labelledby="h-marks"> <h2 id="h-marks">So erkennst du {akk} {e(N)}</h2> <ul class="marks">{"".join(f"<li>{e(m)}</li>" for m in s["marks"])}</ul> {inmerk} '
             f'<dl class="facts"><dt>Rolle im Garten</dt><dd>{e(ROLE[s["role"]])}</dd><dt>Wo im Garten</dt><dd>{e(s["where"])}</dd><dt>Größe</dt><dd>{e(s["size"])}</dd><dt>Aktiv</dt><dd>{act_text(s)}</dd></dl> </section> '
@@ -314,6 +332,7 @@ def page_home():
                f'<li><a href="merkmale/index.html"><b>Nach Aussehen bestimmen</b><span>Roter Käfer, grüne Raupe, weißer Schmetterling: {len(MERKMALE)} Merkmale führen zur Art.</span></a></li>'
                f'<li><a href="ratgeber/nuetzlinge/index.html"><b>Nützlinge fördern</b><span>Wildbienenhotel, Igelhaus, Totholz und Teich: so holst du Helfer in den Garten.</span></a></li>'
                f'<li><a href="ratgeber/schnecken/index.html"><b>Schnecken ohne Gift</b><span>Schneckenzaun, Absammeln, Nematoden und Laufenten im Vergleich.</span></a></li>'
+               f'<li><a href="insektensommer/index.html"><b>Insektensommer</b><span>Im Juni und August Insekten zählen: die häufigsten Arten und eine Zählkarte zum Ausdrucken.</span></a></li>'
                f'<li><a href="groessen/index.html"><b>Größenvergleich</b><span>Von der Blattlaus bis zum Steinmarder auf einer Skala.</span></a></li>'
                f'<li><a href="ausruestung/index.html"><b>Ausrüstung</b><span>Nützlinge, Schneckenzaun, Nisthilfen und Lupe für einen naturnahen Garten.</span></a></li>'
                f'<li><a href="https://vogelkompass.de/" rel="noopener"><b>Vögel im Garten?</b><span>Meise, Rotkehlchen und Co. findest du auf der Schwesterseite Vogelkompass.</span></a></li>'
@@ -520,7 +539,7 @@ def meta_files():
         looks = " ".join(NAMES[p[2] if p[1] == s["key"] else p[1]] for p in PAIRS if s["key"] in (p[1], p[2]))
         idx.append([s["name"], s["key"], f'{s["name"]} {s["latin"]} {s["alias"]}', looks, f'{s["grp"]} {GROUP_FORMS[s["grp"]]} {ROLE[s["role"]]}|{s["short"]}|{act_text(s)}'])
     write("search.json", json.dumps(idx, ensure_ascii=False))
-    urls = ["", "arten/", "ausruestung/", "bildnachweis/", "datenschutz/", "impressum/", "schadbilder/", "unterscheiden/", "gartenjahr/", "merkmale/", "groessen/", "ratgeber/schnecken/", "ratgeber/nuetzlinge/", "geschenke/", "ueber/", "links/"]
+    urls = ["", "arten/", "ausruestung/", "bildnachweis/", "datenschutz/", "impressum/", "schadbilder/", "unterscheiden/", "gartenjahr/", "merkmale/", "groessen/", "ratgeber/schnecken/", "ratgeber/nuetzlinge/", "geschenke/", "ueber/", "links/", "insektensommer/"]
     urls += [f"merkmale/{m[0]}/" for m in MERKMALE]
     urls += [f"arten/{s['key']}/" for s in S] + [f"unterscheiden/{p[0]}/" for p in PAIRS] + [f"gartenjahr/{m}/" for m in MS]
     write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(f"  <url><loc>{BASE}{u}</loc></url>\n" for u in urls) + "</urlset>\n")
@@ -603,7 +622,7 @@ def page_ratgeber():
         secs = []
         for sid, t, verdict, plus, minus, species, prods in d["sections"]:
             sp = (f'<p class="rbirds"><span>Passende Arten:</span> ' + ", ".join(f'<a href="{R}arten/{k}/index.html">{e(SP[k]["name"])}</a>' for k in species) + "</p>") if species else ""
-            pr = (f'<ul class="products">{"".join(product(R, p) for p in prods)}</ul>{ADNOTE}') if prods else ""
+            pr = (f'<ul class="products">{"".join(product(R, p, guide=False) for p in prods)}</ul>{ADNOTE}') if prods else ""
             secs.append(f'<section class="block rtype" id="{sid}" aria-labelledby="h-{sid}"> <div class="wrap"> <h2 id="h-{sid}">{e(t)}</h2> <p class="rverdict"><b>{e(verdict)}</b></p> '
                         f'<div class="rcols"> <div><h3>Vorteile</h3>{rlist(plus, "plus")}</div> <div><h3>Nachteile</h3>{rlist(minus, "minus")}</div> </div> {sp} {pr} </div> </section>')
         tips = "".join(f"<li><b>{e(a)}</b><span>{e(x)}</span></li>" for a, x in d["tips"])
@@ -657,10 +676,84 @@ def page_links():
             f'<section class="block page legal"> <div class="wrap"> <h1>Weiterführende Websites</h1> <p class="intro">Seriöse Anlaufstellen zum Bestimmen, Mitmachen und Weiterlesen. Alle Links öffnen sich in einem neuen Fenster.</p> <div class="linkgroups">{groups}</div> </div> </section> </main> ' + footer(R))
     write("links/index.html", body)
 
+
+IS_KEYS = ["erdhummel", "honigbiene", "hainschwebfliege", "tagpfauenauge", "zitronenfalter", "grosser-kohlweissling", "taubenschwaenzchen",
+           "siebenpunkt-marienkaefer", "asiatischer-marienkaefer", "florfliege", "goldlaufkaefer", "gartenlaubkaefer", "lilienhaehnchen", "ohrwurm", "schwarze-bohnenlaus"]
+IS_TIPS = [("Ein Ort, eine Stunde", "Such dir einen Platz und beobachte bis zu eine Stunde lang alles im Umkreis von etwa zehn Metern, zum Beispiel ein Beet, eine Wiese oder den Balkon."),
+           ("Bei gutem Wetter", "Wähle einen sonnigen, warmen und möglichst windstillen Tag. Bei Regen und Kälte verstecken sich die meisten Insekten."),
+           ("Höchste Zahl notieren", "Schreib bei jeder Art auf, wie viele Tiere du höchstens gleichzeitig gesehen hast. So zählst du kein Tier doppelt."),
+           ("Auch unbekannte Tiere zählen", "Was du nicht sicher bestimmen kannst, notierst du als Gruppe, etwa „Schwebfliege“ oder „Marienkäfer“."),
+           ("Online melden", "Deine Zählung meldest du beim NABU über das Formular oder die Web-App auf insektensommer.de.")]
+
+def page_insektensommer():
+    R = "../"
+    sp = [SP[k] for k in IS_KEYS]
+    hero = SP["erdhummel"]
+    cards = "".join(mcard(R, f"{R}arten/{s['key']}/index.html", s["key"], s["name"], s["marks"][0], f'{s["size"]} · {ROLE[s["role"]]}') for s in sp)
+    tips = "".join(f"<li><b>{e(a)}</b><span>{e(x)}</span></li>" for a, x in IS_TIPS)
+    prods = ["becherlupe", "makroclip", "buch"]
+    ld = [{"@context": "https://schema.org", "@type": "ItemList", "name": "Insekten für den Insektensommer", "numberOfItems": len(sp),
+           "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": s["name"], "url": f"{BASE}arten/{s['key']}/"} for i, s in enumerate(sp)]}]
+    body = (head(R, f"Insektensommer: Insekten im Garten zählen · {SITE}", "Beim NABU-Insektensommer im Juni und August Insekten zählen: die häufigsten Arten im Garten mit Foto, Zähltipps und Zählkarte zum Ausdrucken.", "insektensommer/", ld=ld, og_img="photos/erdhummel.webp", og_alt="Erdhummel") + nav(R, "garten") +
+            '<main id="main" tabindex="-1"> ' + crumbs(R, [("Insektensommer", "insektensommer/")]) +
+            f'<section class="block page"> <div class="wrap is-head"> <div> <p class="season">Im Juni und im August</p> <h1>Insektensommer: Insekten im Garten zählen</h1> '
+            f'<p class="intro">Beim Insektensommer zählen jedes Jahr tausende Menschen eine Stunde lang Insekten und melden sie dem NABU. Mitmachen kann jede und jeder, im Garten, auf dem Balkon oder im Park. Hier findest du die {len(sp)} Insekten, die du im Garten am häufigsten siehst, und eine Zählkarte zum Ausdrucken.</p> '
+            '<p class="isdate">Gezählt wird in zwei Zeiträumen von jeweils rund zehn Tagen, meist Anfang Juni und Anfang August. Die genauen Termine nennt der NABU auf <a href="https://www.insektensommer.de/" target="_blank" rel="noopener">insektensommer.de' + NEWWIN + '</a>.</p> '
+            f'<p class="wlinks"><a class="btn" href="{R}downloads/zaehlkarte-insektensommer.pdf" download>Zählkarte als PDF (A4)</a> <a class="btn ghost" href="#arten">Arten ansehen</a></p> </div> '
+            f'<figure class="is-fig"> {img(R, "erdhummel", "(max-width: 760px) 92vw, 480px", eager=True, alt="Erdhummel auf einer Blüte")} <figcaption>{cred_long("erdhummel")}</figcaption> </figure> </div> </section> '
+            f'<section class="block" id="arten" aria-labelledby="h-arten"> <div class="wrap"> <h2 id="h-arten">Diese Insekten siehst du im Garten oft</h2> <p class="intro">Die Auswahl zeigt häufige Gartenarten. Gemeldet werden darf jedes Insekt, das du entdeckst. Spinnen, Schnecken und Regenwürmer sind keine Insekten und zählen nicht mit.</p> <ul class="mlist">{cards}</ul> </div> </section> '
+            f'<section class="block" id="zaehlen" aria-labelledby="h-zaehlen"> <div class="wrap"> <h2 id="h-zaehlen">So zählst du richtig</h2> <ul class="tips">{tips}</ul> '
+            f'<p class="printcard"><a class="btn" href="{R}downloads/zaehlkarte-insektensommer.pdf" download>Zählkarte zum Ausdrucken (PDF, A4)</a> <span>Die Karte zeigt alle {len(sp)} Arten mit Erkennungsmerkmal und einem Feld für die Anzahl. Sie ist ein Angebot des {SITE} und nicht die offizielle Zählhilfe des NABU.</span></p> </div> </section> '
+            f'<section class="block" aria-labelledby="h-gear"> <div class="wrap"> <h2 id="h-gear">Hilfreich beim Zählen</h2> <ul class="products">{"".join(product(R, p) for p in prods)}</ul>{ADNOTE} </div> </section> '
+            f'<section class="block" aria-labelledby="h-mehr"> <div class="wrap"> <h2 id="h-mehr">Mehr Insekten im Garten</h2> <ul class="explore"> '
+            f'<li><a href="{R}ratgeber/nuetzlinge/index.html"><b>Nützlinge fördern</b><span>Wildbienenhotel, Totholz und heimische Blumen holen Insekten in den Garten.</span></a></li>'
+            f'<li><a href="{R}merkmale/gelb-schwarz-gestreift/index.html"><b>Gelb-schwarz gestreift?</b><span>Hummel, Biene, Schwebfliege oder Wespe sicher unterscheiden.</span></a></li>'
+            f'<li><a href="{R}unterscheiden/hainschwebfliege-oder-wespe/index.html"><b>Schwebfliege oder Wespe?</b><span>Die wichtigsten Unterschiede auf einen Blick.</span></a></li> </ul> </div> </section> </main> ' + footer(R))
+    write("insektensommer/index.html", body)
+
+def zaehlkarte_html():
+    sp = [SP[k] for k in IS_KEYS]
+    import base64, io
+    from PIL import Image
+    def thumb(k):
+        im = Image.open(f"out/photos/{k}-400.webp").convert("RGB"); im.thumbnail((200, 160)); buf = io.BytesIO(); im.save(buf, "JPEG", quality=72)
+        return "data:image/jpeg;base64," + base64.b64encode(buf.getvalue()).decode()
+    rows = "".join(f'<tr><td class="ph"><img src="{thumb(s["key"])}" alt=""></td><td><b>{e(s["name"])}</b><br><span>{e(s["marks"][0])}</span></td><td class="box"></td></tr>' for s in sp)
+    css = open("out/assets/site.css", encoding="utf-8").read()
+    faces = "".join(re.findall(r"@font-face\{[^}]*\}", css)).replace("../fonts/", "fonts/")
+    return f"""<!DOCTYPE html><html lang="de"><head><meta charset="utf-8"><title>Zählkarte Insektensommer – {SITE}</title><style>{faces}
+@page{{size:A4;margin:12mm 14mm}}body{{font-family:Mulish,sans-serif;color:#1d2b20;font-size:9.4pt;margin:0}}
+h1{{font-family:Lora,serif;font-weight:600;color:#2a5a36;font-size:19pt;margin:0}}.sub{{margin:2mm 0 3mm;color:#4a5a4d}}
+.meta{{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:3mm;margin:0 0 3mm}}.meta div{{border-bottom:.6pt solid #8a9a8d;padding-top:5mm;font-size:8pt;color:#4a5a4d}}
+table{{width:100%;border-collapse:collapse}}td{{border-bottom:.5pt solid #d5dccd;padding:.75mm 2mm;vertical-align:middle}}td span{{color:#4a5a4d;font-size:8.3pt}}
+.ph{{width:17mm;padding-left:0}}.ph img{{width:16mm;height:12mm;object-fit:cover;border-radius:1.5mm;display:block}}.box{{width:24mm}}.box::after{{content:"";display:block;height:7mm;border:.8pt solid #2f6b3f;border-radius:1.5mm}}
+.extra td{{height:9mm}}.foot{{margin-top:3mm;font-size:7.6pt;color:#4a5a4d;line-height:1.45}}</style></head><body>
+<h1>Zählkarte Insektensommer</h1><p class="sub">Eine Stunde lang zählen, im Umkreis von etwa zehn Metern. Pro Art die höchste Zahl eintragen, die du gleichzeitig siehst. Melden auf insektensommer.de</p>
+<div class="meta"><div>Datum</div><div>Uhrzeit von – bis</div><div>Ort</div><div>Wetter</div></div>
+<table>{rows}<tr class="extra"><td></td><td><b>Weitere Art:</b></td><td class="box"></td></tr><tr class="extra"><td></td><td><b>Weitere Art:</b></td><td class="box"></td></tr></table>
+<p class="foot">Gartentierkompass · gartentierkompass.de/insektensommer · Keine offizielle Zählhilfe des NABU. Den Insektensommer veranstalten NABU und LBV.<br>Fotos: Wikimedia Commons, Urheber und Lizenzen unter gartentierkompass.de/bildnachweis</p></body></html>"""
+
+def page_llms():
+    L = [f"# {SITE}", "", f"> Tiere im Garten erkennen: {len(S)} typische Gartentiere mit Foto, Merkmalen, Rolle im Garten (Nützling, Bestäuber, Schädling) und Vorkommen im Jahresverlauf, {len(PAIRS)} Vergleiche ähnlicher Arten, Schadbilder und Ratgeber für naturnahes Gärtnern ohne Gift. Privates, unabhängiges Angebot von Nico Schober aus Bremen. Fotos von Wikimedia Commons, Steckbriefe abgeglichen mit Bestimmungsliteratur und Wikipedia.", "",
+         "Sprache: Deutsch. Angaben zu Vorkommen sind grobe Richtwerte für Deutschland.", "", "## Bestimmen",
+         f"- [Alle Arten von A bis Z]({BASE}arten/): Steckbriefe mit Foto und Merkmalen",
+         f"- [Nach Farbe und Merkmal]({BASE}merkmale/): z. B. roter Käfer, grüne Raupe, Schnecke",
+         f"- [Was frisst an meiner Pflanze?]({BASE}schadbilder/): vom Schadbild zum Verursacher",
+         f"- [Ähnliche Tiere unterscheiden]({BASE}unterscheiden/): Doppelgänger im direkten Vergleich",
+         f"- [Nach Größe]({BASE}groessen/)", f"- [Gartenjahr]({BASE}gartenjahr/): welche Tiere in welchem Monat aktiv sind", "",
+         "## Im Garten",
+         f"- [Nützlinge fördern]({BASE}ratgeber/nuetzlinge/)", f"- [Schnecken ohne Gift loswerden]({BASE}ratgeber/schnecken/)",
+         f"- [Insektensommer: Insekten zählen]({BASE}insektensommer/)", f"- [Ausrüstung]({BASE}ausruestung/)", f"- [Geschenke für Gartenfreunde]({BASE}geschenke/)", "",
+         "## Merkmale"] + [f"- [{t}]({BASE}merkmale/{s}/)" for s, t, *_ in MERKMALE] + ["", "## Arten"] + \
+        [f"- [{s['name']}]({BASE}arten/{s['key']}/): {s['short']}" for s in sorted(S, key=lambda x: x["name"])] + ["", "## Vergleiche"] + \
+        [f"- [{NAMES[p[1]]} oder {NAMES[p[2]]}?]({BASE}unterscheiden/{p[0]}/)" for p in PAIRS] + ["", "## Über die Seite",
+         f"- [Über den {SITE}]({BASE}ueber/)", f"- [Bildnachweis]({BASE}bildnachweis/)", f"- [Impressum]({BASE}impressum/)", ""]
+    write("llms.txt", "\n".join(L))
+
 if __name__ == "__main__":
     scripts()
     for s in S:
         page_species(s)
     page_home(); page_arten(); page_pairs(); page_damage(); page_year(); page_gear(); legal_pages()
-    page_merkmale(); page_sizes(); page_ratgeber(); page_gifts(); page_about(); page_links(); meta_files()
+    page_merkmale(); page_sizes(); page_ratgeber(); page_gifts(); page_about(); page_links(); page_insektensommer(); page_llms(); meta_files()
     print("fertig")
