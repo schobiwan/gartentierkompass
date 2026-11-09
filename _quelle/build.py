@@ -151,7 +151,7 @@ def amazon(q):
 GUIDE_FOR = {}
 def _guide_map():
     if not GUIDE_FOR:
-        for slug, d in RATGEBER.items():
+        for slug, d in sorted(RATGEBER.items(), key=lambda x: x[0] != "nuetzlinge"):
             for sec in d["sections"]:
                 for p in sec[6]:
                     GUIDE_FOR.setdefault(p, (slug, d["nav"]))
@@ -217,12 +217,16 @@ def related_for(s):
     return same[:4]
 
 def tldr(s):
-    mr = month_range(s).replace(" zu sehen", "").replace("zu sehen im ", "im ")
-    mr = mr[0].upper() + mr[1:]
-    return (f'<section class="tldr" aria-labelledby="h-tldr"> <h2 id="h-tldr">Kurz gesagt</h2> <dl>'
-            f'<dt>Erkennen</dt><dd>{e(s["marks"][0])} · {e(s["marks"][1])}</dd>'
-            f'<dt>Zu sehen</dt><dd>{e(mr)}: {e(s["where"])}</dd>'
-            f'<dt>Im Garten</dt><dd>{e(ROLE[s["role"]])}: {e(s["roleline"])}</dd></dl> </section>')
+    p = sorted(s["present"])
+    if len(p) == 12: rng = "Ganzjährig"
+    elif p == list(range(p[0], p[-1] + 1)): rng = f"Von {MN[p[0]-1]} bis {MN[p[-1]-1]}"
+    else: rng = "Im " + join_de(MN[m-1] for m in p)
+    best = join_de(MN[m-1] for m in s["peak"])
+    return (f'<section class="tldr" aria-labelledby="h-tldr"><h2 id="h-tldr">Kurz gesagt</h2><dl>'
+            f'<dt>Zu sehen</dt><dd>{e(rng)}, am besten im {e(best)}</dd>'
+            f'<dt>Wo im Garten</dt><dd>{e(s["where"])}</dd>'
+            f'<dt>Größe</dt><dd>{e(s["size"])}</dd>'
+            f'<dt>Rolle</dt><dd>{e(ROLE[s["role"]])}: {e(s["roleline"])}</dd></dl></section>')
 
 def page_species(s):
     R = "../../"; k = s["key"]
@@ -267,18 +271,19 @@ def page_species(s):
             f'<article class="sp wrap"> <div class="sp-top"> <figure class="sp-photo"> {img(R, k, "(max-width: 760px) 92vw, 560px", eager=True, alt=N if k in PHOTOS else "")} <figcaption>{cred_long(k)}</figcaption> </figure> '
             f'<div class="sp-intro"> <h1>{e(N)}</h1> <p class="latin" lang="la">{e(s["latin"])}</p> <p class="row"><span class="tag status">{e(s["grp"])}</span><span class="tag">{e(s["size"])}</span>'
             + "".join(f'<span class="tag act-tag"><svg aria-hidden="true"><use href="#{ACT[a][1]}"></use></svg>{ACT[a][0]}</span>' for a in s["acts"]) +
-            f'</p> <p class="habs">{"".join(f"<span>{e(h)}</span>" for h in s["hab"])}</p> {tldr(s)} <p class="text">{e(s["short"])} {e(s["hl"])}</p> '
+            f'</p> <p class="habs">{"".join(f"<span>{e(h)}</span>" for h in s["hab"])}</p> <p class="text">{e(s["short"])} {e(s["hl"])}</p> '
             f'<div class="trackbox rolebox"><span class="trk-img"><svg viewBox="0 0 24 24" aria-hidden="true">{ROLE_ICO[s["role"]]}</svg></span><p><b>{e(ROLE[s["role"]])}</b>{e(s["roleline"])}</p></div> </div> </div>\n'
-            f'<div class="sp-cols"> <div class="sp-main"> <section aria-labelledby="h-marks"> <h2 id="h-marks">So erkennst du {akk} {e(N)}</h2> <ul class="marks">{"".join(f"<li>{e(m)}</li>" for m in s["marks"])}</ul> {inmerk} '
-            f'<dl class="facts"><dt>Rolle im Garten</dt><dd>{e(ROLE[s["role"]])}</dd><dt>Wo im Garten</dt><dd>{e(s["where"])}</dd><dt>Größe</dt><dd>{e(s["size"])}</dd><dt>Aktiv</dt><dd>{act_text(s)}</dd></dl> </section> '
+            f'<div class="sp-cols"> <aside class="sp-side" aria-label="Auf einen Blick"> {tldr(s)} </aside> <div class="sp-main"> <section aria-labelledby="h-marks"> <h2 id="h-marks">So erkennst du {akk} {e(N)}</h2> <ul class="marks">{"".join(f"<li>{e(m)}</li>" for m in s["marks"])}</ul> {inmerk} '
+            f'<dl class="facts"><dt>Aktiv</dt><dd>{act_text(s)}</dd></dl> </section> '
             f'<section aria-labelledby="h-year"> <h2 id="h-year">Wann ist {nom} {e(N)} zu sehen?</h2> <div class="months" aria-hidden="true"> {months_bar(s)} </div> <p class="legend"><span><i></i>kaum zu sehen</span><span><i class="p"></i>aktiv</span><span><i class="h"></i>beste Zeit</span></p> '
             f'<p class="sr-only">{hidden_sr}</p> <p class="yeartext">{e(N)} ist {month_range(s)}. Besonders viel los ist im {peaks}. {e(s["hl"])}</p>{dmgline} </section> '
             f'<section class="life" aria-labelledby="h-life"> <h2 id="h-life">Lebensweise</h2> {lifes} </section> '
             f'<section class="helpbox" aria-label="Tipps"> <details class="fold" open><summary><h2>{e(s["help"][0])}</h2></summary><p>{e(s["help"][1])}</p>{rgline}</details> <details class="fold" open><summary><h2>{e(s["tip"][0])}</h2></summary><p>{e(s["tip"][1])}</p></details> </section> '
+            f'<section class="gearbox" aria-labelledby="h-gear"><h2 id="h-gear">Passend dazu</h2><ul class="products"> '
+            + "".join(product(R, p) for p in s["prods"]) +
+            f' </ul>{ADNOTE}<p class="gearall"><a href="{R}ausruestung/index.html">Alle Ausrüstungstipps ansehen</a></p></section> '
             f'{alike}<section class="more" aria-labelledby="h-more"> <h2 id="h-more">Mehr erfahren</h2> <ul class="morelinks"> {more} </ul> </section> </div>\n'
-            f'<aside class="sp-side" aria-label="Empfehlungen"> <section class="gearbox" aria-labelledby="h-gear"><h2 id="h-gear">Passend dazu</h2><ul class="products compact"> '
-            + "".join(product(R, p, compact=True, why=False) for p in s["prods"]) +
-            f' </ul>{ADNOTE}<p class="gearall"><a href="{R}ausruestung/index.html">Alle Ausrüstungstipps ansehen</a></p></section> </aside> </div> '
+            f'</div> '
             f'<section class="related" aria-labelledby="h-rel"> <h2 id="h-rel">Oft in der Nähe</h2> <ul class="grid">{"".join(card(R, x, i) for i, x in enumerate(rel))}</ul> </section> </article> </main> ' + footer(R))
     write(f"arten/{k}/index.html", body)
 
