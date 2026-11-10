@@ -11,3 +11,25 @@
 @media (width>760px){.sp-cols>.sp-main{grid-area:1/1}.sp-cols>.sp-side{grid-area:1/2;align-self:start;position:sticky;top:calc(var(--nav-h) + 16px)}.sp-side .tldr{margin:0}}
 @media (width<=760px){.sp-side .tldr{margin:0}}
 .sp-main>.gearbox{margin-top:36px}.sp-main>.gearbox h2{margin-bottom:14px}.sp-main>.gearbox .products{grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr))}
+/*vk-1110*/
+.sp .months{gap:3px;margin-top:10px}.sp .months>span{display:flex;flex-direction:column;align-items:center;gap:6px;height:auto;background:none;box-shadow:none;outline:0;border-radius:0;font-size:.72rem;font-weight:400;line-height:1;color:var(--muted)}
+.sp .months>span:before{content:"";align-self:stretch;height:10px;border-radius:2px;background:color-mix(in srgb,var(--line) 70%,transparent)}
+.sp .months>span:first-child:before{border-radius:999px 2px 2px 999px}.sp .months>span:last-child:before{border-radius:2px 999px 999px 2px}
+.sp .months>span.p{background:none;box-shadow:none;color:var(--fg)}.sp .months>span.p:before{background:color-mix(in srgb,var(--moss) 45%,var(--surface));box-shadow:inset 0 0 0 1px var(--moss)}
+.sp .months>span.h{background:none;color:var(--fg);font-weight:700}.sp .months>span.h:before{background:var(--moss)}
+.sp .months>span.h:after{content:none}
+.sp .months>span.now{outline:0;color:var(--rust);font-weight:700}.sp .months>span.now:after{content:"";position:static;width:5px;height:5px;margin-top:-2px;border-radius:50%;background:var(--rust)}
+.sp .legend i{width:16px;height:8px;border-radius:2px}.sp .legend i.h:after{content:none}
+@media (forced-colors:active){.sp .months>span:before{forced-color-adjust:none;background:canvas;border:1px dashed canvastext}.sp .months>span.p:before{border:2px solid canvastext}.sp .months>span.h:before{background:canvastext}}
+.pager{display:flex;justify-content:space-between;gap:16px;margin-top:48px;padding-top:16px;border-top:1px solid var(--line)}
+.pager a{display:flex;flex-direction:column;gap:2px;min-height:24px;padding:4px 0;text-decoration:none;color:var(--muted);font-size:.85rem}
+.pager a[rel=next]{text-align:right;margin-left:auto}.pager b{font-family:var(--display);font-size:1.1rem;color:var(--heading)}
+.pager a[rel=prev] b:before{content:"← " / ""}.pager a[rel=next] b:after{content:" →" / ""}
+.pager a:hover b,.pager a:focus-visible b{color:var(--rust);text-decoration:underline;text-underline-offset:3px}
+.stand{color:var(--muted);font-size:.85rem;margin:18px 0 0}.stand a{color:inherit;text-underline-offset:3px}
+.faq .faqi{margin-top:18px}.faq .faqi:first-child{margin-top:0}.faqi h3{font-family:var(--display);font-size:1.05rem;font-weight:600;color:var(--heading);margin:0}.faqi>p{margin:4px 0 0;color:var(--muted)}
+@media (max-width:760px){.faq .faqi{margin-top:0;border-top:1px solid var(--line)}.faq .faqi:last-child{border-bottom:1px solid var(--line)}.faqi>summary{min-height:44px;display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;padding:8px 0}.faqi>summary h3{font-size:1rem}.faqi[open]>p{padding-bottom:12px}}
+:where(main :is(p,li,dd,td,figcaption)) a:not(.btn):not([class]){text-underline-offset:3px;text-decoration-thickness:1px}
+:where(main :is(p,li,dd,td,figcaption)) a:not(.btn):not([class]):hover{text-decoration-thickness:2px}
+.product:has(:focus-visible),.mcard:has(:focus-visible),.card:has(:focus-visible){outline:3px solid var(--rust);outline-offset:2px}
+footer .fcols li a{display:inline-flex;align-items:center;min-height:32px}

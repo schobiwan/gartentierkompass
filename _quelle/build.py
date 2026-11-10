@@ -54,6 +54,7 @@ NEWWIN = '<span class="sr-only"> (öffnet in neuem Fenster)</span>'
 ORG_ID = BASE + "#org"
 def head(R, title, desc, path, og_type="website", og_img="photos/og.jpg", og_alt="Gartentierkompass", extra="", ld=None):
     css = ver("assets/site.css")
+    if len(title) > 60 and title.endswith(f" · {SITE}"): title = title[: -len(f" · {SITE}")]
     lds = "".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>' for x in (ld or []))
     return (f'<!DOCTYPE html><html lang="de" data-root="{R or "./"}"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">'
             f'<title>{e(title)}</title><meta name="description" content="{e(desc)}"><link rel="canonical" href="{BASE}{path}"><meta name="robots" content="max-image-preview:large">'
@@ -228,11 +229,21 @@ def tldr(s):
             f'<dt>Größe</dt><dd>{e(s["size"])}</dd>'
             f'<dt>Rolle</dt><dd>{e(ROLE[s["role"]])}: {e(s["roleline"])}</dd></dl></section>')
 
+STAND_ISO = "2026-11-10"; STAND_DE = "10. November 2026"
+def pager(R, s):
+    al = sorted(S, key=lambda x: x["name"]); i = al.index(s)
+    pv, nx = al[i - 1], al[(i + 1) % len(al)]
+    return (f'<nav class="pager" aria-label="Weitere Arten"> <a rel="prev" href="{R}arten/{pv["key"]}/index.html"><span>Vorherige Art</span><b>{e(pv["name"])}</b></a> '
+            f'<a rel="next" href="{R}arten/{nx["key"]}/index.html"><span>Nächste Art</span><b>{e(nx["name"])}</b></a> </nav>')
+
 def page_species(s):
     R = "../../"; k = s["key"]
     nom, akk, dat = ART[s["pron"]]
     N = s["name"]
-    desc = f'{N} ({s["latin"]}): {s["short"]} Merkmale, Rolle im Garten und wann du {s["pron"]} siehst.'
+    desc = f'{N} sicher erkennen: {s["short"]} Mit Merkmalen, Rolle im Garten und Jahreszeiten.'
+    if len(desc) > 158: desc = desc[:155].rsplit(" ", 1)[0].rstrip(",.:;") + " …"
+    has_pair = any(k in (p[1], p[2]) for p in PAIRS)
+    title = f'{N}: Merkmale, Rolle im Garten und Doppelgänger' if has_pair else f'{N} erkennen: Merkmale und Rolle im Garten'
     peaks = join_de(f'<a href="{R}gartenjahr/{MS[m-1]}/index.html">{MN[m-1]}</a>' for m in s["peak"])
     pres = [m for m in range(1, 13) if m in s["present"]]
     hidden_sr = f'Aktiv: {join_de(MN[m-1] for m in pres)}. Hauptzeit: {join_de(MN[m-1] for m in s["peak"])}.'
@@ -263,10 +274,10 @@ def page_species(s):
     dmgline = (f'<p class="yeartext">Typisches Schadbild: <a href="{R}schadbilder/index.html">{e(dmg[0][1])}</a>.</p>' if dmg else "")
     rel = related_for(s)
     ld = [{"@context": "https://schema.org", "@type": "WebPage", "name": f'{N} erkennen', "description": desc, "inLanguage": "de-DE",
-           "isPartOf": {"@id": BASE + "#website"}, "publisher": {"@id": ORG_ID}, "author": {"@type": "Person", "name": "Nico Schober"},
+           "isPartOf": {"@id": BASE + "#website"}, "publisher": {"@id": ORG_ID}, "author": {"@type": "Person", "name": "Nico Schober", "url": BASE + "ueber/"}, "datePublished": "2026-11-07", "dateModified": STAND_ISO,
            "about": {"@type": "Taxon", "name": s["latin"], "alternateName": N, "taxonRank": "species"},
            "image": f'{BASE}photos/{k}.webp', "primaryImageOfPage": {"@type": "ImageObject", "url": f'{BASE}photos/{k}.webp', "width": 720, "height": 576}}]
-    body = (head(R, f'{N} erkennen · {SITE}', desc, f'arten/{k}/', "article", og_img=f'photos/{k}.webp', og_alt=N, ld=ld)
+    body = (head(R, title, desc, f'arten/{k}/', "article", og_img=f'photos/{k}.webp', og_alt=N, ld=ld)
             + nav(R, "bestimmen") + '<main id="main" tabindex="-1"> ' + crumbs(R, [("Arten", "arten/"), (N, f"arten/{k}/")]) +
             f'<article class="sp wrap"> <div class="sp-top"> <figure class="sp-photo"> {img(R, k, "(max-width: 760px) 92vw, 560px", eager=True, alt=N if k in PHOTOS else "")} <figcaption>{cred_long(k)}</figcaption> </figure> '
             f'<div class="sp-intro"> <h1>{e(N)}</h1> <p class="latin" lang="la">{e(s["latin"])}</p> <p class="row"><span class="tag status">{e(s["grp"])}</span><span class="tag">{e(s["size"])}</span>'
@@ -282,9 +293,9 @@ def page_species(s):
             f'<section class="gearbox" aria-labelledby="h-gear"><h2 id="h-gear">Passend dazu</h2><ul class="products"> '
             + "".join(product(R, p) for p in s["prods"]) +
             f' </ul>{ADNOTE}<p class="gearall"><a href="{R}ausruestung/index.html">Alle Ausrüstungstipps ansehen</a></p></section> '
-            f'{alike}<section class="more" aria-labelledby="h-more"> <h2 id="h-more">Mehr erfahren</h2> <ul class="morelinks"> {more} </ul> </section> </div>\n'
+            f'{alike}<section class="more" aria-labelledby="h-more"> <h2 id="h-more">Mehr erfahren</h2> <ul class="morelinks"> {more} </ul> <p class="stand">Von <a href="{R}ueber/index.html" rel="author">Nico Schober</a> · Stand: {STAND_DE} · Angaben abgeglichen mit Wikipedia und gängiger Bestimmungsliteratur</p> </section> </div>\n'
             f'</div> '
-            f'<section class="related" aria-labelledby="h-rel"> <h2 id="h-rel">Oft in der Nähe</h2> <ul class="grid">{"".join(card(R, x, i) for i, x in enumerate(rel))}</ul> </section> </article> </main> ' + footer(R))
+            f'<section class="related" aria-labelledby="h-rel"> <h2 id="h-rel">Oft in der Nähe</h2> <ul class="grid">{"".join(card(R, x, i) for i, x in enumerate(rel))}</ul> </section> {pager(R, s)} </article> </main> ' + footer(R))
     write(f"arten/{k}/index.html", body)
 
 def filter_bar():
@@ -631,9 +642,9 @@ def page_ratgeber():
             secs.append(f'<section class="block rtype" id="{sid}" aria-labelledby="h-{sid}"> <div class="wrap"> <h2 id="h-{sid}">{e(t)}</h2> <p class="rverdict"><b>{e(verdict)}</b></p> '
                         f'<div class="rcols"> <div><h3>Vorteile</h3>{rlist(plus, "plus")}</div> <div><h3>Nachteile</h3>{rlist(minus, "minus")}</div> </div> {sp} {pr} </div> </section>')
         tips = "".join(f"<li><b>{e(a)}</b><span>{e(x)}</span></li>" for a, x in d["tips"])
-        faq = "".join(f"<dt>{e(q)}</dt><dd>{e(a)}</dd>" for q, a in d["faq"])
+        faq = "".join(f'<details class="fold faqi" open data-fold><summary><h3>{e(q)}</h3></summary><p>{e(a)}</p></details>' for q, a in d["faq"])
         rel = "".join(card(R, SP[k], i) for i, k in enumerate(d["related"]))
-        ld = [{"@context": "https://schema.org", "@type": "Article", "headline": d["title"], "inLanguage": "de-DE", "author": {"@type": "Person", "name": "Nico Schober"}, "publisher": {"@id": ORG_ID}, "datePublished": "2026-11-08"},
+        ld = [{"@context": "https://schema.org", "@type": "Article", "headline": d["title"], "inLanguage": "de-DE", "author": {"@type": "Person", "name": "Nico Schober"}, "publisher": {"@id": ORG_ID}, "datePublished": "2026-11-08", "dateModified": STAND_ISO},
               {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in d["faq"]]}]
         body = (head(R, f'{d["title"]} · {SITE}', d["desc"], f"ratgeber/{slug}/", "article", ld=ld) + nav(R, "garten") +
                 '<main id="main" tabindex="-1"> ' + crumbs(R, [("Im Garten", "ratgeber/nuetzlinge/") if slug != "nuetzlinge" else ("Ratgeber", "ratgeber/nuetzlinge/"), (d["nav"], f"ratgeber/{slug}/")] if slug != "nuetzlinge" else [(d["nav"], f"ratgeber/{slug}/")]) +
@@ -641,7 +652,7 @@ def page_ratgeber():
                 f'<section class="block" id="vergleich" aria-labelledby="h-vgl"> <div class="wrap"> <h2 id="h-vgl">Im Vergleich</h2> <div class="cmp-wrap" tabindex="0" role="region" aria-label="Vergleichstabelle, seitlich scrollbar"><table class="cmp"> <thead><tr><td></td>{th}</tr></thead> <tbody>{trs}</tbody> </table></div> <p class="thumbnote">Preise sind grobe Richtwerte, Stand November 2026.</p> </div> </section> '
                 + "".join(secs) +
                 f'<section class="block" id="tipps" aria-labelledby="h-tipps"> <div class="wrap"> <h2 id="h-tipps">{e(d["tips_title"])}</h2> <ul class="tips">{tips}</ul> </div> </section> '
-                f'<section class="block" id="fragen" aria-labelledby="h-faq"> <div class="wrap"> <h2 id="h-faq">Häufige Fragen</h2> <dl class="faq">{faq}</dl> </div> </section> '
+                f'<section class="block" id="fragen" aria-labelledby="h-faq"> <div class="wrap"> <h2 id="h-faq">Häufige Fragen</h2> <div class="faq">{faq}</div> <p class="stand">Von <a href="{R}ueber/index.html" rel="author">Nico Schober</a> · Stand: {STAND_DE}</p> </div> </section> '
                 f'<section class="block related" aria-labelledby="h-rel"> <div class="wrap"> <h2 id="h-rel">Passende Arten</h2> <ul class="grid">{rel}</ul> </div> </section> </main> ' + footer(R))
         write(f"ratgeber/{slug}/index.html", body)
 
