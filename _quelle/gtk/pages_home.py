@@ -39,13 +39,12 @@ def page_home():
     nowsp = [s for s in S if NOW in s["peak"]] + [s for s in S if NOW in s["present"] and NOW not in s["peak"]]
     pool = [s for s in nowsp if s["key"] in SPOT]
     spot = min(pool, key=lambda s: SPOT.index(s["key"]) + (0 if NOW in s["peak"] else 100)) if pool else (nowsp[0] if nowsp else S[0])
-    rank = lambda s: SPOT.index(s["key"]) if s["key"] in SPOT else (90 if s["key"] == "regenwurm" else 50)
-    order = sorted(nowsp, key=rank) + [s for s in S if s not in nowsp]
+    order = sorted(nowsp, key=lambda s: (NOW not in s["peak"], POPRANK[s["key"]])) + [s for s in S if s not in nowsp]
     ncards = "".join(
-        f'<li{spot_attr(s)} data-peak="{",".join(map(str, s["peak"]))}" data-present="{",".join(map(str, s["present"]))}" data-k="{s["key"]}" data-name="{e(s["name"])}" data-hl="{e(s["hl"])}"{"" if (s in nowsp and s is not spot) else " hidden"}>'
+        f'<li{spot_attr(s)} data-peak="{",".join(map(str, s["peak"]))}" data-present="{",".join(map(str, s["present"]))}" data-k="{s["key"]}" data-pop="{POPRANK[s["key"]]}" data-name="{e(s["name"])}" data-hl="{e(s["hl"])}"{"" if (s in nowsp and s is not spot) else " hidden"}>'
         f'<a href="arten/{s["key"]}/index.html"><img src="photos/{s["key"]}-400.webp" alt="" width="400" height="300" loading="{"eager" if i < 5 else "lazy"}" decoding="async"><span class="nc-ov"><b>{e(s["name"])}</b><i>Hauptzeit</i></span></a>{cred_pop(cred_short(R, s["key"]))}</li>'
         for i, s in enumerate(order))
-    grid = "".join(card(R, s, i, eager=i < 4) for i, s in enumerate(sorted(S, key=lambda x: x["name"])))
+    grid = "".join(card(R, s, i, eager=i < 4) for i, s in enumerate(sorted(S, key=lambda x: (NOW not in x["present"], POPRANK[x["key"]]))))
     empty_groups = "".join(f'<button type="button" class="chip" data-sgrp="{e(g)}">{e(g)}</button>' for g, _, _ in GROUPS)
     explore = (f'<li><a href="schadbilder/index.html"><b>Was frisst an meiner Pflanze?</b><span>Löcher, Buchten, Gespinste und Hügel: vom Schadbild zum Verursacher, mit sanften Lösungen.</span></a></li>'
                f'<li><a href="unterscheiden/index.html"><b>Doppelgänger unterscheiden</b><span>Marienkäfer oder Asiatischer Marienkäfer, Schwebfliege oder Wespe: {len(PAIRS)} Vergleiche.</span></a></li>'

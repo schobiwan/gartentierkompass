@@ -47,6 +47,14 @@ for s in S:
 # --- Auswahl-Listen
 SPOT = ["siebenpunkt-marienkaefer", "tagpfauenauge", "igel", "erdhummel", "eichhoernchen", "zitronenfalter", "taubenschwaenzchen", "rote-mauerbiene",
         "hainschwebfliege", "zauneidechse", "erdkroete", "honigbiene", "gartenkreuzspinne", "teichmolch", "weinbergschnecke", "blindschleiche"]   # Startseite: Reihenfolge für das Titelbild
+# Beliebtheit: Reihenfolge für „Jetzt aktiv zuerst“ und die Monatsleiste – Säugetiere und Sympathieträger vorn
+POP = ["igel", "eichhoernchen", "siebenpunkt-marienkaefer", "tagpfauenauge", "maulwurf", "erdhummel", "steinmarder", "zauneidechse",
+       "erdkroete", "taubenschwaenzchen", "zitronenfalter", "schermaus", "teichmolch", "blindschleiche", "honigbiene", "hainschwebfliege",
+       "rote-mauerbiene", "weinbergschnecke", "gartenkreuzspinne", "goldlaufkaefer", "florfliege", "asiatischer-marienkaefer",
+       "grosser-kohlweissling", "ohrwurm", "gartenlaubkaefer", "regenwurm", "lilienhaehnchen", "tigerschnegel", "spanische-wegschnecke",
+       "kleiner-frostspanner", "apfelwickler", "buchsbaumzuensler", "dickmaulruessler", "schwarze-bohnenlaus", "weisse-fliege"]
+POPRANK = {k: i for i, k in enumerate(POP)}
+
 # --- Insektensommer
 IS_KEYS = ["erdhummel", "honigbiene", "hainschwebfliege", "tagpfauenauge", "zitronenfalter", "grosser-kohlweissling", "taubenschwaenzchen",
            "siebenpunkt-marienkaefer", "asiatischer-marienkaefer", "florfliege", "goldlaufkaefer", "gartenlaubkaefer", "lilienhaehnchen", "ohrwurm", "schwarze-bohnenlaus"]

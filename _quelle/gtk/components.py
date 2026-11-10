@@ -39,7 +39,7 @@ def search_text(s):
     return " ".join([s["name"], s["latin"], s["grp"], GROUP_FORMS[s["grp"]], s["alias"], ROLE[s["role"]], s["short"], act_text(s)])
 
 def card(R, s, i, eager=False):
-    return (f'<li class="bird" id="{s["key"]}" style="--i:{i}" data-key="{s["key"]}" data-name="{e(s["name"])}" data-search="{e(search_text(s))}" data-grp="{e(s["grp"])}" '
+    return (f'<li class="bird" id="{s["key"]}" style="--i:{i}" data-key="{s["key"]}" data-pop="{POPRANK[s["key"]]}" data-name="{e(s["name"])}" data-search="{e(search_text(s))}" data-grp="{e(s["grp"])}" '
             f'data-act="{s["act"]}" data-hab="{e("|".join(s["hab"]))}" data-size="{s["sz"]}" data-mid="{s["mid"]}" data-present="{",".join(map(str, s["present"]))}" data-peak="{",".join(map(str, s["peak"]))}"> '
             f'{img(R, s["key"], "(max-width: 760px) 46vw, 320px", eager=eager)}{cred_pop(cred_short(R, s["key"]))} <div class="txt"> <h3><a class="open" href="{R}arten/{s["key"]}/index.html">{e(s["name"])}</a></h3> '
             f'<span class="meta"><span class="latin" lang="la">{e(s["latin"])}</span><span class="size">{e(s["size"])}</span></span> <span class="row">{role_badge(s)}{grp_tag(s)}</span> '
