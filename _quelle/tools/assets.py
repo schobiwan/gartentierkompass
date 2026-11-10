@@ -1,23 +1,20 @@
 # -*- coding: utf-8 -*-
-"""Erzeugt Logo, Favicons, Platzhalterbilder und OG-Bild für den Gartenkompass."""
+"""Erzeugt Favicons, App-Icons, OG-Bild und Platzhalter-Illustrationen.
+
+ACHTUNG: main() überschreibt die echten Fotos in static/photos mit Platzhaltern.
+Nur gezielt einzelne Jobs rendern (siehe og_svg / favicon_svg). Aufruf aus src/: python -m tools.assets
+"""
 import json, os, subprocess, hashlib, io, shutil
 from PIL import Image
-from data_species import S, EXTRA
+from data.species import S, EXTRA
 
-OUT = "out"
+OUT = "static"
 TMP = "tmp_png"
-os.makedirs(f"{OUT}/photos", exist_ok=True)
-os.makedirs(TMP, exist_ok=True)
 
 CHROME = "#24412f"; INK = "#f6f1e3"; GOLD = "#f2b53a"
 
 # Blatt im Kompassring (48er Raster)
-LEAF = ('<path d="M23.3 12.8C14.6 16.6 14 28.6 23.3 36.4Z"/>'
-        '<path d="M24.7 12.8C33.4 16.6 34 28.6 24.7 36.4Z"/>'
-        '<path d="M23.3 36.4 22 40.6h1.6l1-4.2Z"/>')
-LOGO_SYMBOL = ('<symbol id="logo-mark" viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" fill="none" stroke="currentColor" stroke-width="2.2"></circle>'
-               '<circle cx="24" cy="24" r="17" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="1.5 2.5" stroke-opacity=".6"></circle>'
-               f'<g fill="currentColor">{LEAF}</g><path d="M24 1.8 26.6 7.4H21.4z" fill="var(--logo-accent)"></path></symbol>')
+from gtk.logo import LEAF, LOGO_SYMBOL
 
 def favicon_svg(pad=True):
     return ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">'
@@ -169,6 +166,8 @@ def og_svg():
             f'<text x="373" y="425" font-family="Atkinson Hyperlegible Next" font-size="29" fill="#5b6b5e">Nützlinge, Schädlinge und Gartengäste bestimmen</text></svg>')
 
 def main():
+    os.makedirs(f"{OUT}/photos", exist_ok=True)
+    os.makedirs(TMP, exist_ok=True)
     jobs = []
     def job(svg, name, width):
         jobs.append({"svg": svg, "out": f"{TMP}/{name}.png", "width": width})

@@ -1,0 +1,1 @@
+"""Generator für gartentierkompass.de."""
