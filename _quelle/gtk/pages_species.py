@@ -25,6 +25,7 @@ def tldr(s):
             f'<dt>Zu sehen</dt><dd>{e(rng)}, am besten im {e(best)}</dd>'
             f'<dt>Wo im Garten</dt><dd>{e(s["where"])}</dd>'
             f'<dt>Größe</dt><dd>{e(s["size"])}</dd>'
+            f'<dt>Aktiv</dt><dd>{act_text(s)}</dd>'
             f'<dt>Rolle</dt><dd>{e(ROLE[s["role"]])}: {e(s["roleline"])}</dd></dl></section>')
 
 def pager(R, s):
@@ -77,12 +78,11 @@ def page_species(s):
     body = (head(R, title, desc, f'arten/{k}/', "article", og_img=f'photos/{k}.webp', og_alt=N, ld=ld)
             + nav(R, "bestimmen") + '<main id="main" tabindex="-1"> ' + crumbs(R, [("Arten", "arten/"), (N, f"arten/{k}/")]) +
             f'<article class="sp wrap"> <div class="sp-top"> <figure class="sp-photo"> {img(R, k, "(max-width: 760px) 92vw, 560px", eager=True, alt=N if k in PHOTOS else "")} <figcaption>{cred_long(k)}</figcaption> </figure> '
-            f'<div class="sp-intro"> <h1>{e(N)}</h1> <p class="latin" lang="la">{e(s["latin"])}</p> <p class="row"><span class="tag status">{e(s["grp"])}</span><span class="tag">{e(s["size"])}</span>'
+            f'<div class="sp-intro"> <h1>{e(N)}</h1> <p class="latin" lang="la">{e(s["latin"])}</p> <p class="row">{role_badge(s)}{grp_tag(s)}<span class="tag">{e(s["size"])}</span>'
             + "".join(f'<span class="tag act-tag"><svg aria-hidden="true"><use href="#{ACT[a][1]}"></use></svg>{ACT[a][0]}</span>' for a in s["acts"]) +
             f'</p> <p class="habs">{"".join(f"<span>{e(h)}</span>" for h in s["hab"])}</p> <p class="text">{e(s["short"])} {e(s["hl"])}</p> '
-            f'<div class="trackbox rolebox"><span class="trk-img"><svg viewBox="0 0 24 24" aria-hidden="true">{ROLE_ICO[s["role"]]}</svg></span><p><b>{e(ROLE[s["role"]])}</b>{e(s["roleline"])}</p></div> </div> </div>\n'
-            f'<div class="sp-cols"> <aside class="sp-side" aria-label="Auf einen Blick"> {tldr(s)} </aside> <div class="sp-main"> <section aria-labelledby="h-marks"> <h2 id="h-marks">So erkennst du {akk} {e(N)}</h2> <ul class="marks">{"".join(f"<li>{e(m)}</li>" for m in s["marks"])}</ul> {inmerk} '
-            f'<dl class="facts"><dt>Aktiv</dt><dd>{act_text(s)}</dd></dl> </section> '
+            f'</div> </div>\n'
+            f'<div class="sp-cols"> <aside class="sp-side" aria-label="Auf einen Blick"> {tldr(s)} </aside> <div class="sp-main"> <section aria-labelledby="h-marks"> <h2 id="h-marks">So erkennst du {akk} {e(N)}</h2> <ul class="marks">{"".join(f"<li>{e(m)}</li>" for m in s["marks"])}</ul> {inmerk} </section> '
             f'<section aria-labelledby="h-year"> <h2 id="h-year">Wann ist {nom} {e(N)} zu sehen?</h2> <div class="months" aria-hidden="true"> {months_bar(s)} </div> <p class="legend"><span><i></i>kaum zu sehen</span><span><i class="p"></i>aktiv</span><span><i class="h"></i>beste Zeit</span></p> '
             f'<p class="sr-only">{hidden_sr}</p> <p class="yeartext">{e(N)} ist {month_range(s)}. Besonders viel los ist im {peaks}. {e(s["hl"])}</p>{dmgline} </section> '
             f'<section class="life" aria-labelledby="h-life"> <h2 id="h-life">Lebensweise</h2> {lifes} </section> '

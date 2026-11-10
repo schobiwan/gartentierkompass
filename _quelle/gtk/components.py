@@ -37,7 +37,7 @@ def card(R, s, i, eager=False):
     return (f'<li class="bird" id="{s["key"]}" style="--i:{i}" data-key="{s["key"]}" data-name="{e(s["name"])}" data-search="{e(search_text(s))}" data-grp="{e(s["grp"])}" '
             f'data-act="{s["act"]}" data-hab="{e("|".join(s["hab"]))}" data-size="{s["sz"]}" data-mid="{s["mid"]}" data-present="{",".join(map(str, s["present"]))}" data-peak="{",".join(map(str, s["peak"]))}"> '
             f'{img(R, s["key"], "(max-width: 760px) 46vw, 320px", eager=eager)}{cred_short(R, s["key"])} <div class="txt"> <h3><a class="open" href="{R}arten/{s["key"]}/index.html">{e(s["name"])}</a></h3> '
-            f'<span class="meta"><span class="latin" lang="la">{e(s["latin"])}</span><span class="size">{e(s["size"])}</span></span> <span class="row"><span class="tag status">{e(s["grp"])}</span></span> '
+            f'<span class="meta"><span class="latin" lang="la">{e(s["latin"])}</span><span class="size">{e(s["size"])}</span></span> <span class="row">{role_badge(s)}{grp_tag(s)}</span> '
             f'<p class="short">{e(s["short"])}</p> </div> <span class="acts">{acts_html(s)}</span> </li>')
 
 def mcard(R, href, imgkey, name, why, meta=""):
@@ -81,6 +81,19 @@ ROLE_ICO = {
     "gast": '<path d="M3 11 12 4l9 7"/><path d="M5.5 9.5V20h13V9.5"/><path d="M10 20v-5h4v5"/>',
     "gemischt": '<path d="M12 3 3 20h18z"/><path d="M12 10v4M12 17h0"/>',
 }
+
+ROLE_SHORT = {"gemischt": "Teils Nützling"}   # kurze Fassung für Schilder
+
+def grp_tag(s):
+    """Gruppe als neutrales Schild – nur wenn sie nicht schon in der Rolle steckt (Nützlinge, Schädlinge, Bestäuber)."""
+    return "" if s["grp"] in ("Nützlinge", "Schädlinge", "Bestäuber") else f'<span class="tag grp">{e(s["grp"])}</span>'
+
+def role_badge(s):
+    """Farbiges Rollen-Schild mit Symbol: Nützling, Bestäuber, Schädling, Gartengast."""
+    r = s["role"]
+    title = f' title="{e(ROLE[r])}"' if r in ROLE_SHORT else ""
+    return (f'<span class="role role-{r}"{title}><svg viewBox="0 0 24 24" aria-hidden="true">{ROLE_ICO[r]}</svg>'
+            f'{e(ROLE_SHORT.get(r, ROLE[r]))}</span>')
 
 def months_bar(s):
     out = []

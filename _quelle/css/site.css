@@ -4978,3 +4978,33 @@ footer .fcols li a {
   min-height: 32px;
   display: inline-flex;
 }
+
+/* --- Rollen-Schilder (Nützling, Bestäuber, Schädling, Gartengast) --- */
+.role {
+  --rb: #e4f1e2; --rt: #1d5a2c; --rl: #a9cfa8;
+  display: inline-flex; align-items: center; gap: 4px;
+  border: 1px solid var(--rl); border-radius: 999px;
+  background: var(--rb); color: var(--rt);
+  padding: 3px 10px 3px 7px;
+  font-size: .78rem; font-weight: 700; line-height: 1.2; white-space: nowrap;
+}
+.role svg { flex: none; width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.role-bestaeuber { --rb: #fcefc7; --rt: #6a4800; --rl: #e5c35c; }
+.role-schaedling { --rb: #fbe4de; --rt: #8e2717; --rl: #e8a797; }
+.role-gast { --rb: #e6eef4; --rt: #284a63; --rl: #b0c7d8; }
+.role-gemischt { --rb: #f4ead8; --rt: #6a4618; --rl: #d9bf91; }
+.tag.grp { background: none; border-color: var(--line); color: var(--muted); font-weight: 600; }
+.sp-intro .row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.sp-intro .role { font-size: .85rem; padding: 4px 12px 4px 8px; }
+.sp-intro .role svg { width: 17px; height: 17px; }
+.bird .row { display: flex; flex-wrap: wrap; gap: 4px; }
+.bird .row .role { padding: 2px 8px 2px 5px; font-size: .7rem; }
+.bird .row .role svg { width: 13px; height: 13px; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme=light]) .role { --rb: #1f3a27; --rt: #bfe3c2; --rl: #3f6b4a; }
+  :root:not([data-theme=light]) .role-bestaeuber { --rb: #3a3016; --rt: #f3d98a; --rl: #6e5a24; }
+  :root:not([data-theme=light]) .role-schaedling { --rb: #3d211c; --rt: #f2b7a8; --rl: #74392d; }
+  :root:not([data-theme=light]) .role-gast { --rb: #1e2f3b; --rt: #b9d2e4; --rl: #3d5a6e; }
+  :root:not([data-theme=light]) .role-gemischt { --rb: #362a1a; --rt: #e7cda3; --rl: #6b5432; }
+}
+@media (forced-colors: active) { .role { border-color: CanvasText; } }
