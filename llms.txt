@@ -21,15 +21,15 @@ Sprache: Deutsch. Angaben zu Vorkommen sind grobe Richtwerte für Deutschland.
 
 ## Merkmale
 - [Roter Käfer im Garten](https://gartentierkompass.de/merkmale/roter-kaefer/)
-- [Gelb-schwarz gestreiftes Insekt](https://gartentierkompass.de/merkmale/gelb-schwarz-gestreift/)
-- [Schnecke im Garten bestimmen](https://gartentierkompass.de/merkmale/schnecke-im-garten/)
+- [Gelb-schwarz gestreiftes Insekt im Garten](https://gartentierkompass.de/merkmale/gelb-schwarz-gestreift/)
+- [Schnecke im Garten](https://gartentierkompass.de/merkmale/schnecke-im-garten/)
 - [Weißer Schmetterling im Garten](https://gartentierkompass.de/merkmale/weisser-schmetterling/)
 - [Bunter Schmetterling im Garten](https://gartentierkompass.de/merkmale/bunter-schmetterling/)
 - [Grüne Raupe im Garten](https://gartentierkompass.de/merkmale/gruene-raupe/)
 - [Winzige Insekten an Pflanzen](https://gartentierkompass.de/merkmale/winzige-insekten/)
-- [Grün glänzender Käfer](https://gartentierkompass.de/merkmale/gruen-glaenzender-kaefer/)
-- [Braunes oder schwarzes Krabbeltier](https://gartentierkompass.de/merkmale/dunkles-krabbeltier/)
-- [Langes Tier ohne Beine](https://gartentierkompass.de/merkmale/langes-tier-ohne-beine/)
+- [Grün glänzender Käfer im Garten](https://gartentierkompass.de/merkmale/gruen-glaenzender-kaefer/)
+- [Braunes oder schwarzes Krabbeltier im Garten](https://gartentierkompass.de/merkmale/dunkles-krabbeltier/)
+- [Langes Tier ohne Beine im Garten](https://gartentierkompass.de/merkmale/langes-tier-ohne-beine/)
 - [Tiere am Gartenteich](https://gartentierkompass.de/merkmale/tiere-am-teich/)
 - [Kleines Säugetier im Garten](https://gartentierkompass.de/merkmale/kleine-saeugetiere/)
 

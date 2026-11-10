@@ -45,7 +45,9 @@ def page_species(s):
     peaks = join_de(f'<a href="{R}gartenjahr/{MS[m-1]}/index.html">{MN[m-1]}</a>' for m in s["peak"])
     pres = [m for m in range(1, 13) if m in s["present"]]
     hidden_sr = f'Aktiv: {join_de(MN[m-1] for m in pres)}. Hauptzeit: {join_de(MN[m-1] for m in s["peak"])}.'
-    lifes = "".join(f'<details class="fold" open data-fold><summary><h3>{e(t)}</h3></summary><p>{e(x)}</p></details>' for t, x in s["life"])
+    life_title = lambda t: f"Was frisst {decline(N, 'nom', s['pron'])}?" if t.startswith("Was frisst ") else t   # einheitlich mit vollem Artnamen
+    lifes = "".join(f'<details class="fold" open data-fold><summary><h3>{e(life_title(t))}</h3></summary><p>{e(x)}</p></details>' for t, x in s["life"])
+    help_title = s["help"][0] if not s["help"][0].startswith("So hilfst du") else f"So hilfst du {decline(N, 'dat', s['pron'])}"
     pairs = [p for p in PAIRS if k in (p[1], p[2])]
     alike = ""
     if pairs:
@@ -82,11 +84,11 @@ def page_species(s):
             + "".join(f'<span class="tag act-tag"><svg aria-hidden="true"><use href="#{ACT[a][1]}"></use></svg>{ACT[a][0]}</span>' for a in s["acts"]) +
             f'</p> <p class="habs">{"".join(f"<span>{e(h)}</span>" for h in s["hab"])}</p> <p class="text">{e(s["short"])} {e(s["hl"])}</p> '
             f'</div> </div>\n'
-            f'<div class="sp-cols"> <aside class="sp-side" aria-label="Auf einen Blick"> {tldr(s)} </aside> <div class="sp-main"> <section aria-labelledby="h-marks"> <h2 id="h-marks">So erkennst du {akk} {e(N)}</h2> <ul class="marks">{"".join(f"<li>{e(m)}</li>" for m in s["marks"])}</ul> {inmerk} </section> '
-            f'<section aria-labelledby="h-year"> <h2 id="h-year">Wann ist {nom} {e(N)} zu sehen?</h2> <div class="months" aria-hidden="true"> {months_bar(s)} </div> <p class="legend"><span><i></i>kaum zu sehen</span><span><i class="p"></i>aktiv</span><span><i class="h"></i>beste Zeit</span></p> '
+            f'<div class="sp-cols"> <aside class="sp-side" aria-label="Auf einen Blick"> {tldr(s)} </aside> <div class="sp-main"> <section aria-labelledby="h-marks"> <h2 id="h-marks">So erkennst du {e(decline(N, "akk", s["pron"]))}</h2> <ul class="marks">{"".join(f"<li>{e(m)}</li>" for m in s["marks"])}</ul> {inmerk} </section> '
+            f'<section aria-labelledby="h-year"> <h2 id="h-year">Wann ist {e(decline(N, "nom", s["pron"]))} zu sehen?</h2> <div class="months" aria-hidden="true"> {months_bar(s)} </div> <p class="legend"><span><i></i>kaum zu sehen</span><span><i class="p"></i>aktiv</span><span><i class="h"></i>beste Zeit</span></p> '
             f'<p class="sr-only">{hidden_sr}</p> <p class="yeartext">{e(N)} ist {month_range(s)}. Besonders viel los ist im {peaks}. {e(s["hl"])}</p>{dmgline} </section> '
             f'<section class="life" aria-labelledby="h-life"> <h2 id="h-life">Lebensweise</h2> {lifes} </section> '
-            f'<section class="helpbox" aria-label="Tipps"> <details class="fold" open><summary><h2>{e(s["help"][0])}</h2></summary><p>{e(s["help"][1])}</p>{rgline}</details> <details class="fold" open><summary><h2>{e(s["tip"][0])}</h2></summary><p>{e(s["tip"][1])}</p></details> </section> '
+            f'<section class="helpbox" aria-label="Tipps"> <details class="fold" open><summary><h2>{e(help_title)}</h2></summary><p>{e(s["help"][1])}</p>{rgline}</details> <details class="fold" open><summary><h2>{e(s["tip"][0])}</h2></summary><p>{e(s["tip"][1])}</p></details> </section> '
             f'<section class="gearbox" aria-labelledby="h-gear"><h2 id="h-gear">Passend dazu</h2><ul class="products"> '
             + "".join(product(R, p) for p in s["prods"]) +
             f' </ul>{ADNOTE}<p class="gearall"><a href="{R}ausruestung/index.html">Alle Ausrüstungstipps ansehen</a></p></section> '

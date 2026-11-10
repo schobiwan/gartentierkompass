@@ -89,7 +89,7 @@ def page_merkmale():
         body = (head(R, f"{title} – was ist das? · {SITE}", intro[:155], f"merkmale/{slug}/", ld=ld, og_img=f"photos/{items[0][0]}.webp", og_alt=SP[items[0][0]]["name"]) + nav(R, "bestimmen") +
                 '<main id="main" tabindex="-1"> ' + crumbs(R, [("Nach Aussehen", "merkmale/"), (title, f"merkmale/{slug}/")]) +
                 f'<section class="block page"> <div class="wrap"> <h1>{e(title)}</h1> <p class="intro">{e(intro)}</p> <ul class="mlist">{lis}</ul> '
-                f'<h2 class="h3 mt">Andere Merkmale</h2> <ul class="morelinks">{ol}<li><a href="{R}merkmale/index.html">Alle Merkmale</a></li></ul> </div> </section> </main> ' + footer(R))
+                f'<h2 class="h3 mt">Andere Merkmale</h2> <ul class="morelinks">{ol}<li><a href="{R}merkmale/index.html">Alle Merkmale ansehen</a></li></ul> </div> </section> </main> ' + footer(R))
         write(f"merkmale/{slug}/index.html", body)
 
 def size_range(s):

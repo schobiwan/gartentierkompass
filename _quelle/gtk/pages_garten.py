@@ -59,8 +59,9 @@ def page_ratgeber():
     for slug, d in RATGEBER.items():
         R = "../../"
         toc = "".join(f'<a href="#{sid}">{e(t)}</a>' for sid, t, *_ in d["sections"]) + '<a href="#tipps">Tipps</a><a href="#fragen">Fragen</a>'
+        price_note = '<p class="thumbnote">Preise sind grobe Richtwerte, Stand November 2026.</p>' if any("Preis" in h for h in d["table_head"]) else ""
         th = "".join(f'<th scope="col">{e(h)}</th>' for h in d["table_head"])
-        trs = "".join(f'<tr><th scope="row"><a href="#{rid}">{e(name)}</a></th>' + "".join(f"<td>{e(c)}</td>" for c in cells) + "</tr>" for rid, name, cells in d["rows"])
+        trs = "".join(f'<tr><th scope="row"><a href="#{rid}">{e(name)}</a></th>' + "".join(f'<td data-label="{e(h)}">{e(c)}</td>' for h, c in zip(d["table_head"], cells)) + "</tr>" for rid, name, cells in d["rows"])
         secs = []
         for sid, t, verdict, plus, minus, species, prods in d["sections"]:
             sp = ('<p class="rbirds"><span>Passende Arten:</span> ' + ", ".join(f'<a href="{R}arten/{k}/index.html">{e(SP[k]["name"])}</a>' for k in species) + "</p>") if species else ""
@@ -75,7 +76,7 @@ def page_ratgeber():
         body = (head(R, f'{d["title"]} · {SITE}', d["desc"], f"ratgeber/{slug}/", "article", ld=ld) + nav(R, "garten") +
                 '<main id="main" tabindex="-1"> ' + crumbs(R, [("Im Garten", "ratgeber/nuetzlinge/") if slug != "nuetzlinge" else ("Ratgeber", "ratgeber/nuetzlinge/"), (d["nav"], f"ratgeber/{slug}/")] if slug != "nuetzlinge" else [(d["nav"], f"ratgeber/{slug}/")]) +
                 f'<section class="block page"> <div class="wrap"> <h1>{e(d["title"])}</h1> <p class="intro">{e(d["intro"])}</p> {ADBANNER} <p>{d["short"]}</p> <nav class="toc" aria-label="Auf dieser Seite">{toc}</nav> </div> </section> '
-                f'<section class="block" id="vergleich" aria-labelledby="h-vgl"> <div class="wrap"> <h2 id="h-vgl">Im Vergleich</h2> <div class="cmp-wrap" tabindex="0" role="region" aria-label="Vergleichstabelle, seitlich scrollbar"><table class="cmp"> <thead><tr><td></td>{th}</tr></thead> <tbody>{trs}</tbody> </table></div> <p class="thumbnote">Preise sind grobe Richtwerte, Stand November 2026.</p> </div> </section> '
+                f'<section class="block" id="vergleich" aria-labelledby="h-vgl"> <div class="wrap"> <h2 id="h-vgl">Im Vergleich</h2> <div class="cmp-wrap" tabindex="0" role="region" aria-label="Vergleichstabelle, seitlich scrollbar"><table class="cmp"> <thead><tr><th scope="col">{e(d.get("table_first", "Methode"))}</th>{th}</tr></thead> <tbody>{trs}</tbody> </table></div> {price_note} </div> </section> '
                 + "".join(secs) +
                 f'<section class="block" id="tipps" aria-labelledby="h-tipps"> <div class="wrap"> <h2 id="h-tipps">{e(d["tips_title"])}</h2> <ul class="tips">{tips}</ul> </div> </section> '
                 f'<section class="block" id="fragen" aria-labelledby="h-faq"> <div class="wrap"> <h2 id="h-faq">Häufige Fragen</h2> <div class="faq">{faq}</div> <p class="stand">Von <a href="{R}ueber/index.html" rel="author">Nico Schober</a> · Stand: {STAND_DE}</p> </div> </section> '

@@ -30,3 +30,22 @@ Gestaltung ändern: `css/site.css` bearbeiten, dann `npm --prefix tools/css run 
 Ungenutzte Regeln finden: `npm --prefix tools/css run unused` schreibt eine bereinigte Fassung nach `css/site.purged.css` zum Vergleichen.
 
 `tools/assets.py` nicht komplett ausführen: `main()` überschreibt die echten Fotos mit Platzhaltern.
+
+## Redaktionsregeln
+
+`python3 -m tools.check` prüft die Regeln, die sich automatisch prüfen lassen.
+
+**Überschriften**
+- Jede Seite hat genau eine `h1`; Ebenen werden nicht übersprungen (h1 → h2 → h3).
+- Satzschreibung, kein Punkt am Ende. Fragen nur, wenn die Seite die Frage beantwortet („Was frisst der Igel?“, „Maulwurf oder Schermaus?“).
+- Artseiten nennen die Art immer mit vollem Namen und richtig gebeugt: „So erkennst du den Großen Kohlweißling“, „Wann ist der Große Kohlweißling zu sehen?“, „Was frisst der Große Kohlweißling?“, „So hilfst du der Dunklen Erdhummel“. Dafür sorgt `decline()` in `gtk/util.py`; neue Artnamen mit Adjektiv vorn in `ADJ_START` eintragen.
+- Merkmalseiten: „{Merkmal} im Garten“ (Ausnahmen, wo es nicht passt: „Winzige Insekten an Pflanzen“, „Tiere am Gartenteich“).
+- Seitentitel (`<title>`) höchstens 60 Zeichen; der Zusatz „· Gartentierkompass“ entfällt, wenn es sonst länger wird.
+
+**Links**
+- Interne Links: im selben Fenster, Linktext sagt, wohin es geht („Alle Merkmale ansehen“, „Maulwurf oder Schermaus? Alle Unterschiede“), nie „hier“.
+- Sammel-Links enden einheitlich auf „… ansehen“ („Alle Ausrüstungstipps ansehen“).
+- Fremde Seiten (Wikipedia, NABU, Wikimedia …): neues Fenster, `rel="noopener"`, Screenreader-Hinweis „(öffnet in neuem Fenster)“ – am einfachsten mit `ext_link()`.
+- Schwesterseiten (Vogel-, Waldtier-, Meereskompass): im selben Fenster, ohne Hinweis.
+- Amazon-Partnerlinks: immer „Bei Amazon ansehen*“, neues Fenster, `rel="sponsored nofollow noopener"`, Werbehinweis auf der Seite.
+- Fotonachweise: Urheber verlinkt auf die Commons-Seite, Lizenzkürzel auf den Lizenztext (beides neues Fenster mit Hinweis).

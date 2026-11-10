@@ -25,8 +25,8 @@ def spot_attr(s):
 def spot_cred(k):
     if k in PHOTOS:
         a, lic, lurl, src = PHOTOS[k]
-        l = f'<a href="{lurl}" target="_blank" rel="noopener license">{e(lic)}</a>' if lurl else e(lic)
-        return f'Foto: <a href="{src}" target="_blank" rel="noopener">{e(a)}</a>, {l}'
+        l = f'<a href="{lurl}" target="_blank" rel="noopener license">{e(lic)}<span class="sr-only"> (Lizenztext, öffnet in neuem Fenster)</span></a>' if lurl else e(lic)
+        return f'Foto: <a href="{src}" target="_blank" rel="noopener">{e(a)}<span class="sr-only"> (Quelle, öffnet in neuem Fenster)</span></a>, {l}'
     return "Illustration"
 
 def page_home():
@@ -73,7 +73,7 @@ def page_home():
             f'<ul class="nowcards" id="nowcards">{ncards}</ul> </div> </section>\n' + filter_bar() + '\n'
             '<section class="sub" aria-labelledby="arten-h"> <div class="wrap"> <h2 class="sr-only" id="arten-h">Arten</h2> <p class="actlegend" aria-hidden="true"><span><svg aria-hidden="true"><use href="#i-sun"></use></svg> tagaktiv</span><span><svg aria-hidden="true"><use href="#i-dusk"></use></svg> dämmerungsaktiv</span><span><svg aria-hidden="true"><use href="#i-moon"></use></svg> nachtaktiv</span></p> '
             f'<ul class="grid" id="grid"> {grid} </ul> <div class="empty" id="empty" hidden><p id="empty-msg">Kein Tier passt zu deiner Suche oder Auswahl.</p><p id="empty-suggest" hidden></p><div class="empty-groups" aria-label="Stattdessen eine Gruppe ansehen">{empty_groups}</div><button class="btn ghost" type="button" id="empty-reset">Suche und Filter zurücksetzen</button></div> </div> </section>\n'
-            f'<section class="gearband" aria-labelledby="h-gear"><div class="wrap"><div class="head-row"><h2 id="h-gear">Gut ausgerüstet für den Naturgarten</h2><a class="gearmore" href="ausruestung/index.html">Alle Empfehlungen ansehen</a></div><ul class="products">{"".join(product(R, p) for p in HOME_GEAR)}</ul>{ADNOTE}</div></section>\n'
+            f'<section class="gearband" aria-labelledby="h-gear"><div class="wrap"><div class="head-row"><h2 id="h-gear">Gut ausgerüstet für den Naturgarten</h2><a class="gearmore" href="ausruestung/index.html">Alle Ausrüstungstipps ansehen</a></div><ul class="products">{"".join(product(R, p) for p in HOME_GEAR)}</ul>{ADNOTE}</div></section>\n'
             f'<section class="block"> <div class="wrap"> <h2>Weiter entdecken</h2> <ul class="explore"> {explore} </ul> </div> </section> </main> ' + footer(R, "home.js"))
     write("index.html", body)
 
