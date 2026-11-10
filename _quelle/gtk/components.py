@@ -18,6 +18,11 @@ def cred_long(key, cropped=True):
                 + (", zugeschnitten" if cropped else ""))
     return "Illustration: Gartentierkompass"
 
+def cred_pop(inner):
+    """Fotonachweis als kleiner ©-Knopf in der Bildecke; Antippen zeigt Urheber und Lizenz."""
+    return (f'<details class="pcr"><summary><span aria-hidden="true">©</span><span class="sr-only">Fotonachweis</span></summary>'
+            f'<span class="pcr-body">{inner}</span></details>')
+
 def cred_small(k):
     return f'<small class="cred"><span>{cred_long(k, cropped=False)}</span></small>'
 
@@ -36,13 +41,15 @@ def search_text(s):
 def card(R, s, i, eager=False):
     return (f'<li class="bird" id="{s["key"]}" style="--i:{i}" data-key="{s["key"]}" data-name="{e(s["name"])}" data-search="{e(search_text(s))}" data-grp="{e(s["grp"])}" '
             f'data-act="{s["act"]}" data-hab="{e("|".join(s["hab"]))}" data-size="{s["sz"]}" data-mid="{s["mid"]}" data-present="{",".join(map(str, s["present"]))}" data-peak="{",".join(map(str, s["peak"]))}"> '
-            f'{img(R, s["key"], "(max-width: 760px) 46vw, 320px", eager=eager)}{cred_short(R, s["key"])} <div class="txt"> <h3><a class="open" href="{R}arten/{s["key"]}/index.html">{e(s["name"])}</a></h3> '
+            f'{img(R, s["key"], "(max-width: 760px) 46vw, 320px", eager=eager)}{cred_pop(cred_short(R, s["key"]))} <div class="txt"> <h3><a class="open" href="{R}arten/{s["key"]}/index.html">{e(s["name"])}</a></h3> '
             f'<span class="meta"><span class="latin" lang="la">{e(s["latin"])}</span><span class="size">{e(s["size"])}</span></span> <span class="row">{role_badge(s)}{grp_tag(s)}</span> '
             f'<p class="short">{e(s["short"])}</p> </div> <span class="acts">{acts_html(s)}</span> </li>')
 
-def mcard(R, href, imgkey, name, why, meta=""):
-    return (f'<li class="mcard"><a href="{href}"> {img(R, imgkey, "(max-width: 600px) 92vw, 300px")} <span class="mname">{e(name)}</span><span class="mwhy">{e(why)}</span>'
-            + (f'<span class="mmeta">{e(meta)}</span>' if meta else "") + f' </a>{cred_small(imgkey)}</li>')
+def mcard(R, href, imgkey, name, why, meta="", count=""):
+    """Karte für Merkmal- und Auswahlseiten: Foto, Titel, Begründung, optional Anzahl-Schild und Zusatzzeile."""
+    badge = f'<span class="mcount">{e(count)}</span>' if count else ""
+    return (f'<li class="mcard"><a href="{href}"> {img(R, imgkey, "(max-width: 600px) 92vw, 300px")} <span class="mname">{e(name)}{badge}</span><span class="mwhy">{e(why)}</span>'
+            + (f'<span class="mmeta">{e(meta)}</span>' if meta else "") + f' </a>{cred_pop(cred_long(imgkey, cropped=False))}</li>')
 
 GUIDE_FOR = {}
 

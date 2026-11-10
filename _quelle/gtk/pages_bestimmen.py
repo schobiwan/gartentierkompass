@@ -73,7 +73,7 @@ def page_merkmale():
     cards = []
     for slug, title, short, intro, items in MERKMALE:
         names = [SP[k]["name"] for k, _ in items]
-        cards.append(mcard(R, f"{R}merkmale/{slug}/index.html", items[0][0], title, f'{len(items)} Arten, zum Beispiel {join_de(names[:2])}'))
+        cards.append(mcard(R, f"{R}merkmale/{slug}/index.html", items[0][0], short, f'Zum Beispiel {join_de(names[:2])}', count=f'{len(items)} Arten'))
     body = (head(R, f"Gartentiere nach Aussehen bestimmen · {SITE}", "Roter Käfer, grüne Raupe, Schnecke oder weißer Schmetterling? Gartentiere nach dem auffälligsten Merkmal bestimmen.", "merkmale/") + nav(R, "bestimmen") +
             '<main id="main" tabindex="-1"> ' + crumbs(R, [("Nach Aussehen", "merkmale/")]) +
             '<section class="block page"> <div class="wrap"> <h1>Gartentiere nach Aussehen bestimmen</h1> <p class="intro">Du hast ein Tier im Garten entdeckt, kennst aber den Namen nicht? Wähle das auffälligste Merkmal. Auf jeder Seite findest du die passenden Arten mit Foto und dem Merkmal, an dem du sie erkennst.</p> '
@@ -107,10 +107,13 @@ def page_sizes():
     for i, s in enumerate(sorted(S, key=lambda x: -size_range(x)[1])):
         lo, hi = size_range(s)
         l, r = pos(lo), pos(hi)
-        rows.append(f'<div class="srow" role="listitem"><a class="n" href="{R}arten/{s["key"]}/index.html">{e(s["name"])}</a> <div class="track"><span class="rng" style="left:{l:.2f}%;width:{max(r - l, 1.2):.2f}%;--i:{i}"><span>{e(s["size"])}</span></span></div> </div>')
-    marks = "".join(f'<span style="position:absolute;left:{pos(v):.2f}%;top:0;transform:translateX(-50%);white-space:nowrap;font-size:.72rem;color:var(--muted)">{lab}</span>' for v, lab in [(0.1, "1 mm"), (1, "1 cm"), (10, "10 cm"), (50, "50 cm")])
+        rows.append(f'<div class="srow" role="listitem"><a class="n" href="{R}arten/{s["key"]}/index.html">{e(s["name"])}</a> <div class="track"><span class="rng{' lft' if r > 76 else ''}" style="left:{l:.2f}%;width:{max(r - l, 1.2):.2f}%;--i:{i}"><span>{e(s["size"])}</span></span></div> </div>')
+    ticks = [(0.1, "1 mm"), (1, "1 cm"), (10, "10 cm"), (50, "50 cm")]
+    marks = "".join(f'<span style="left:{pos(v):.2f}%">{lab}</span>' for v, lab in ticks)
+    grid = ",".join(f"linear-gradient(to right,transparent calc({pos(v):.2f}% - 1px),var(--grid-line) calc({pos(v):.2f}% - 1px),var(--grid-line) calc({pos(v):.2f}% + 1px),transparent calc({pos(v):.2f}% + 1px))" for v, _ in ticks)
+    axis = f'<div class="srow saxis" aria-hidden="true"><span class="n"></span><div class="track">{marks}</div></div>'
     body = (head(R, f"Größenvergleich: wie groß sind Gartentiere? · {SITE}", "Von der winzigen Blattlaus bis zum Steinmarder: alle Gartentiere im Größenvergleich.", "groessen/") + nav(R, "bestimmen") +
             '<main id="main" tabindex="-1"> ' + crumbs(R, [("Größenvergleich", "groessen/")]) +
             '<section class="block page"> <div class="wrap"> <h1>Wie groß ist welches Gartentier?</h1> <p class="intro">Körperlänge, bei Schmetterlingen die Flügelspannweite, bei der Weinbergschnecke das Gehäuse. Weil eine Blattlaus und ein Steinmarder so verschieden sind, wächst die Skala in Zehnerschritten: 1 mm, 1 cm, 10 cm.</p> '
-            f'<p class="swipe">Seitlich wischen, um die ganze Skala zu sehen.</p> <div class="scale"><div class="scale-inner" role="list"> <div class="srow" aria-hidden="true"><span class="n"></span><div class="track" style="position:relative;height:1.2em;background:none">{marks}</div></div> {"".join(rows)} </div></div> </div> </section> </main> ' + footer(R))
+            f'<p class="swipe">Seitlich wischen, um die ganze Skala zu sehen.</p> <div class="scale"><div class="scale-inner" role="list" style="--grid:{grid}"> {axis} {"".join(rows)} {axis} </div></div> </div> </section> </main> ' + footer(R))
     write("groessen/index.html", body)

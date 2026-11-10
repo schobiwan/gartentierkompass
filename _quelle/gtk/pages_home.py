@@ -43,7 +43,7 @@ def page_home():
     order = sorted(nowsp, key=rank) + [s for s in S if s not in nowsp]
     ncards = "".join(
         f'<li{spot_attr(s)} data-peak="{",".join(map(str, s["peak"]))}" data-present="{",".join(map(str, s["present"]))}" data-k="{s["key"]}" data-name="{e(s["name"])}" data-hl="{e(s["hl"])}"{"" if (s in nowsp and s is not spot) else " hidden"}>'
-        f'<a href="arten/{s["key"]}/index.html"><img src="photos/{s["key"]}-400.webp" alt="" width="400" height="300" loading="{"eager" if i < 5 else "lazy"}" decoding="async"><span class="nc-ov"><b>{e(s["name"])}</b><i>Hauptzeit</i></span></a>{cred_short(R, s["key"])}</li>'
+        f'<a href="arten/{s["key"]}/index.html"><img src="photos/{s["key"]}-400.webp" alt="" width="400" height="300" loading="{"eager" if i < 5 else "lazy"}" decoding="async"><span class="nc-ov"><b>{e(s["name"])}</b><i>Hauptzeit</i></span></a>{cred_pop(cred_short(R, s["key"]))}</li>'
         for i, s in enumerate(order))
     grid = "".join(card(R, s, i, eager=i < 4) for i, s in enumerate(sorted(S, key=lambda x: x["name"])))
     empty_groups = "".join(f'<button type="button" class="chip" data-sgrp="{e(g)}">{e(g)}</button>' for g, _, _ in GROUPS)
