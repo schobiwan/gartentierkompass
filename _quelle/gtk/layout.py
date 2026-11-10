@@ -20,7 +20,7 @@ def head(R, title, desc, path, og_type="website", og_img="photos/og.jpg", og_alt
     lds = "".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>' for x in (ld or []))
     return (f'<!DOCTYPE html><html lang="de" data-root="{R or "./"}"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">'
             f'<title>{e(title)}</title><meta name="description" content="{e(desc)}"><link rel="canonical" href="{BASE}{path}"><meta name="robots" content="max-image-preview:large">'
-            '<meta name="theme-color" content="#f2f7e8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#14231a" media="(prefers-color-scheme: dark)"><meta name="color-scheme" content="light dark">'
+            '<meta name="theme-color" content="#f4efe6" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#1c1713" media="(prefers-color-scheme: dark)"><meta name="color-scheme" content="light dark">'
             f'<link rel="icon" href="{R}favicon.ico" sizes="48x48"><link rel="icon" href="{R}favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="{R}apple-touch-icon.png"><link rel="manifest" href="{R}site.webmanifest">'
             f'<link rel="preload" href="{R}fonts/lora-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="{R}fonts/mulish-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>'
             f'<meta property="og:type" content="{og_type}"><meta property="og:site_name" content="{SITE}"><meta property="og:locale" content="de_DE"><meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(desc)}">'
