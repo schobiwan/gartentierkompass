@@ -1,0 +1,15 @@
+{
+  "name": "gartentierkompass-css",
+  "private": true,
+  "type": "module",
+  "description": "Minifiziert css/site.css nach static/assets/site.css. Optional: ungenutzte Regeln entfernen.",
+  "scripts": {
+    "build": "lightningcss --minify ../../css/site.css -o ../../static/assets/site.css",
+    "unused": "node purge.mjs ${GTK_OUT:-../../out} ../../css/site.css ../../css/site.purged.css && node dedupe.mjs ../../css/site.purged.css ../../css/site.purged.css"
+  },
+  "devDependencies": {
+    "lightningcss-cli": "^1.0.0-alpha.72",
+    "postcss": "^8.4.49",
+    "postcss-selector-parser": "^7.0.0"
+  }
+}

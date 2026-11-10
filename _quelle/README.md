@@ -12,7 +12,8 @@ Python-Skripte, die die statische Website im Hauptordner erzeugen.
 | `gtk/util.py`, `gtk/layout.py`, `gtk/components.py` | Helfer, Seitengerüst (Kopf, Navigation, Footer), Bausteine (Bilder, Karten, Produkte) |
 | `gtk/pages_*.py` | Seiten nach Bereich: Arten, Startseite, Bestimmen, Im Garten, Info |
 | `gtk/meta.py` | Suchindex, Sitemap, robots.txt, Manifest, llms.txt, Zählkarte |
-| `static/` | Unveränderte Dateien: CSS, JavaScript, Schriften, Fotos, Icons, PDF |
+| `css/site.css` | Lesbare Stylesheet-Quelle. Nach Änderungen `npm --prefix tools/css run build` (minifiziert nach `static/assets/site.css`) |
+| `static/` | Unveränderte Dateien: minifiziertes CSS, JavaScript, Schriften, Fotos, Icons, PDF |
 | `tools/` | `check.py` (Links, JSON-LD, Titel), `zaehlkarte.py` (PDF), `shot.py` (Screenshots), `assets.py` (Icons/OG-Bild) |
 
 ## Bauen
@@ -25,6 +26,7 @@ python3 -m tools.check           # prüft den Ausgabeordner
 ```
 
 Nach inhaltlichen Änderungen `STAND_ISO` und `STAND_DE` in `gtk/config.py` anpassen.
-Gestaltung ändern: `static/assets/site.css`. Die Seiten hängen automatisch einen neuen `?v=`-Hash an.
+Gestaltung ändern: `css/site.css` bearbeiten, dann `npm --prefix tools/css run build` und `build.py`. Die Seiten hängen automatisch einen neuen `?v=`-Hash an.
+Ungenutzte Regeln finden: `npm --prefix tools/css run unused` schreibt eine bereinigte Fassung nach `css/site.purged.css` zum Vergleichen.
 
 `tools/assets.py` nicht komplett ausführen: `main()` überschreibt die echten Fotos mit Platzhaltern.

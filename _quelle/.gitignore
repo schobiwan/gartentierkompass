@@ -3,3 +3,4 @@ __pycache__/
 *.pyc
 tmp_png/
 jobs.json
+node_modules/
