@@ -5166,3 +5166,179 @@ h1,h2,h3 {
   border-radius: 4px;
   font-weight: 600;
 }
+
+/* ===== „Lebendiger“ (Entwurf Nov. 2026): farbige Bänder, Akzente, Hintergrund im Kopfbereich =====
+   Nur CSS, keine Bilder: Hintergründe sind Verläufe und kleine Inline-SVGs. */
+:root {
+  --c-nuetz: #3f8a4f;
+  --c-best: #e0a915;
+  --c-schad: #c4553d;
+  --c-saeug: #9a6b3f;
+  --c-amph: #2f8a84;
+  --c-krab: #7a6a9e;
+  --tint-pollen: color-mix(in srgb, var(--pollen) 16%, var(--bg));
+  --tint-moss: color-mix(in srgb, #7fb069 15%, var(--bg));
+  --tint-sky: color-mix(in srgb, #8fb8d0 14%, var(--bg));
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --c-nuetz: #7cc58a; --c-best: #e8b930; --c-schad: #e48a74;
+    --c-saeug: #c9996a; --c-amph: #6cc3bc; --c-krab: #b3a5d6;
+    --tint-pollen: color-mix(in srgb, var(--pollen) 7%, var(--bg));
+    --tint-moss: color-mix(in srgb, var(--moss) 9%, var(--bg));
+    --tint-sky: color-mix(in srgb, #8fb8d0 7%, var(--bg));
+  }
+}
+
+/* Kopfbereich: sonnige Farbwolken + feines Blätter-Muster + Wellenkante */
+.hero6 {
+  border-bottom: 0;
+  padding-bottom: 28px;
+  background:
+    radial-gradient(60% 70% at 92% 8%, color-mix(in srgb, var(--pollen) 34%, transparent), transparent 70%),
+    radial-gradient(55% 65% at 4% 100%, color-mix(in srgb, var(--moss) 22%, transparent), transparent 70%),
+    radial-gradient(40% 50% at 50% 0%, color-mix(in srgb, #9cc7dd 18%, transparent), transparent 70%),
+    var(--bg);
+}
+.hero6:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .55;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%235e7f4e' stroke-opacity='.22' stroke-width='1.4' stroke-linecap='round'%3E%3Cpath d='M18 30c6-9 17-10 22-6-4 8-14 12-22 6zM18 30l-6 5'/%3E%3Cpath d='M82 88c5-8 15-9 19-5-3 7-12 10-19 5zM82 88l-5 4'/%3E%3C/g%3E%3Cg fill='%23e0a915' fill-opacity='.28'%3E%3Ccircle cx='70' cy='26' r='2.2'/%3E%3Ccircle cx='30' cy='86' r='1.6'/%3E%3Ccircle cx='104' cy='54' r='1.4'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 120px 120px;
+  -webkit-mask-image: linear-gradient(90deg, #000 0, #000 45%, transparent 75%);
+  mask-image: linear-gradient(90deg, #000 0, #000 45%, transparent 75%);
+}
+.hero6:after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: 34px;
+  pointer-events: none;
+  background: var(--tint-pollen);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 34' preserveAspectRatio='none'%3E%3Cpath d='M0 20C150 4 300 4 450 16s300 18 450 6 220-14 300-6V34H0z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 34' preserveAspectRatio='none'%3E%3Cpath d='M0 20C150 4 300 4 450 16s300 18 450 6 220-14 300-6V34H0z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+}
+.h6-kicker { flex-wrap: nowrap; align-items: baseline; }
+.h6-kicker:before {
+  content: "";
+  flex: none;
+  translate: 0 -1px;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--pollen);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--pollen) 30%, transparent);
+}
+.hero6 h1 {
+  text-shadow: 0 1px 0 color-mix(in srgb, var(--surface) 60%, transparent);
+}
+.spot6 .s6-photo img, .spot6 .s6-photo {
+  border-radius: 14px;
+}
+.spot6 .s6-photo {
+  box-shadow: 0 18px 40px -18px #22332a59;
+}
+
+/* Gruppen-Chips mit Farbpunkt */
+.hero6 .hchip { --gc: var(--moss); background: var(--surface); }
+.hero6 .hchip[data-hgrp] { padding-left: 12px; }
+.hero6 .hchip[data-hgrp="Nützlinge"] { --gc: var(--c-nuetz); }
+.hero6 .hchip[data-hgrp="Bestäuber"] { --gc: var(--c-best); }
+.hero6 .hchip[data-hgrp="Schädlinge"] { --gc: var(--c-schad); }
+.hero6 .hchip[data-hgrp="Säugetiere"] { --gc: var(--c-saeug); }
+.hero6 .hchip[data-hgrp^="Amphibien"] { --gc: var(--c-amph); }
+.hero6 .hchip[data-hgrp="Krabbeltiere"] { --gc: var(--c-krab); }
+.hero6 .hchip[data-hgrp]:before {
+  content: "";
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--gc);
+  margin-right: -1px;
+  flex: none;
+}
+.hero6 .hchip[data-hgrp] { border-color: color-mix(in srgb, var(--gc) 45%, var(--line)); }
+.hero6 .hchip[data-hgrp]:hover { background: color-mix(in srgb, var(--gc) 12%, var(--surface)); }
+
+/* Größentafel auf warmem Pollen-Band, Balken mit Verlauf */
+.plate { background: var(--tint-pollen); border-bottom: 0; }
+.plate .pbar { background: var(--surface); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--pollen) 45%, var(--line)); }
+.plate .pbar i { background: linear-gradient(90deg, var(--moss), var(--forest) 60%, var(--forest)); }
+.plate h2, .nowband .now-head h2, .gearband h2, .block h2 { position: relative; }
+.plate h2:after, .nowband .now-head h2:after, .gearband h2:after, .block > .wrap > h2:after {
+  content: "";
+  display: block;
+  width: 54px; height: 5px;
+  margin-top: 8px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--pollen) 0 60%, var(--moss) 60%);
+}
+
+/* „Jetzt im November“ auf zartem Grün */
+.nowband { background: var(--tint-moss); }
+.nowband .now-head { border-bottom-color: color-mix(in srgb, var(--moss) 40%, transparent); }
+.nowcards img { transition: scale .5s var(--ease); }
+.nowcards a:hover img { scale: 1.05; }
+
+/* Artkarten: farbige Oberkante je Rolle, sanftes Anheben */
+.bird { --ac: var(--line); border-top: 4px solid var(--ac); }
+.bird:has(.role-nuetzling) { --ac: var(--c-nuetz); }
+.bird:has(.role-bestaeuber) { --ac: var(--c-best); }
+.bird:has(.role-schaedling) { --ac: var(--c-schad); }
+.bird:has(.role-gast) { --ac: #6f97b3; }
+.bird:has(.role-gemischt) { --ac: #c9a13a; }
+.bird:hover { transform: translateY(-3px); box-shadow: 0 12px 26px -14px #22332a52; }
+.bird img { transition: scale .5s var(--ease); }
+.bird:hover img { scale: 1.04; }
+
+/* Ausrüstung auf hellem Himmelblau */
+.gearband { background: var(--tint-sky); }
+
+/* Weiter entdecken: bunte Oberkanten und zarte Tönung */
+.explore li:nth-child(6n+1) a { --ec: var(--c-nuetz); }
+.explore li:nth-child(6n+2) a { --ec: var(--c-best); }
+.explore li:nth-child(6n+3) a { --ec: var(--c-amph); }
+.explore li:nth-child(6n+4) a { --ec: var(--c-schad); }
+.explore li:nth-child(6n+5) a { --ec: var(--c-saeug); }
+.explore li:nth-child(6n) a { --ec: var(--c-krab); }
+.explore a {
+  border-top: 4px solid var(--ec, var(--moss));
+  background: linear-gradient(180deg, color-mix(in srgb, var(--ec, var(--moss)) 9%, var(--surface)), var(--surface) 70%);
+}
+.explore a:hover { border-top-color: var(--ec, var(--moss)); box-shadow: 0 12px 26px -14px #22332a52; }
+
+/* Footer: kräftiges Moosgrün mit Wellenkante */
+footer {
+  --fg: #eef4ea; --muted: #cfdcc9; --rust: #fff;
+  position: relative;
+  margin-top: 90px;
+  border-top: 0;
+  background: #2c5e38;
+  color: var(--fg);
+}
+footer:before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: -33px;
+  height: 34px;
+  background: #2c5e38;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 34' preserveAspectRatio='none'%3E%3Cpath d='M0 14C160 30 320 30 480 18S780 0 940 10s200 14 260 8V34H0z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 34' preserveAspectRatio='none'%3E%3Cpath d='M0 14C160 30 320 30 480 18S780 0 940 10s200 14 260 8V34H0z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+}
+footer a, footer .fcols li a, footer .flogo, footer .flogo span, footer .fhead, footer b { color: #fff; }
+footer .logo { color: #f3c945; --logo-accent: #f3c945; }
+footer .fhead { color: #f3d98a; }
+footer a:focus-visible { outline-color: #f3c945; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) footer, :root:not([data-theme="light"]) footer:before { background: #17261b; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bird:hover, .explore a:hover { transform: none; }
+  .bird:hover img, .nowcards a:hover img { scale: none; }
+}
+@media (max-width: 760px) {
+  .spot6 .s6-photo { rotate: none; }
+  .hero6:before { -webkit-mask-image: none; mask-image: none; opacity: .35; }
+}
