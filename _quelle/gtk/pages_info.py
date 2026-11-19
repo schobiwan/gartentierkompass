@@ -37,7 +37,7 @@ def legal_pages():
             f'<section class="block page"> <div class="wrap prose"> <h1>Bildnachweis und Lizenzen</h1> <h2>Bilder</h2> <p>{photos_intro}</p> </div> '
             f'<div class="wrap"><div class="cmp-wrap" tabindex="0" role="region" aria-label="Bildnachweis der Tierbilder"><table class="cmp"><thead><tr><th scope="col">Art</th><th scope="col">Urheber</th><th scope="col">Lizenz</th><th scope="col">Quelle</th></tr></thead><tbody>{"".join(rows)}</tbody></table></div></div> '
             '<div class="wrap prose"> <h2>Zeichnungen und Symbole</h2> <p>Logo, Schadbild-Zeichnungen, Produktsymbole und Illustrationen sind eigene Grafiken des Betreibers. Produktfotos sind Beispielbilder von Wikimedia Commons und zeigen nicht das konkrete Angebot; wo kein Foto vorhanden ist, steht ein neutrales Symbol. Das konkrete Angebot siehst du bei Amazon.</p> '
-            '<h2>Schriften</h2> <p>Lora (Copyright 2011 The Lora Project Authors) und Mulish (Copyright 2016 The Mulish Project Authors) stehen unter der SIL Open Font License 1.1. Die Lizenztexte: <a href="../fonts/LICENSE-Lora.txt">Lora</a>, <a href="../fonts/LICENSE-Mulish.txt">Mulish</a>.</p> </div> </section> </main> ' + footer(R))
+            '<h2>Schriften</h2> <p>Literata (Copyright 2017 The Literata Project Authors) und Source Sans 3 (Copyright 2010–2020 Adobe, mit reserviertem Schriftnamen „Source“) stehen unter der SIL Open Font License 1.1. Die Lizenztexte: <a href="../fonts/LICENSE-Literata.txt">Literata</a>, <a href="../fonts/LICENSE-SourceSans3.txt">Source Sans 3</a>.</p> </div> </section> </main> ' + footer(R))
     write("bildnachweis/index.html", body)
 
 def page_about():

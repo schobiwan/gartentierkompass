@@ -54,8 +54,8 @@ def zaehlkarte_html():
     css = open(os.path.join(OUT, "assets", "site.css"), encoding="utf-8").read()
     faces = "".join(re.findall(r"@font-face\{[^}]*\}", css)).replace("../fonts/", "fonts/")
     return f"""<!DOCTYPE html><html lang="de"><head><meta charset="utf-8"><title>Zählkarte Insektensommer – {SITE}</title><style>{faces}
-@page{{size:A4;margin:12mm 14mm}}body{{font-family:Mulish,sans-serif;color:#1d2b20;font-size:9.4pt;margin:0}}
-h1{{font-family:Lora,serif;font-weight:600;color:#7a3b22;font-size:19pt;margin:0}}.sub{{margin:2mm 0 3mm;color:#4a5a4d}}
+@page{{size:A4;margin:12mm 14mm}}body{{font-family:"Source Sans 3",sans-serif;color:#22332a;font-size:9.4pt;margin:0}}
+h1{{font-family:Literata,serif;font-weight:600;color:#22332a;font-size:19pt;margin:0}}.sub{{margin:2mm 0 3mm;color:#4a5a4d}}
 .meta{{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:3mm;margin:0 0 3mm}}.meta div{{border-bottom:.6pt solid #8a9a8d;padding-top:5mm;font-size:8pt;color:#4a5a4d}}
 table{{width:100%;border-collapse:collapse}}td{{border-bottom:.5pt solid #d5dccd;padding:.75mm 2mm;vertical-align:middle}}td span{{color:#4a5a4d;font-size:8.3pt}}
 .ph{{width:17mm;padding-left:0}}.ph img{{width:16mm;height:12mm;object-fit:cover;border-radius:1.5mm;display:block}}.box{{width:24mm}}.box::after{{content:"";display:block;height:7mm;border:.8pt solid #4a6a4c;border-radius:1.5mm}}
