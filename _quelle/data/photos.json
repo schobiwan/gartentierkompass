@@ -209,46 +209,130 @@
   "https://creativecommons.org/licenses/by-sa/3.0",
   "https://commons.wikimedia.org/wiki/File:Jaszczurka.jpg"
  ],
- "x-wespe": [
-  "Daniel Greenwood",
-  "CC BY 4.0",
-  "https://creativecommons.org/licenses/by/4.0",
-  "https://commons.wikimedia.org/wiki/File:Vespula_vulgaris_205228122.jpg"
- ],
- "x-grasfrosch": [
-  "Richard Bartz",
-  "CC BY-SA 2.5",
-  "https://creativecommons.org/licenses/by-sa/2.5",
-  "https://commons.wikimedia.org/wiki/File:European_Common_Frog_Rana_temporaria.jpg"
- ],
- "x-waldeidechse": [
-  "Jörg Hempel",
-  "CC BY-SA 3.0 de",
-  "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
-  "https://commons.wikimedia.org/wiki/File:Zootoca_vivipara_LC0273.jpg"
- ],
  "x-kolibri": [
   "Pslawinski",
   "CC BY-SA 3.0",
   "https://creativecommons.org/licenses/by-sa/3.0",
   "https://commons.wikimedia.org/wiki/File:Juvenile_Male_Ruby-throated_Hummingbird.jpg"
  ],
- "x-maikaefer": [
+ "wespe": [
+  "Daniel Greenwood",
+  "CC BY 4.0",
+  "https://creativecommons.org/licenses/by/4.0",
+  "https://commons.wikimedia.org/wiki/File:Vespula_vulgaris_205228122.jpg"
+ ],
+ "grasfrosch": [
+  "Richard Bartz",
+  "CC BY-SA 2.5",
+  "https://creativecommons.org/licenses/by-sa/2.5",
+  "https://commons.wikimedia.org/wiki/File:European_Common_Frog_Rana_temporaria.jpg"
+ ],
+ "waldeidechse": [
+  "Jörg Hempel",
+  "CC BY-SA 3.0 de",
+  "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
+  "https://commons.wikimedia.org/wiki/File:Zootoca_vivipara_LC0273.jpg"
+ ],
+ "maikaefer": [
   "Stephan Sprinz",
   "CC BY 4.0",
   "https://creativecommons.org/licenses/by/4.0",
   "https://commons.wikimedia.org/wiki/File:Maik%C3%A4fer_mit_ge%C3%B6ffneten_Fl%C3%BCgeln.jpg"
  ],
- "x-kleiner-kohlweissling": [
+ "kleiner-kohlweissling": [
   "Ypna",
   "CC BY-SA 3.0",
   "https://creativecommons.org/licenses/by-sa/3.0",
   "https://commons.wikimedia.org/wiki/File:Pieris_rapae_male.jpg"
  ],
- "x-ringelnatter": [
+ "ringelnatter": [
   "Darius Bauzys",
   "CC BY 3.0",
   "https://creativecommons.org/licenses/by/3.0",
   "https://commons.wikimedia.org/wiki/File:The_Grass_Snake_-_Natrix_natrix.jpg"
+ ],
+ "rotfuchs": [
+  "Charles J. Sharp",
+  "CC BY-SA 4.0",
+  "https://creativecommons.org/licenses/by-sa/4.0",
+  "https://commons.wikimedia.org/wiki/File:Red_fox_(Vulpes_vulpes_crucigera)_Skalnate_Pleso_2.jpg"
+ ],
+ "waschbaer": [
+  "Rhododendrites",
+  "CC BY-SA 4.0",
+  "https://creativecommons.org/licenses/by-sa/4.0",
+  "https://commons.wikimedia.org/wiki/File:Raccoon_in_Central_Park_(35264).jpg"
+ ],
+ "siebenschlaefer": [
+  "Azay",
+  "CC BY-SA 3.0",
+  "http://creativecommons.org/licenses/by-sa/3.0/",
+  "https://commons.wikimedia.org/wiki/File:Glis_glis_4058.JPG"
+ ],
+ "zwergfledermaus": [
+  "Mnolf",
+  "CC BY-SA 2.0",
+  "https://creativecommons.org/licenses/by-sa/2.0/",
+  "https://commons.wikimedia.org/wiki/File:Pipistrellus_pipistrellus_lateral.jpg"
+ ],
+ "rosenkaefer": [
+  "Chrumps",
+  "CC BY-SA 3.0",
+  "http://creativecommons.org/licenses/by-sa/3.0/",
+  "https://commons.wikimedia.org/wiki/File:Cetonia-aurata.jpg"
+ ],
+ "hornisse": [
+  "Ermell",
+  "CC BY-SA 4.0",
+  "https://creativecommons.org/licenses/by-sa/4.0",
+  "https://commons.wikimedia.org/wiki/File:Hornisse_auf_Weintrauben-20250927-RM-150947.jpg"
+ ],
+ "feuerwanze": [
+  "Jörg Hempel",
+  "CC BY-SA 2.0 de",
+  "https://creativecommons.org/licenses/by-sa/2.0/de/deed.en",
+  "https://commons.wikimedia.org/wiki/File:Pyrrhocoris_apterus_LC0130.jpg"
+ ],
+ "holzbiene": [
+  "Ermell",
+  "CC BY-SA 4.0",
+  "https://creativecommons.org/licenses/by-sa/4.0",
+  "https://commons.wikimedia.org/wiki/File:Holzbiene_auf_Cosmea-20250906-RM-160612.jpg"
+ ],
+ "wegameise": [
+  "Carlos Delgado",
+  "CC BY-SA 3.0",
+  "https://creativecommons.org/licenses/by-sa/3.0",
+  "https://commons.wikimedia.org/wiki/File:Lasius_niger_y_Cinara_tujafilina_en_Thuja_orientalis.jpg"
+ ],
+ "admiral": [
+  "Romzig",
+  "CC0",
+  "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "https://commons.wikimedia.org/wiki/File:Admiral_(Oktober_2025)_2.jpg"
+ ],
+ "kellerassel": [
+  "Alexis Lours",
+  "CC BY 4.0",
+  "https://creativecommons.org/licenses/by/4.0",
+  "https://commons.wikimedia.org/wiki/File:Porcellio_scaber_177957145.jpg"
+ ],
+ "baenderschnecke": [
+  "Mad Max, bearbeitet von Papa Lima Whiskey 2",
+  "CC BY-SA 3.0",
+  "https://creativecommons.org/licenses/by-sa/3.0",
+  "https://commons.wikimedia.org/wiki/File:Cepaea_nemoralis_edit.jpg"
+ ],
+ "heupferd": [
+  "Friedrich Haag",
+  "CC BY-SA 4.0",
+  "https://creativecommons.org/licenses/by-sa/4.0",
+  "https://commons.wikimedia.org/wiki/File:004_2013_07_15_Gliederf%C3%BC%C3%9Fer.jpg"
+ ],
+ "steinhummel": [
+  "Flocci Nivis",
+  "CC BY 4.0",
+  "https://creativecommons.org/licenses/by/4.0",
+  "https://commons.wikimedia.org/wiki/File:20220604_Bombus_lapidarius_06.jpg"
  ]
 }

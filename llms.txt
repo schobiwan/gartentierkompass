@@ -1,6 +1,6 @@
 # Gartentierkompass
 
-> Tiere im Garten erkennen: 35 typische Gartentiere mit Foto, Merkmalen, Rolle im Garten (Nützling, Bestäuber, Schädling) und Vorkommen im Jahresverlauf, 11 Vergleiche ähnlicher Arten, Schadbilder und Ratgeber für naturnahes Gärtnern ohne Gift. Privates, unabhängiges Angebot von Nico Schober aus Bremen. Fotos von Wikimedia Commons, Steckbriefe abgeglichen mit Bestimmungsliteratur und Wikipedia.
+> Tiere im Garten erkennen: 55 typische Gartentiere mit Foto, Merkmalen, Rolle im Garten (Nützling, Bestäuber, Schädling) und Vorkommen im Jahresverlauf, 14 Vergleiche ähnlicher Arten, Schadbilder und Ratgeber für naturnahes Gärtnern ohne Gift. Privates, unabhängiges Angebot von Nico Schober aus Bremen. Fotos von Wikimedia Commons, Steckbriefe abgeglichen mit Bestimmungsliteratur und Wikipedia.
 
 Sprache: Deutsch. Angaben zu Vorkommen sind grobe Richtwerte für Deutschland.
 
@@ -31,44 +31,66 @@ Sprache: Deutsch. Angaben zu Vorkommen sind grobe Richtwerte für Deutschland.
 - [Braunes oder schwarzes Krabbeltier im Garten](https://gartentierkompass.de/merkmale/dunkles-krabbeltier/)
 - [Langes Tier ohne Beine im Garten](https://gartentierkompass.de/merkmale/langes-tier-ohne-beine/)
 - [Tiere am Gartenteich](https://gartentierkompass.de/merkmale/tiere-am-teich/)
-- [Kleines Säugetier im Garten](https://gartentierkompass.de/merkmale/kleine-saeugetiere/)
+- [Säugetier im Garten](https://gartentierkompass.de/merkmale/kleine-saeugetiere/)
+- [Schwarze Hummel im Garten](https://gartentierkompass.de/merkmale/schwarze-hummel/)
+- [Eidechse im Garten](https://gartentierkompass.de/merkmale/eidechse-im-garten/)
 
 ## Arten
+- [Admiral](https://gartentierkompass.de/arten/admiral/): Samtschwarzer Falter mit roten Binden und weißen Flecken an den Flügelspitzen, der im Herbst an Fallobst saugt.
 - [Apfelwickler](https://gartentierkompass.de/arten/apfelwickler/): Unscheinbarer grauer Falter, dessen Raupe sich bis zum Kerngehäuse in Äpfel frisst.
 - [Asiatischer Marienkäfer](https://gartentierkompass.de/arten/asiatischer-marienkaefer/): Eingeschleppter Marienkäfer mit wechselndem Kleid: gelb, orange oder schwarz, mit null bis neunzehn Punkten.
+- [Blauschwarze Holzbiene](https://gartentierkompass.de/arten/holzbiene/): Größte Wildbiene Deutschlands: schwarz mit blau schimmernden Flügeln und laut brummend wie eine Hummel.
 - [Blindschleiche](https://gartentierkompass.de/arten/blindschleiche/): Beinlose Echse mit glatten, glänzenden Schuppen. Sie ist keine Schlange und frisst gern Nacktschnecken.
 - [Buchsbaumzünsler](https://gartentierkompass.de/arten/buchsbaumzuensler/): Eingeschleppter Falter, dessen grün-schwarze Raupen Buchsbäume von innen heraus kahl fressen.
 - [Dunkle Erdhummel](https://gartentierkompass.de/arten/erdhummel/): Pelzige, laut brummende Hummel mit gelben Binden und weißem Hinterleibsende. Eine der ersten im Frühjahr.
 - [Eichhörnchen](https://gartentierkompass.de/arten/eichhoernchen/): Flinker Kletterer mit buschigem Schwanz, der im Herbst Nüsse für den Winter vergräbt.
 - [Erdkröte](https://gartentierkompass.de/arten/erdkroete/): Warzige, braune Kröte mit kupferroten Augen, die nachts Schnecken und Käfer frisst.
+- [Feldmaikäfer](https://gartentierkompass.de/arten/maikaefer/): Großer brauner Käfer mit gefächerten Fühlern, der im Mai in der Abenddämmerung um die Bäume schwirrt.
+- [Feuerwanze](https://gartentierkompass.de/arten/feuerwanze/): Rot-schwarze Wanze, die oft in großen Gruppen am Fuß von Linden und an Hauswänden in der Sonne sitzt.
 - [Florfliege](https://gartentierkompass.de/arten/florfliege/): Zartes, hellgrünes Insekt mit goldenen Augen und durchsichtigen Flügeln, das nachts ans Licht fliegt.
 - [Gartenkreuzspinne](https://gartentierkompass.de/arten/gartenkreuzspinne/): Die Spinne mit dem weißen Kreuz auf dem Rücken und den großen Radnetzen zwischen Sträuchern.
 - [Gartenlaubkäfer](https://gartentierkompass.de/arten/gartenlaubkaefer/): Kleiner Käfer mit grün glänzendem Halsschild, der im Juni schwärmt. Seine Engerlinge fressen Rasenwurzeln.
 - [Gefurchter Dickmaulrüssler](https://gartentierkompass.de/arten/dickmaulruessler/): Nachtaktiver Rüsselkäfer, der halbrunde Buchten in Blätter frisst. Seine Larven zerstören Wurzeln.
+- [Gemeine Wespe](https://gartentierkompass.de/arten/wespe/): Gelb-schwarz mit Wespentaille: Die Arbeiterinnen jagen Insekten und kommen im Spätsommer gern an den Kaffeetisch.
 - [Gemeiner Ohrwurm](https://gartentierkompass.de/arten/ohrwurm/): Brauner Nachtjäger mit Zange am Hinterleib. Er kriecht weder in Ohren noch kneift er ernsthaft.
+- [Goldglänzender Rosenkäfer](https://gartentierkompass.de/arten/rosenkaefer/): Metallisch grün glänzender Käfer auf Rosen und Holunderblüten. Seine Larven leben im Kompost und sind dort Helfer.
 - [Goldlaufkäfer](https://gartentierkompass.de/arten/goldlaufkaefer/): Metallisch goldgrün glänzender Laufkäfer, der flink über die Beete rennt und Schnecken jagt.
+- [Grasfrosch](https://gartentierkompass.de/arten/grasfrosch/): Brauner Frosch mit dunklem Fleck hinter dem Auge. Er laicht als einer der Ersten im Jahr im Gartenteich.
 - [Großer Kohlweißling](https://gartentierkompass.de/arten/grosser-kohlweissling/): Weißer Schmetterling mit schwarzen Flügelspitzen, dessen Raupen in Gruppen Kohl kahl fressen.
+- [Grünes Heupferd](https://gartentierkompass.de/arten/heupferd/): Große, grasgrüne Heuschrecke mit langen Fühlern, die an Sommerabenden laut aus Bäumen und Hecken zirpt.
+- [Hain-Bänderschnecke](https://gartentierkompass.de/arten/baenderschnecke/): Kleine Gehäuseschnecke mit gelbem, rosa oder braunem Haus und dunklen Bändern. Sie frisst vor allem Welkes.
 - [Hainschwebfliege](https://gartentierkompass.de/arten/hainschwebfliege/): Gelb-schwarz gebänderte Fliege, die wie festgenagelt in der Luft steht. Harmlos, denn sie kann nicht stechen.
 - [Honigbiene](https://gartentierkompass.de/arten/honigbiene/): Die Biene des Imkers: schlank, bräunlich und im Frühjahr unermüdlich in den Obstblüten unterwegs.
+- [Hornisse](https://gartentierkompass.de/arten/hornisse/): Unsere größte Wespe: rotbraun und gelb gezeichnet, aber ruhiger als ihr Ruf und ein wichtiger Insektenjäger.
 - [Igel](https://gartentierkompass.de/arten/igel/): Stacheliger Nachtwanderer, der auf seiner Runde mehrere Gärten besucht und dabei Käfer und Raupen frisst.
+- [Kellerassel](https://gartentierkompass.de/arten/kellerassel/): Graues, gepanzertes Krabbeltier unter Steinen und Töpfen. Asseln sind Krebse, die an Land leben, und echte Humusmacher.
 - [Kleiner Frostspanner](https://gartentierkompass.de/arten/kleiner-frostspanner/): Falter, der im Spätherbst fliegt. Die Weibchen können nicht fliegen und klettern die Obstbäume hinauf.
+- [Kleiner Kohlweißling](https://gartentierkompass.de/arten/kleiner-kohlweissling/): Häufigster weißer Falter im Garten. Seine samtgrünen Raupen fressen einzeln und gut getarnt am Kohl.
 - [Lilienhähnchen](https://gartentierkompass.de/arten/lilienhaehnchen/): Leuchtend lackroter Käfer, der mit seinen Larven Lilien und Kaiserkronen zerfrisst.
 - [Maulwurf](https://gartentierkompass.de/arten/maulwurf/): Samtschwarzer Gräber mit Schaufelhänden. Seine runden Hügel zeigen einen gesunden, wurmreichen Boden.
 - [Regenwurm](https://gartentierkompass.de/arten/regenwurm/): Der wichtigste Gärtner unter der Erde: Er zieht Laub in seine Gänge und macht daraus fruchtbaren Humus.
+- [Ringelnatter](https://gartentierkompass.de/arten/ringelnatter/): Ungiftige Schlange mit gelben Halbmonden hinter dem Kopf, die oft am Gartenteich jagt.
 - [Rote Mauerbiene](https://gartentierkompass.de/arten/rote-mauerbiene/): Fuchsrot behaarte Wildbiene, die im Frühling in Insektenhotels und Mauerritzen nistet.
+- [Rotfuchs](https://gartentierkompass.de/arten/rotfuchs/): Rotbraunes Raubtier mit buschiger, weiß gespitzter Rute. Füchse streifen nachts durch Gärten und jagen Mäuse.
 - [Schermaus](https://gartentierkompass.de/arten/schermaus/): Die „Wühlmaus“ des Gartens: Sie frisst Wurzeln, Möhren und Tulpenzwiebeln und hinterlässt flache Erdhügel.
 - [Schwarze Bohnenlaus](https://gartentierkompass.de/arten/schwarze-bohnenlaus/): Mattschwarze Blattlaus, die im Frühsommer dichte Kolonien an Bohnen, Mohn und Dahlien bildet.
+- [Schwarze Wegameise](https://gartentierkompass.de/arten/wegameise/): Die häufigste Ameise im Garten: schwarzbraun, klein und emsig. Sie nistet unter Platten, in Fugen und im Rasen.
 - [Siebenpunkt-Marienkäfer](https://gartentierkompass.de/arten/siebenpunkt-marienkaefer/): Der bekannteste Glücksbringer im Garten: rot mit sieben schwarzen Punkten und ein eifriger Blattlausjäger.
+- [Siebenschläfer](https://gartentierkompass.de/arten/siebenschlaefer/): Grauer Bilch mit großen dunklen Augen und buschigem Schwanz. Er verschläft mehr als das halbe Jahr.
 - [Spanische Wegschnecke](https://gartentierkompass.de/arten/spanische-wegschnecke/): Die häufigste Nacktschnecke im Gemüsebeet: einfarbig orange bis rotbraun und nach Regen in Massen unterwegs.
+- [Steinhummel](https://gartentierkompass.de/arten/steinhummel/): Samtschwarze Hummel mit leuchtend rotem Hinterleibsende. Sie nistet gern unter Steinen und in Mauerritzen.
 - [Steinmarder](https://gartentierkompass.de/arten/steinmarder/): Der Marder der Siedlungen: lebt gern in Scheunen und auf Dachböden und ist nachts unterwegs.
 - [Tagpfauenauge](https://gartentierkompass.de/arten/tagpfauenauge/): Rotbrauner Schmetterling mit vier großen, schillernden Augenflecken auf den Flügeln.
 - [Taubenschwänzchen](https://gartentierkompass.de/arten/taubenschwaenzchen/): Ein Schmetterling, der wie ein Kolibri schwirrend vor Blüten steht und mit langem Rüssel Nektar saugt.
 - [Teichmolch](https://gartentierkompass.de/arten/teichmolch/): Kleiner Molch, der im Frühjahr im Gartenteich lebt. Das Männchen trägt dann einen gewellten Rückenkamm.
 - [Tigerschnegel](https://gartentierkompass.de/arten/tigerschnegel/): Große, getigerte Nacktschnecke, die vor allem Welkes frisst und Gelege anderer Schnecken vertilgt.
+- [Waldeidechse](https://gartentierkompass.de/arten/waldeidechse/): Zierliche, braune Eidechse mit dunklem Rückenstreifen. Sie mag es etwas feuchter als die Zauneidechse.
+- [Waschbär](https://gartentierkompass.de/arten/waschbaer/): Graues Raubtier mit schwarzer Gesichtsmaske und geringeltem Schwanz, das nachts Mülltonnen, Obst und Vogelnester plündert.
 - [Weinbergschnecke](https://gartentierkompass.de/arten/weinbergschnecke/): Die größte heimische Gehäuseschnecke. Sie frisst vor allem welke Pflanzen und ist besonders geschützt.
 - [Weiße Fliege](https://gartentierkompass.de/arten/weisse-fliege/): Winzige weiße Insekten, die wie eine Wolke auffliegen, sobald man die Pflanze berührt.
 - [Zauneidechse](https://gartentierkompass.de/arten/zauneidechse/): Kräftige Eidechse, die sich an sonnigen Mauern wärmt. Die Männchen tragen im Frühjahr grüne Flanken.
 - [Zitronenfalter](https://gartentierkompass.de/arten/zitronenfalter/): Zitronengelber Schmetterling, der schon an den ersten warmen Februartagen durch den Garten fliegt.
+- [Zwergfledermaus](https://gartentierkompass.de/arten/zwergfledermaus/): Unsere kleinste und häufigste Fledermaus. In der Dämmerung kurvt sie flink um Häuser und Bäume.
 
 ## Vergleiche
 - [Siebenpunkt-Marienkäfer oder Asiatischer Marienkäfer?](https://gartentierkompass.de/unterscheiden/siebenpunkt-marienkaefer-oder-asiatischer-marienkaefer/)
@@ -82,6 +104,9 @@ Sprache: Deutsch. Angaben zu Vorkommen sind grobe Richtwerte für Deutschland.
 - [Gartenlaubkäfer oder Feldmaikäfer?](https://gartentierkompass.de/unterscheiden/gartenlaubkaefer-oder-maikaefer/)
 - [Großer Kohlweißling oder Kleiner Kohlweißling?](https://gartentierkompass.de/unterscheiden/grosser-oder-kleiner-kohlweissling/)
 - [Blindschleiche oder Ringelnatter?](https://gartentierkompass.de/unterscheiden/blindschleiche-oder-ringelnatter/)
+- [Hornisse oder Gemeine Wespe?](https://gartentierkompass.de/unterscheiden/hornisse-oder-wespe/)
+- [Goldglänzender Rosenkäfer oder Feldmaikäfer?](https://gartentierkompass.de/unterscheiden/rosenkaefer-oder-maikaefer/)
+- [Blauschwarze Holzbiene oder Dunkle Erdhummel?](https://gartentierkompass.de/unterscheiden/holzbiene-oder-erdhummel/)
 
 ## Über die Seite
 - [Über den Gartentierkompass](https://gartentierkompass.de/ueber/)

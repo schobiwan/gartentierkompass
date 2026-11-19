@@ -34,14 +34,52 @@ def pager(R, s):
     return (f'<nav class="pager" aria-label="Weitere Arten"> <a rel="prev" href="{R}arten/{pv["key"]}/index.html"><span>Vorherige Art</span><b>{e(pv["name"])}</b></a> '
             f'<a rel="next" href="{R}arten/{nx["key"]}/index.html"><span>Nächste Art</span><b>{e(nx["name"])}</b></a> </nav>')
 
+def species_title(s):
+    """Seitentitel nach Suchabsicht: Schädlinge werden gesucht, um sie loszuwerden, Nützlinge, um sie zu verstehen."""
+    if s.get("seo_title"): return s["seo_title"]
+    N = s["name"]
+    opts = {"schaedling": [f"{N}: erkennen und ohne Gift bekämpfen", f"{N}: erkennen und vorbeugen"],
+            "gemischt": [f"{N}: Nützling oder Schädling?"],
+            "nuetzling": [f"{N} im Garten: erkennen und fördern", f"{N}: erkennen und fördern"],
+            "bestaeuber": [f"{N} im Garten: erkennen und fördern", f"{N}: erkennen und fördern"],
+            "gast": [f"{N} im Garten: erkennen und verstehen", f"{N} im Garten erkennen"]}[s["role"]]
+    t = next((x for x in opts if len(x) <= 60), opts[-1])
+    return t + f" · {SITE}" if len(t) + len(SITE) + 3 <= 60 else t
+
+def species_desc(s):
+    """Vollständige Beschreibung ohne Abbruch, höchstens 158 Zeichen."""
+    N = s["name"]
+    tail = {"schaedling": " Mit Schadbild und sanften Mitteln.", "gemischt": " Mit Merkmalen und Tipps."}.get(s["role"], " Mit Merkmalen, Nahrung und Tipps.")
+    for c in (f'{N} im Garten erkennen: {s["short"]}{tail}', f'{N} im Garten erkennen: {s["short"]}',
+              f'{N} erkennen: {s["roleline"]}.{tail} Wann und wo du {decline(N, "akk", s["pron"]).split(" ", 1)[0]} am besten siehst.',
+              f'{N} erkennen: {s["roleline"]}.{tail}', f'{N} erkennen: {s["roleline"]}.'):
+        if len(c) <= 158: return c
+    return c
+
+def faq_ld(s):
+    """FAQPage aus den Fragen der Lebensweise, Sichtungszeit und Hilfe-Tipp."""
+    N, pron = s["name"], s["pron"]
+    qa = []
+    for t, x in s["life"]:
+        if t.startswith("Was frisst "): t = f"Was frisst {decline(N, 'nom', pron)}?"
+        if t.endswith("?"): qa.append((t, x))
+    p = sorted(s["present"])
+    zeit = "ganzjährig" if len(p) == 12 else f"von {MN[p[0]-1]} bis {MN[p[-1]-1]}" if p == list(range(p[0], p[-1] + 1)) else "im " + join_de(MN[m-1] for m in p)
+    qa.append((f"Wann ist {decline(N, 'nom', pron)} im Garten zu sehen?", f"{decline(N, 'nom', pron)[0].upper()}{decline(N, 'nom', pron)[1:]} ist {zeit} zu sehen, am besten im {join_de(MN[m-1] for m in s['peak'])}. {s['hl']}"))
+    qa.append((f"Wo lebt {decline(N, 'nom', pron)} im Garten?", f"Typische Orte im Garten: {s['where']}."))
+    ht = s["help"][0]
+    if ht.startswith("So hilfst du"): ht = f"Wie hilft man {decline(N, 'dat', pron)}?"
+    elif ht in ("Sanft vorbeugen", "Früh erkennen"): ht = f"Was hilft gegen {decline(N, 'akk', pron)}?"
+    else: ht = f"{ht}: Was ist zu tun?"
+    qa.append((ht, s["help"][1]))
+    return {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in qa]}
+
 def page_species(s):
     R = "../../"; k = s["key"]
     nom, akk, dat = ART[s["pron"]]
     N = s["name"]
-    desc = f'{N} sicher erkennen: {s["short"]} Mit Merkmalen, Rolle im Garten und Jahreszeiten.'
-    if len(desc) > 158: desc = desc[:155].rsplit(" ", 1)[0].rstrip(",.:;") + " …"
-    has_pair = any(k in (p[1], p[2]) for p in PAIRS)
-    title = f'{N}: Merkmale, Rolle im Garten und Doppelgänger' if has_pair else f'{N} erkennen: Merkmale und Rolle im Garten'
+    desc = species_desc(s)
+    title = species_title(s)
     peaks = join_de(f'<a href="{R}gartenjahr/{MS[m-1]}/index.html">{MN[m-1]}</a>' for m in s["peak"])
     pres = [m for m in range(1, 13) if m in s["present"]]
     hidden_sr = f'Aktiv: {join_de(MN[m-1] for m in pres)}. Hauptzeit: {join_de(MN[m-1] for m in s["peak"])}.'
@@ -73,10 +111,12 @@ def page_species(s):
     dmg = [it for _, _, _, items in DAMAGE for it in items if k in it[3]]
     dmgline = (f'<p class="yeartext">Typisches Schadbild: <a href="{R}schadbilder/index.html">{e(dmg[0][1])}</a>.</p>' if dmg else "")
     rel = related_for(s)
-    ld = [{"@context": "https://schema.org", "@type": "WebPage", "name": f'{N} erkennen', "description": desc, "inLanguage": "de-DE",
-           "isPartOf": {"@id": BASE + "#website"}, "publisher": {"@id": ORG_ID}, "author": {"@type": "Person", "name": "Nico Schober", "url": BASE + "ueber/"}, "datePublished": "2026-11-07", "dateModified": STAND_ISO,
-           "about": {"@type": "Taxon", "name": s["latin"], "alternateName": N, "taxonRank": "species"},
-           "image": f'{BASE}photos/{k}.webp', "primaryImageOfPage": {"@type": "ImageObject", "url": f'{BASE}photos/{k}.webp', "width": 720, "height": 576}}]
+    ld = [{"@context": "https://schema.org", "@type": "Article", "headline": title, "name": f'{N} im Garten', "description": desc, "inLanguage": "de-DE",
+           "mainEntityOfPage": f"{BASE}arten/{k}/", "isPartOf": {"@id": BASE + "#website"}, "publisher": {"@id": ORG_ID},
+           "author": {"@type": "Person", "name": "Nico Schober", "url": BASE + "ueber/"}, "datePublished": s.get("published", "2026-11-07"), "dateModified": STAND_ISO,
+           "about": {"@type": "Taxon", "name": s["latin"], "alternateName": [N] + ([s["alias"].split()[0]] if s["alias"].split()[0] != N else []), "taxonRank": "species"},
+           "image": {"@type": "ImageObject", "url": f'{BASE}photos/{k}.webp', "width": 720, "height": 576}},
+          faq_ld(s)]
     body = (head(R, title, desc, f'arten/{k}/', "article", og_img=f'photos/{k}.webp', og_alt=N, ld=ld)
             + nav(R, "bestimmen") + '<main id="main" tabindex="-1"> ' + crumbs(R, [("Arten", "arten/"), (N, f"arten/{k}/")]) +
             f'<article class="sp wrap"> <div class="sp-top"> <figure class="sp-photo"> {img(R, k, "(max-width: 760px) 92vw, 560px", eager=True, alt=N if k in PHOTOS else "")} <figcaption>{cred_long(k)}</figcaption> </figure> '

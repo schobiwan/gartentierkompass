@@ -56,7 +56,7 @@ def page_home():
                f'<li><a href="groessen/index.html"><b>Größenvergleich</b><span>Von der Blattlaus bis zum Steinmarder auf einer Skala.</span></a></li>'
                f'<li><a href="ausruestung/index.html"><b>Ausrüstung</b><span>Nützlinge, Schneckenzaun, Nisthilfen und Lupe für einen naturnahen Garten.</span></a></li>'
                f'<li><a href="https://vogelkompass.de/" rel="noopener"><b>Vögel im Garten?</b><span>Meise, Rotkehlchen und Co. findest du auf der Schwesterseite Vogelkompass.</span></a></li>'
-               f'<li><a href="https://waldtierkompass.de/" rel="noopener"><b>Fuchs, Reh oder Dachs?</b><span>Größere Wildtiere und ihre Spuren findest du auf der Schwesterseite Waldtierkompass.</span></a></li>')
+               f'<li><a href="https://waldtierkompass.de/" rel="noopener"><b>Reh, Dachs oder Wildschwein?</b><span>Größere Wildtiere und ihre Spuren findest du auf der Schwesterseite Waldtierkompass.</span></a></li>')
     body = (head(R, f"{SITE} – Tiere im Garten bestimmen", desc, "", ld=ld) + nav(R, "bestimmen") +
             '<main id="main" tabindex="-1"> <header class="hero6"> <div class="wrap hero6-in"> <div class="h6-text"> '
             f'<p class="h6-kicker"><svg class="buoy" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21V11" stroke="#4a6a4c" stroke-width="1.8" stroke-linecap="round"/><path d="M12 11c0-3 2.5-5.5 6-5.5 0 3.5-2.5 5.5-6 5.5z" fill="#6b9a3c"/><path d="M12 14c0-2.6-2-4.5-5-4.5 0 3 2 4.5 5 4.5z" fill="#8fbf55"/></svg><span>Naturgarten</span><span aria-hidden="true">·</span><span>{len(S)} Gartentiere</span></p> '
@@ -83,7 +83,7 @@ def page_arten():
     for g, slug, d in GROUPS:
         lst = sorted([s for s in S if s["grp"] == g], key=lambda x: x["name"])
         parts.append(f'<h2 class="h3 grp-h" id="g-{slug}">{e(g)}</h2><ul class="grid">{"".join(card(R, s, i, eager=(g == GROUPS[0][0] and i < 4)) for i, s in enumerate(lst))}</ul>')
-    body = (head(R, f"Alle Gartentiere · {SITE}", f"Alle {len(S)} Gartentiere im Überblick: Nützlinge, Bestäuber, Schädlinge, Säugetiere, Amphibien und Reptilien.", "arten/") + nav(R, "bestimmen") +
+    body = (head(R, fit_title(f"Alle Gartentiere von A bis Z: {len(S)} Steckbriefe"), f"Alle {len(S)} Gartentiere im Überblick: Nützlinge, Bestäuber, Schädlinge, Säugetiere, Amphibien, Reptilien und Krabbeltiere, jeweils mit Foto und Merkmalen.", "arten/") + nav(R, "bestimmen") +
             '<main id="main" tabindex="-1"> ' + crumbs(R, [("Arten", "arten/")]) +
             '<section class="block page"> <div class="wrap"> <h1>Alle Gartentiere</h1> <p class="actlegend" aria-hidden="true"><span><svg aria-hidden="true"><use href="#i-sun"></use></svg> tagaktiv</span><span><svg aria-hidden="true"><use href="#i-dusk"></use></svg> dämmerungsaktiv</span><span><svg aria-hidden="true"><use href="#i-moon"></use></svg> nachtaktiv</span></p> '
             f'<p class="intro">{len(S)} Arten, nach Gruppen geordnet. Zum Suchen und Filtern geht es zur <a href="../index.html#arten">Startseite</a>.</p> {"".join(parts)} </div> </section> </main> ' + footer(R))

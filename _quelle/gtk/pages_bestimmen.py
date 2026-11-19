@@ -20,7 +20,7 @@ def page_pairs():
         trs = "".join(f'<tr><th scope="row">{e(r[0])}</th><td data-label="{e(na)}">{e(r[1])}</td><td data-label="{e(nb)}">{e(r[2])}</td></tr>' for r in rows)
         btns = " ".join(f'<a class="btn{" ghost" if j else ""}" href="{R}arten/{k}/index.html">{e(NAMES[k])} im Porträt</a>' for j, k in enumerate([x for x in (a, b) if x in SP]))
         rel = [PAIRS[(i + d) % len(PAIRS)] for d in (1, 2, 3)]
-        body = (head(R, f"{na} oder {nb}? · {SITE}", f"{na} oder {nb}? {intro}", f"unterscheiden/{slug}/", "article") + nav(R, "bestimmen") +
+        body = (head(R, fit_title(f"{na} oder {nb}? Unterschiede erkennen", f"{na} oder {nb}? Der Unterschied", f"{na} oder {nb}?"), fit_desc(f"{na} oder {nb}? {intro} {short}") if len(f"{na} oder {nb}? {intro}") <= 158 else fit_desc(f"{na} oder {nb}? {short} {merk}"), f"unterscheiden/{slug}/", "article") + nav(R, "bestimmen") +
                 '<main id="main" tabindex="-1"> ' + crumbs(R, [("Doppelgänger", "unterscheiden/"), (f"{na} oder {nb}", f"unterscheiden/{slug}/")]) +
                 f'<article class="wrap pairpage"> <h1>{e(na)} oder {e(nb)}?</h1> <p class="intro">{e(intro)}</p> <div class="ph big"> {pair_fig(R, a, "(max-width: 760px) 92vw, 560px", True, True)}{pair_fig(R, b, "(max-width: 760px) 92vw, 560px", True, True)} </div> '
                 f'<section aria-labelledby="h-cmp"> <h2 id="h-cmp">Die Unterschiede</h2> <div class="cmp-wrap"><table class="cmp cmp-pair"> <thead><tr><td></td><th scope="col">{e(na)}</th><th scope="col">{e(nb)}</th></tr></thead> <tbody>{trs}</tbody> </table></div> '
@@ -86,7 +86,7 @@ def page_merkmale():
                "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": SP[k]["name"], "url": f"{BASE}arten/{k}/"} for i, (k, _) in enumerate(items)]}]
         others = [m for m in MERKMALE if m[0] != slug][:6]
         ol = "".join(f'<li><a href="{R}merkmale/{m[0]}/index.html">{e(m[1])}</a></li>' for m in others)
-        body = (head(R, f"{title} – was ist das? · {SITE}", intro[:155], f"merkmale/{slug}/", ld=ld, og_img=f"photos/{items[0][0]}.webp", og_alt=SP[items[0][0]]["name"]) + nav(R, "bestimmen") +
+        body = (head(R, f"{title} – was ist das? · {SITE}", fit_desc(intro), f"merkmale/{slug}/", ld=ld, og_img=f"photos/{items[0][0]}.webp", og_alt=SP[items[0][0]]["name"]) + nav(R, "bestimmen") +
                 '<main id="main" tabindex="-1"> ' + crumbs(R, [("Nach Aussehen", "merkmale/"), (title, f"merkmale/{slug}/")]) +
                 f'<section class="block page"> <div class="wrap"> <h1>{e(title)}</h1> <p class="intro">{e(intro)}</p> <ul class="mlist">{lis}</ul> '
                 f'<h2 class="h3 mt">Andere Merkmale</h2> <ul class="morelinks">{ol}<li><a href="{R}merkmale/index.html">Alle Merkmale ansehen</a></li></ul> </div> </section> </main> ' + footer(R))

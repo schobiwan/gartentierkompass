@@ -19,7 +19,7 @@ def meta_files():
     urls = ["", "arten/", "ausruestung/", "bildnachweis/", "datenschutz/", "impressum/", "schadbilder/", "unterscheiden/", "gartenjahr/", "merkmale/", "groessen/", "ratgeber/schnecken/", "ratgeber/nuetzlinge/", "geschenke/", "ueber/", "links/", "insektensommer/"]
     urls += [f"merkmale/{m[0]}/" for m in MERKMALE]
     urls += [f"arten/{s['key']}/" for s in S] + [f"unterscheiden/{p[0]}/" for p in PAIRS] + [f"gartenjahr/{m}/" for m in MS]
-    write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(f"  <url><loc>{BASE}{u}</loc></url>\n" for u in urls) + "</urlset>\n")
+    write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(f"  <url><loc>{BASE}{u}</loc><lastmod>{STAND_ISO}</lastmod></url>\n" for u in urls) + "</urlset>\n")
     write("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {BASE}sitemap.xml\n")
     write("site.webmanifest", json.dumps({"name": SITE, "short_name": SITE, "lang": "de", "start_url": "/", "display": "standalone", "background_color": "#faf7f1", "theme_color": "#4a6a4c",
            "icons": [{"src": "/icon-192.png", "sizes": "192x192", "type": "image/png"}, {"src": "/icon-512.png", "sizes": "512x512", "type": "image/png"}, {"src": "/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}]}, indent=1))

@@ -14,8 +14,8 @@ BASE = "https://gartentierkompass.de/"
 ORG_ID = BASE + "#org"
 TAG = "schobiwan-21"          # Amazon-Partner-ID
 NOW = 11                      # Monat für die statische Vorbelegung (JS korrigiert live)
-STAND_ISO = "2026-11-10"      # Stand der Inhalte (Byline und dateModified)
-STAND_DE = "10. November 2026"
+STAND_ISO = "2026-11-19"      # Stand der Inhalte (Byline und dateModified)
+STAND_DE = "19. November 2026"
 SISTERS = [("https://vogelkompass.de/", "Vogelkompass: Vögel bestimmen"), ("https://waldtierkompass.de/", "Waldtierkompass: Tiere im Wald"),
            ("https://meereskompass.de/", "Meereskompass: Tiere an der Küste")]
 
@@ -48,10 +48,12 @@ for s in S:
 SPOT = ["siebenpunkt-marienkaefer", "tagpfauenauge", "igel", "erdhummel", "eichhoernchen", "zitronenfalter", "taubenschwaenzchen", "rote-mauerbiene",
         "hainschwebfliege", "zauneidechse", "erdkroete", "honigbiene", "gartenkreuzspinne", "teichmolch", "weinbergschnecke", "blindschleiche"]   # Startseite: Reihenfolge für das Titelbild
 # Beliebtheit: Reihenfolge für „Jetzt aktiv zuerst“ und die Monatsleiste – Säugetiere und Sympathieträger vorn
-POP = ["igel", "eichhoernchen", "siebenpunkt-marienkaefer", "tagpfauenauge", "maulwurf", "erdhummel", "steinmarder", "zauneidechse",
-       "erdkroete", "taubenschwaenzchen", "zitronenfalter", "schermaus", "teichmolch", "blindschleiche", "honigbiene", "hainschwebfliege",
-       "rote-mauerbiene", "weinbergschnecke", "gartenkreuzspinne", "goldlaufkaefer", "florfliege", "asiatischer-marienkaefer",
-       "grosser-kohlweissling", "ohrwurm", "gartenlaubkaefer", "regenwurm", "lilienhaehnchen", "tigerschnegel", "spanische-wegschnecke",
+POP = ["igel", "eichhoernchen", "rotfuchs", "siebenpunkt-marienkaefer", "tagpfauenauge", "maulwurf", "erdhummel", "hornisse", "waschbaer",
+       "steinmarder", "zwergfledermaus", "zauneidechse", "erdkroete", "grasfrosch", "taubenschwaenzchen", "wespe", "zitronenfalter", "schermaus",
+       "admiral", "holzbiene", "ringelnatter", "teichmolch", "blindschleiche", "siebenschlaefer", "honigbiene", "steinhummel", "hainschwebfliege",
+       "rosenkaefer", "feuerwanze", "maikaefer", "rote-mauerbiene", "weinbergschnecke", "gartenkreuzspinne", "heupferd", "waldeidechse",
+       "goldlaufkaefer", "wegameise", "florfliege", "asiatischer-marienkaefer", "grosser-kohlweissling", "kleiner-kohlweissling", "ohrwurm",
+       "kellerassel", "gartenlaubkaefer", "regenwurm", "baenderschnecke", "lilienhaehnchen", "tigerschnegel", "spanische-wegschnecke",
        "kleiner-frostspanner", "apfelwickler", "buchsbaumzuensler", "dickmaulruessler", "schwarze-bohnenlaus", "weisse-fliege"]
 POPRANK = {k: i for i, k in enumerate(POP)}
 

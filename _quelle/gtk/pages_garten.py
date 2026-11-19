@@ -39,7 +39,7 @@ def page_year():
         pv, nx = (m - 2) % 12 + 1, m % 12 + 1
         sec_pk = (f'<section class="block" aria-labelledby="h-pk"><div class="wrap"><h2 id="h-pk">Jetzt besonders gut zu beobachten</h2><ul class="grid">{"".join(card(R, s, i, eager=i < 4) for i, s in enumerate(pk))}</ul></div></section>' if pk else "")
         sec_pr = (f'<section class="block" aria-labelledby="h-pr"><div class="wrap"><h2 id="h-pr">Außerdem unterwegs</h2><ul class="grid">{"".join(card(R, s, i) for i, s in enumerate(pr))}</ul></div></section>' if pr else "")
-        body = (head(R, f"Der Garten im {MN[m-1]} · {SITE}", f"Was im {MN[m-1]} im Garten los ist: {MONTH_EVENTS[m][0]} {len(pk)} Arten haben jetzt Hauptzeit.", f"gartenjahr/{MS[m-1]}/") + nav(R, "jahr") +
+        body = (head(R, fit_title(f"Gartentiere im {MN[m-1]}: wer ist jetzt aktiv?", f"Der Garten im {MN[m-1]}"), fit_desc(f"Was im {MN[m-1]} im Garten los ist: {MONTH_EVENTS[m][0]} {len(pk)} Arten haben jetzt Hauptzeit. {MONTH_EVENTS[m][1]}"), f"gartenjahr/{MS[m-1]}/") + nav(R, "jahr") +
                 '<main id="main" tabindex="-1"> ' + crumbs(R, [("Gartenjahr", "gartenjahr/"), (MN[m-1], f"gartenjahr/{MS[m-1]}/")]) +
                 f'<section class="block page"> <div class="wrap"> <h1>Der Garten im {MN[m-1]}</h1> <p class="intro">{len(pk) + len(pr)} der {len(S)} Arten sind im {MN[m-1]} aktiv, {len(pk)} davon in ihrer Hauptzeit.</p> '
                 f'<ul class="evlist">{"".join(f"<li>{e(x)}</li>" for x in MONTH_EVENTS[m])}</ul> <p class="actions"><a class="btn ghost" href="{R}gartenjahr/{MS[pv-1]}/index.html">← {MN[pv-1]}</a> <a class="btn ghost" href="{R}gartenjahr/{MS[nx-1]}/index.html">{MN[nx-1]} →</a></p> </div> </section>\n'
