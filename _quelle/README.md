@@ -14,7 +14,7 @@ Python-Skripte, die die statische Website im Hauptordner erzeugen.
 | `gtk/meta.py` | Suchindex, Sitemap, robots.txt, Manifest, llms.txt, Zählkarte |
 | `css/site.css` | Lesbare Stylesheet-Quelle. Nach Änderungen `npm --prefix tools/css run build` (minifiziert nach `static/assets/site.css`) |
 | `static/` | Unveränderte Dateien: minifiziertes CSS, JavaScript, Schriften, Fotos, Icons, PDF |
-| `tools/` | `check.py` (Links, JSON-LD, Titel), `zaehlkarte.py` (PDF), `shot.py` (Screenshots), `assets.py` (Icons/OG-Bild) |
+| `tools/` | `check.py` (Links, JSON-LD, Titel, Dateien im Stylesheet, Größentafel), `zaehlkarte.py` (PDF), `shot.py` (Screenshots), `assets.py` (Icons/OG-Bild) |
 
 ## Bauen
 

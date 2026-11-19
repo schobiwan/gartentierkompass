@@ -1,10 +1,10 @@
 """Prüft den gebauten Ausgabeordner: interne Links, JSON-LD, doppelte Titel, Titellänge,
-Überschriften- und Link-Regeln (siehe README, Abschnitt „Redaktionsregeln“).
+Dateien im Stylesheet (Schriften), Größentafel, Überschriften- und Link-Regeln (siehe README, Abschnitt „Redaktionsregeln“).
 
 Aufruf aus src/:  python3 -m tools.check
 """
 import glob, json, os, re, sys
-from gtk.config import OUT
+from gtk.config import OUT, PLATE, SP
 from gtk.util import FAMILY
 
 
@@ -36,6 +36,23 @@ def policy(rel, h):
     return out
 
 
+def assets():
+    """Stylesheet: jede url(...) zeigt auf eine vorhandene Datei (Schriften, Bilder)."""
+    css_path = os.path.join(OUT, "assets", "site.css")
+    css = open(css_path, encoding="utf-8").read()
+    return [f"site.css: Datei fehlt -> {u}" for u in re.findall(r"""url\(["']?([^)"']+)["']?\)""", css)
+            if not u.startswith(("data:", "http", "#")) and not os.path.exists(os.path.normpath(os.path.join(os.path.dirname(css_path), u)))]
+
+
+def plate():
+    """Größentafel: nur bekannte Arten, von klein nach groß."""
+    out = [f"PLATE: unbekannte Art {k}" for k in PLATE if k not in SP]
+    mids = [SP[k]["mid"] for k in PLATE if k in SP]
+    if mids != sorted(mids):
+        out.append("PLATE: Arten sind nicht von klein nach groß sortiert")
+    return out
+
+
 def main():
     bad, titles, errors = set(), {}, []
     for f in glob.glob(os.path.join(OUT, "**", "*.html"), recursive=True):
@@ -53,6 +70,7 @@ def main():
         t = re.search(r"<title>(.*?)</title>", h)
         if t:
             titles.setdefault(t.group(1), []).append(rel)
+    errors += assets() + plate()
     for rel, u in sorted(bad):
         errors.append(f"{rel}: Link ins Leere -> {u}")
     errors += [f"Titel doppelt: {t} ({', '.join(v)})" for t, v in titles.items() if len(v) > 1]

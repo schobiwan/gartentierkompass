@@ -47,6 +47,8 @@ for s in S:
 # --- Auswahl-Listen
 SPOT = ["siebenpunkt-marienkaefer", "tagpfauenauge", "igel", "erdhummel", "eichhoernchen", "zitronenfalter", "taubenschwaenzchen", "rote-mauerbiene",
         "hainschwebfliege", "zauneidechse", "erdkroete", "honigbiene", "gartenkreuzspinne", "teichmolch", "weinbergschnecke", "blindschleiche"]   # Startseite: Reihenfolge für das Titelbild
+# Größentafel der Startseite: wenige Arten, die zusammen die ganze Größenspanne zeigen (klein nach groß)
+PLATE = ["schwarze-bohnenlaus", "siebenpunkt-marienkaefer", "erdhummel", "erdkroete", "igel", "rotfuchs"]
 # Beliebtheit: Reihenfolge für „Jetzt aktiv zuerst“ und die Monatsleiste – Säugetiere und Sympathieträger vorn
 POP = ["igel", "eichhoernchen", "rotfuchs", "siebenpunkt-marienkaefer", "tagpfauenauge", "maulwurf", "erdhummel", "hornisse", "waschbaer",
        "steinmarder", "zwergfledermaus", "zauneidechse", "erdkroete", "grasfrosch", "taubenschwaenzchen", "wespe", "zitronenfalter", "schermaus",
