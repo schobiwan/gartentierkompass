@@ -42,7 +42,7 @@ def main():
         h = open(f, encoding="utf-8").read()
         rel = os.path.relpath(f, OUT)
         for u in re.findall(r'(?:href|src)="([^"#?]+)', h):
-            if not u.startswith(("http", "mailto", "data:")) and not os.path.exists(os.path.normpath(os.path.join(os.path.dirname(f), u))):
+            if not u.startswith(("http", "mailto", "data:")) and not os.path.exists(os.path.normpath(os.path.join(os.path.dirname(f), u)) + (os.sep + "index.html" if u.endswith("/") or u in (".", "./") else "")):
                 bad.add((rel, u))
         for m in re.findall(r'<script type="application/ld\+json">(.*?)</script>', h, re.S):
             try:
