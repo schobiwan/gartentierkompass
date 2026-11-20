@@ -7,9 +7,9 @@ from gtk.config import NAMES, PHOTOS, PPHOTOS, SISTERS, SITE, SP
 from gtk.layout import crumbs, footer, head, nav, NEWWIN
 from gtk.util import e, ext_link, write
 
-def prose_page(path, title, crumb, inner, desc):
+def prose_page(path, title, crumb, inner, desc, full_title=None):
     R = "../"
-    body = (head(R, f"{title} · {SITE}", desc, path) + nav(R, "") + '<main id="main" tabindex="-1"> ' + crumbs(R, [(crumb, path)]) +
+    body = (head(R, full_title or f"{title} · {SITE}", desc, path) + nav(R, "") + '<main id="main" tabindex="-1"> ' + crumbs(R, [(crumb, path)]) +
             f'<section class="block page"> <div class="wrap prose"> {inner} </div> </section> </main> ' + footer(R))
     write(path + "index.html", body)
 
@@ -54,7 +54,9 @@ def page_about():
              f'<h2>Deine Daten</h2> <p>Der {SITE} setzt keine Tracking-Cookies und speichert nichts in deinem Browser. Mehr dazu in der <a href="../datenschutz/index.html">Datenschutzerklärung</a>.</p> '
              '<h2>Fehler gefunden?</h2> <p>Wenn dir eine falsche Angabe oder ein falsch zugeordnetes Foto auffällt, schreib gern an <a href="mailto:info@nicoschober.com">info@nicoschober.com</a>. Hinweise werden geprüft und eingearbeitet.</p> '
              f'<h2>Schwesterseiten</h2> <ul>{sis}</ul>')
-    prose_page("ueber/", f"Über den {SITE}", "Über", inner, f"Wer den {SITE} macht, woher die Inhalte stammen und wie sich die Seite finanziert.")
+    prose_page("ueber/", f"Über den {SITE}", "Über", inner,
+               f"Wer den {SITE} macht, woher Fotos, Steckbriefe und Schadbilder stammen, wie sich die Seite finanziert und wie du Fehler meldest.",
+               full_title=f"Über den {SITE}: Macher, Quellen, Finanzierung")
 
 def page_links():
     groups = "".join(f'<div class="lg"><h2 class="h3">{e(t)}</h2><ul class="weblist">' + "".join(f'<li>{ext_link(u, e(n))}<span>{e(d)}</span></li>' for u, n, d in items) + "</ul></div>" for t, items in LINKS)
