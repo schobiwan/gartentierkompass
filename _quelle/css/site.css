@@ -5392,3 +5392,9 @@ footer a:focus-visible { outline-color: #f3c945; }
   padding: 34px 0 40px;
   margin-bottom: -40px;
 }
+
+/* Bild im „Nicht verwechseln“-Kasten ist klickbar */
+.alike .alike-img { display: block; border-radius: 6px; overflow: hidden; }
+.alike .alike-img img { transition: scale .4s var(--ease), filter .4s var(--ease); }
+.alike .alike-img:hover img { scale: 1.05; filter: brightness(1.05); }
+@media (prefers-reduced-motion: reduce) { .alike .alike-img:hover img { scale: none; } }
