@@ -70,6 +70,41 @@
   line-gap-override: 0%;
 }
 
+/* Fette Ersatzschriften mit eigenen Maßen: ohne sie verbreitert sich die Navigation beim Nachladen der Schrift */
+@font-face {
+  font-family: "Source Sans 3 Fallback";
+  font-weight: 600;
+  src: local("Arial Bold"), local("Arial-BoldMT"), local("Liberation Sans Bold"), local("Helvetica Bold");
+  size-adjust: 90.2%;
+  ascent-override: 113.5%;
+  descent-override: 44.3%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Source Sans 3 Fallback";
+  font-weight: 700;
+  src: local("Arial Bold"), local("Arial-BoldMT"), local("Liberation Sans Bold"), local("Helvetica Bold");
+  size-adjust: 92.7%;
+  ascent-override: 110.4%;
+  descent-override: 43.1%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Literata Fallback";
+  font-weight: 600 700;
+  src: local("Times New Roman Bold"), local("TimesNewRomanPS-BoldMT"), local("Liberation Serif Bold"), local("Times Bold");
+  size-adjust: 115.2%;
+  ascent-override: 102.2%;
+  descent-override: 26.7%;
+  line-gap-override: 0%;
+}
+
+html {
+  scrollbar-gutter: stable;
+}
+
 :root {
   --forest: #2c5e38;
   --forest-ink: #fff;
