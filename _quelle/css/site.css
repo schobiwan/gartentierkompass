@@ -101,6 +101,18 @@
   line-gap-override: 0%;
 }
 
+/* Kursive Ersatzschrift (lateinische Namen): bleibt beim Nachladen kursiv */
+@font-face {
+  font-family: "Literata Fallback";
+  font-style: italic;
+  font-weight: 400;
+  src: local("Times New Roman Italic"), local("TimesNewRomanPS-ItalicMT"), local("Liberation Serif Italic"), local("Times Italic");
+  size-adjust: 111.2%;
+  ascent-override: 105.8%;
+  descent-override: 27.7%;
+  line-gap-override: 0%;
+}
+
 html {
   scrollbar-gutter: stable;
 }
