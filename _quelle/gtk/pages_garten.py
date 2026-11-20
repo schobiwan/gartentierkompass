@@ -4,7 +4,7 @@ from data.more import GEAR_SECTIONS, MONTH_EVENTS, MONTH_PRODS, PRODUCTS
 from data.species import GROUPS, ROLE, S
 from data.vk import GESCHENKE, GESCHENKE_OHNE, RATGEBER
 from gtk.components import card, cred_long, img, mcard, product, rlist
-from gtk.config import BASE, IS_KEYS, IS_TIPS, MA, MN, MS, ORG_ID, SITE, SP, STAND_DE, STAND_ISO
+from gtk.config import AUTHOR, BASE, IS_KEYS, IS_TIPS, MA, MN, MS, ORG_ID, SITE, SP, STAND_DE, STAND_ISO
 from gtk.layout import ADBANNER, ADNOTE, crumbs, footer, head, nav, NEWWIN
 from gtk.util import e, fit_desc, fit_title, write
 
@@ -73,7 +73,7 @@ def page_ratgeber():
         tips = "".join(f"<li><b>{e(a)}</b><span>{e(x)}</span></li>" for a, x in d["tips"])
         faq = "".join(f'<details class="fold faqi" open data-fold><summary><h3>{e(q)}</h3></summary><p>{e(a)}</p></details>' for q, a in d["faq"])
         rel = "".join(card(R, SP[k], i) for i, k in enumerate(d["related"]))
-        ld = [{"@context": "https://schema.org", "@type": "Article", "headline": d["title"], "inLanguage": "de-DE", "author": {"@type": "Person", "name": "Nico Schober"}, "publisher": {"@id": ORG_ID}, "datePublished": "2026-11-08", "dateModified": STAND_ISO},
+        ld = [{"@context": "https://schema.org", "@type": "Article", "headline": d["title"], "inLanguage": "de-DE", "author": AUTHOR, "publisher": {"@id": ORG_ID}, "datePublished": "2026-11-08", "dateModified": STAND_ISO},
               {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in d["faq"]]}]
         body = (head(R, f'{d["title"]} · {SITE}', d["desc"], f"ratgeber/{slug}/", "article", ld=ld) + nav(R, "garten") +
                 '<main id="main" tabindex="-1"> ' + crumbs(R, [("Im Garten", "ratgeber/nuetzlinge/") if slug != "nuetzlinge" else ("Ratgeber", "ratgeber/nuetzlinge/"), (d["nav"], f"ratgeber/{slug}/")] if slug != "nuetzlinge" else [(d["nav"], f"ratgeber/{slug}/")]) +

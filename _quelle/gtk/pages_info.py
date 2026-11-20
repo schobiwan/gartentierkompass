@@ -3,13 +3,13 @@
 from data.more import PAIRS, PRODUCTS
 from data.species import EXTRA, S
 from data.vk import LINKS
-from gtk.config import NAMES, PHOTOS, PPHOTOS, SISTERS, SITE, SP
+from gtk.config import AUTHOR, BASE, ORG_ID, NAMES, PHOTOS, PPHOTOS, SISTERS, SITE, SP
 from gtk.layout import crumbs, footer, head, nav, NEWWIN
 from gtk.util import e, ext_link, write
 
-def prose_page(path, title, crumb, inner, desc, full_title=None):
+def prose_page(path, title, crumb, inner, desc, full_title=None, ld=None):
     R = "../"
-    body = (head(R, full_title or f"{title} · {SITE}", desc, path) + nav(R, "") + '<main id="main" tabindex="-1"> ' + crumbs(R, [(crumb, path)]) +
+    body = (head(R, full_title or f"{title} · {SITE}", desc, path, ld=ld) + nav(R, "") + '<main id="main" tabindex="-1"> ' + crumbs(R, [(crumb, path)]) +
             f'<section class="block page"> <div class="wrap prose"> {inner} </div> </section> </main> ' + footer(R))
     write(path + "index.html", body)
 
@@ -56,7 +56,10 @@ def page_about():
              f'<h2>Schwesterseiten</h2> <ul>{sis}</ul>')
     prose_page("ueber/", f"Über den {SITE}", "Über", inner,
                f"Wer den {SITE} macht, woher Fotos, Steckbriefe und Schadbilder stammen, wie sich die Seite finanziert und wie du Fehler meldest.",
-               full_title=f"Über den {SITE}: Macher, Quellen, Finanzierung")
+               full_title=f"Über den {SITE}: Macher, Quellen, Finanzierung",
+               ld=[{"@context": "https://schema.org", "@type": "AboutPage", "name": f"Über den {SITE}", "url": BASE + "ueber/", "inLanguage": "de-DE",
+                    "isPartOf": {"@id": BASE + "#website"}, "about": {"@id": ORG_ID},
+                    "mainEntity": {**AUTHOR, "address": {"@type": "PostalAddress", "addressLocality": "Bremen", "addressCountry": "DE"}}}])
 
 def page_links():
     groups = "".join(f'<div class="lg"><h2 class="h3">{e(t)}</h2><ul class="weblist">' + "".join(f'<li>{ext_link(u, e(n))}<span>{e(d)}</span></li>' for u, n, d in items) + "</ul></div>" for t, items in LINKS)

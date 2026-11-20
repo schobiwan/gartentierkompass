@@ -5,7 +5,7 @@ from data.more import HOME_GEAR, PAIRS
 from data.species import GROUPS, HABS, S
 from data.vk import MERKMALE
 from gtk.components import card, cred_pop, cred_short, product
-from gtk.config import ACT, BASE, MN, NOW, ORG_ID, PHOTOS, PLATE, POPRANK, SITE, SIZES, SP, SPOT
+from gtk.config import AUTHOR, ACT, BASE, MN, NOW, ORG_ID, PHOTOS, PLATE, POPRANK, SITE, SIZES, SP, SPOT
 from gtk.layout import ADNOTE, crumbs, footer, head, nav, SEARCH_ICO
 from gtk.util import e, fit_title, write
 
@@ -46,7 +46,7 @@ def page_home():
     desc = f"Gartentiere bestimmen: {len(S)} Nützlinge, Schädlinge und Gartengäste mit Merkmalen, Schadbildern, Doppelgängern und Gartenjahr."
     ld = [{"@context": "https://schema.org", "@type": "WebSite", "@id": BASE + "#website", "name": SITE, "url": BASE, "inLanguage": "de-DE", "publisher": {"@id": ORG_ID}, "description": "Tiere im Garten bestimmen: Nützlinge, Schädlinge, Schadbilder und Gartenjahr.",
            "potentialAction": {"@type": "SearchAction", "target": BASE + "?q={search_term_string}", "query-input": "required name=search_term_string"}},
-          {"@context": "https://schema.org", "@type": "Organization", "@id": ORG_ID, "name": SITE, "url": BASE, "logo": BASE + "icon-512.png", "email": "info@nicoschober.com", "founder": {"@type": "Person", "name": "Nico Schober"}}]
+          {"@context": "https://schema.org", "@type": "Organization", "@id": ORG_ID, "name": SITE, "url": BASE, "logo": BASE + "icon-512.png", "email": "info@nicoschober.com", "founder": AUTHOR}]
     chips = "".join(f'<button type="button" class="hchip" data-hgrp="{e(g)}">{e(g)} <span class="hn">{sum(1 for s in S if s["grp"] == g)}</span></button>' for g, _, _ in GROUPS)
     nowsp = [s for s in S if NOW in s["peak"]] + [s for s in S if NOW in s["present"] and NOW not in s["peak"]]
     pool = [s for s in nowsp if s["key"] in SPOT]

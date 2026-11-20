@@ -8,7 +8,7 @@ from gtk.components import (
     act_text, card, cred_long, grp_tag, img, month_range, months_bar, product,
     role_badge,
 )
-from gtk.config import ACT, ART, BASE, MN, MS, NAMES, ORG_ID, PHOTOS, SITE, SP, STAND_DE, STAND_ISO
+from gtk.config import AUTHOR, ACT, ART, BASE, MN, MS, NAMES, ORG_ID, PHOTOS, SITE, SP, STAND_DE, STAND_ISO
 from gtk.layout import ADNOTE, crumbs, footer, head, nav, NEWWIN
 from gtk.util import decline, e, join_de, write
 
@@ -120,7 +120,7 @@ def page_species(s):
     rel = related_for(s)
     ld = [{"@context": "https://schema.org", "@type": "Article", "headline": title, "name": f'{N} im Garten', "description": desc, "inLanguage": "de-DE",
            "mainEntityOfPage": f"{BASE}arten/{k}/", "isPartOf": {"@id": BASE + "#website"}, "publisher": {"@id": ORG_ID},
-           "author": {"@type": "Person", "name": "Nico Schober", "url": BASE + "ueber/"}, "datePublished": s.get("published", "2026-11-07"), "dateModified": STAND_ISO,
+           "author": AUTHOR, "datePublished": s.get("published", "2026-11-07"), "dateModified": STAND_ISO,
            "about": {"@type": "Taxon", "name": s["latin"], "alternateName": [N] + ([s["alias"].split()[0]] if s["alias"].split()[0] != N else []), "taxonRank": "species"},
            "image": {"@type": "ImageObject", "url": f'{BASE}photos/{k}.webp', "width": 720, "height": 576}},
           faq_ld(s)]
