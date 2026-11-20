@@ -1,5 +1,5 @@
 """Konstanten, Daten und abgeleitete Nachschlagetabellen."""
-import json, os
+import datetime as _dt, json, os
 from data.species import S, GROUPS, EXTRA
 
 SRC = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -11,7 +11,12 @@ SITE = "Gartentierkompass"
 BASE = "https://gartentierkompass.de/"
 ORG_ID = BASE + "#org"
 TAG = "schobiwan-21"          # Amazon-Partner-ID
-NOW = 11                      # Monat für die statische Vorbelegung (JS korrigiert live)
+try:                          # Monat für die statische Vorbelegung (JS korrigiert live), deutsche Zeit
+    from zoneinfo import ZoneInfo as _ZI
+    NOW = _dt.datetime.now(_ZI("Europe/Berlin")).month
+except Exception:
+    NOW = _dt.datetime.now().month
+NOW = int(os.environ.get("GTK_MONAT", NOW))  # zum Testen: GTK_MONAT=12
 STAND_ISO = "2026-11-19"      # Stand der Inhalte (Byline und dateModified)
 STAND_DE = "19. November 2026"
 SISTERS = [("https://vogelkompass.de/", "Vogelkompass: Vögel bestimmen"), ("https://waldtierkompass.de/", "Waldtierkompass: Tiere im Wald"),

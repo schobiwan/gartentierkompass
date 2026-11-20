@@ -1,0 +1,34 @@
+# Baut die Website am 1. jedes Monats neu (wie Vogel-, Waldtier- und Meereskompass): „Jetzt im <Monat> im Garten“,
+# das Tier des Monats und die Reihenfolge „Jetzt aktiv zuerst“ stimmen dann auch für Google und ohne JavaScript.
+# Die fertigen Seiten liegen im Hauptordner; statichost veröffentlicht nach dem Push.
+name: Monatlicher Neubau
+on:
+  schedule:
+    - cron: '17 0 1 * *'   # 1. des Monats, 00:17 UTC (01:17/02:17 deutscher Zeit)
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  neubau:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Bauen und prüfen
+        working-directory: _quelle
+        env:
+          TZ: Europe/Berlin
+          GTK_OUT: ..
+        run: |
+          python3 build.py
+          python3 -m tools.check
+      - name: Geänderte Seiten pushen
+        run: |
+          git config user.name "Nico Schober"
+          git config user.email "info@nicoschober.com"
+          git add -A -- . ':!_quelle'
+          if git diff --cached --quiet; then echo "Nichts geändert"; exit 0; fi
+          git commit -m "Monatlicher Neubau ($(date +%Y-%m))"
+          git push
