@@ -28,7 +28,7 @@ jobs:
         run: |
           git config user.name "Nico Schober"
           git config user.email "info@nicoschober.com"
-          git add -A -- . ':!_quelle'
+          git add -A -- . ':(exclude)_quelle'
           if git diff --cached --quiet; then echo "Nichts geändert"; exit 0; fi
           git commit -m "Monatlicher Neubau ($(date +%Y-%m))"
           git push
