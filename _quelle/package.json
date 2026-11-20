@@ -1,0 +1,17 @@
+{
+  "name": "gartentierkompass",
+  "private": true,
+  "type": "module",
+  "description": "Gartentierkompass – Generator und Tests (die fertige Website liegt in ../dist)",
+  "scripts": {
+    "build": "python3 build.py",
+    "check": "python3 -m tools.check",
+    "test": "python3 -m tools.check && node tests/kompass/seiten.mjs",
+    "test:seiten": "node tests/kompass/seiten.mjs",
+    "perf": "node tests/kompass/perf.mjs"
+  },
+  "devDependencies": {
+    "axe-core": "^4.14.1",
+    "playwright-core": "^1.65.1"
+  }
+}

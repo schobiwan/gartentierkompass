@@ -5418,3 +5418,12 @@ footer a:focus-visible { outline-color: #f3c945; }
 .alike .alike-img img { transition: scale .4s var(--ease), filter .4s var(--ease); }
 .alike .alike-img:hover img { scale: 1.05; filter: brightness(1.05); }
 @media (prefers-reduced-motion: reduce) { .alike .alike-img:hover img { scale: none; } }
+
+/* Sehr schmale Handys (bis 360 px): Seitenname etwas kleiner, damit der Suchknopf ganz sichtbar bleibt */
+@media (width <= 360px) {
+  .brand { font-size: 1.15rem; gap: 8px; }
+  .brand .logo { width: 30px; height: 30px; }
+}
+
+/* Schadbilder: lange Wörter (z. B. „Eichenprozessionsspinner“) dürfen auf schmalen Handys umbrechen */
+.trk .trk-t { min-width: 0; overflow-wrap: break-word; hyphens: auto; }

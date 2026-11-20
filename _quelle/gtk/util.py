@@ -56,7 +56,11 @@ def fit_desc(text, limit=158):
     import re as _re
     out = ""
     for sent in _re.split(r"(?<=[.!?])\s+", text.strip()):
-        if len(out) + len(sent) + (1 if out else 0) > limit: break
+        if len(out) + len(sent) + (1 if out else 0) > limit:
+            if len(out) < 50:   # zu kurz für Google (mind. 50 Zeichen): nächsten Satz an einer Wortgrenze kürzen
+                cut = f"{out} {sent}".strip()[:limit - 1].rsplit(" ", 1)[0].rstrip(",;:–-")
+                out = cut + "…"
+            break
         out = f"{out} {sent}".strip()
     return out or text[:limit].rsplit(" ", 1)[0]
 
