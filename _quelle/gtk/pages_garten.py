@@ -1,10 +1,12 @@
 """Im Garten: Gartenjahr, Ausrüstung, Ratgeber, Geschenke, Insektensommer."""
-import json, math, os, re
-from urllib.parse import quote_plus
-from gtk.config import *
-from gtk.util import *
-from gtk.layout import *
-from gtk.components import *
+
+from data.more import GEAR_SECTIONS, MONTH_EVENTS, MONTH_PRODS, PRODUCTS
+from data.species import GROUPS, ROLE, S
+from data.vk import GESCHENKE, GESCHENKE_OHNE, RATGEBER
+from gtk.components import card, cred_long, img, mcard, product, rlist
+from gtk.config import BASE, IS_KEYS, IS_TIPS, MA, MN, MS, ORG_ID, SITE, SP, STAND_DE, STAND_ISO
+from gtk.layout import ADBANNER, ADNOTE, crumbs, footer, head, nav, NEWWIN
+from gtk.util import e, fit_desc, fit_title, write
 
 def cal_table(R):
     head_ = "".join(f'<th scope="col" data-month="{m}"><a href="{R}gartenjahr/{MS[m-1]}/index.html"><abbr title="{MN[m-1]}">{MA[m-1]}</abbr></a></th>' for m in range(1, 13))
@@ -110,7 +112,7 @@ def page_insektensommer():
             f'<p class="intro">Beim Insektensommer zählen jedes Jahr tausende Menschen eine Stunde lang Insekten und melden sie dem NABU. Mitmachen kann jede und jeder, im Garten, auf dem Balkon oder im Park. Hier findest du die {len(sp)} Insekten, die du im Garten am häufigsten siehst, und eine Zählkarte zum Ausdrucken.</p> '
             '<p class="isdate">Gezählt wird in zwei Zeiträumen von jeweils rund zehn Tagen, meist Anfang Juni und Anfang August. Die genauen Termine nennt der NABU auf <a href="https://www.insektensommer.de/" target="_blank" rel="noopener">insektensommer.de' + NEWWIN + '</a>.</p> '
             f'<p class="wlinks"><a class="btn" href="{R}downloads/zaehlkarte-insektensommer.pdf" download>Zählkarte als PDF (A4)</a> <a class="btn ghost" href="#arten">Arten ansehen</a></p> </div> '
-            f'<figure class="is-fig"> {img(R, "erdhummel", "(max-width: 760px) 92vw, 480px", eager=True, alt="Erdhummel auf einer Blüte")} <figcaption>{cred_long("erdhummel")}</figcaption> </figure> </div> </section> '
+            f'<figure class="is-fig"> {img(R, "erdhummel", "(max-width: 760px) 92vw, 480px", priority=True, alt="Erdhummel auf einer Blüte")} <figcaption>{cred_long("erdhummel")}</figcaption> </figure> </div> </section> '
             f'<section class="block" id="arten" aria-labelledby="h-arten"> <div class="wrap"> <h2 id="h-arten">Diese Insekten siehst du im Garten oft</h2> <p class="intro">Die Auswahl zeigt häufige Gartenarten. Gemeldet werden darf jedes Insekt, das du entdeckst. Spinnen, Schnecken und Regenwürmer sind keine Insekten und zählen nicht mit.</p> <ul class="mlist">{cards}</ul> </div> </section> '
             f'<section class="block" id="zaehlen" aria-labelledby="h-zaehlen"> <div class="wrap"> <h2 id="h-zaehlen">So zählst du richtig</h2> <ul class="tips">{tips}</ul> '
             f'<p class="printcard"><a class="btn" href="{R}downloads/zaehlkarte-insektensommer.pdf" download>Zählkarte zum Ausdrucken (PDF, A4)</a> <span>Die Karte zeigt alle {len(sp)} Arten mit Erkennungsmerkmal und einem Feld für die Anzahl. Sie ist ein Angebot des {SITE} und nicht die offizielle Zählhilfe des NABU.</span></p> </div> </section> '

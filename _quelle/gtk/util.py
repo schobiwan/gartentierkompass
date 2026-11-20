@@ -1,7 +1,8 @@
 """Kleine Helfer: Escaping, Dateien schreiben, Cache-Busting, Aufzählungen."""
+
 import hashlib, html, os
 from urllib.parse import quote_plus
-from gtk.config import *
+from gtk.config import ART, OUT, TAG
 
 def e(t):
     """HTML-Escaping für Text und Attribute."""

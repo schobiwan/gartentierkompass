@@ -569,11 +569,6 @@ a.btn {
   }
 }
 
-footer {
-  border-top: 1px solid var(--line);
-  margin-top: 64px;
-}
-
 footer .wrap {
   color: var(--muted);
   padding-block: 24px 40px;
@@ -776,7 +771,6 @@ footer p {
   aspect-ratio: 5 / 4;
   object-fit: cover;
   width: 100%;
-  transition: transform .4s;
   display: block;
 }
 
@@ -938,10 +932,8 @@ footer p {
 }
 
 .explore a {
-  background: var(--surface);
   height: 100%;
   box-shadow: var(--shadow);
-  border-top: 3px solid var(--moss);
   border-radius: 8px;
   flex-direction: column;
   gap: 6px;
@@ -952,7 +944,6 @@ footer p {
 }
 
 .explore a:hover {
-  border-top-color: var(--rust);
   transform: translateY(-3px);
 }
 
@@ -1696,7 +1687,6 @@ section.sub {
   border-block: 1px solid var(--line);
   margin-top: 48px;
   padding-block: 40px 36px;
-  background: var(--bg);
 }
 
 .gearband .head-row {
@@ -1745,8 +1735,6 @@ section.sub {
 }
 
 .sp-photo {
-  box-shadow: var(--shadow);
-  border-radius: 10px;
   margin: 0;
   position: relative;
   overflow: hidden;
@@ -2728,7 +2716,6 @@ figcaption small a,.sp-photo figcaption a {
   aspect-ratio: 4 / 3;
   object-fit: cover;
   width: 100%;
-  transition: transform .5s var(--ease);
   display: block;
 }
 
@@ -3609,8 +3596,6 @@ main:has( > .gearband:last-child) + footer,main:has( > section:last-child > .gea
   color: var(--fg);
   position: relative;
   overflow: hidden;
-  background: var(--bg);
-  border-bottom: 1px solid var(--line);
 }
 
 .hero6-in {
@@ -3624,8 +3609,6 @@ main:has( > .gearband:last-child) + footer,main:has( > section:last-child > .gea
 
 .h6-kicker {
   text-transform: none;
-  flex-wrap: wrap;
-  align-items: center;
   gap: 6px 9px;
   margin: 0 0 10px;
   display: flex;
@@ -3903,7 +3886,6 @@ main:has( > .gearband:last-child) + footer,main:has( > section:last-child > .gea
 }
 
 .nowband {
-  background: var(--bg);
   padding-top: 22px;
 }
 
@@ -4963,7 +4945,6 @@ h1,h2,h3 {
 
 .hero6 .hchip {
   color: var(--fg);
-  background: var(--surface);
   border-color: color-mix(in srgb, var(--control) 70%, var(--surface));
   min-height: 44px;
   padding: 0 14px;
@@ -5019,10 +5000,6 @@ h1,h2,h3 {
 }
 
 /* Größentafel */
-.plate {
-  border-bottom: 1px solid var(--line);
-  background: var(--surface);
-}
 
 .plate .wrap {
   padding-block: 26px 28px;
@@ -5083,7 +5060,6 @@ h1,h2,h3 {
 }
 
 .plate .pbar {
-  background: color-mix(in srgb, var(--moss) 14%, var(--surface));
   border-radius: 7px;
   height: 14px;
   display: block;
@@ -5091,7 +5067,6 @@ h1,h2,h3 {
 }
 
 .plate .pbar i {
-  background: var(--rust);
   border-radius: 7px;
   width: var(--w);
   height: 100%;
@@ -5152,9 +5127,7 @@ h1,h2,h3 {
 /* Artkarten */
 
 .bird:hover {
-  box-shadow: 0 1px 2px #22332a14;
   border-color: var(--control);
-  transform: translateY(-2px);
 }
 
 .bird h3 {
@@ -5234,7 +5207,7 @@ h1,h2,h3 {
 .hero6 h1 {
   text-shadow: 0 1px 0 color-mix(in srgb, var(--surface) 60%, transparent);
 }
-.spot6 .s6-photo img, .spot6 .s6-photo {
+.spot6 .s6-photo img,.spot6 .s6-photo {
   border-radius: 14px;
 }
 .spot6 .s6-photo {
@@ -5265,8 +5238,8 @@ h1,h2,h3 {
 .plate { background: var(--tint-pollen); border-bottom: 0; }
 .plate .pbar { background: var(--surface); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--pollen) 45%, var(--line)); }
 .plate .pbar i { background: linear-gradient(90deg, var(--moss), var(--forest) 60%, var(--forest)); }
-.plate h2, .nowband .now-head h2, .gearband h2, .block h2 { position: relative; }
-.plate h2:after, .nowband .now-head h2:after, .gearband h2:after, .block > .wrap > h2:after {
+.plate h2,.nowband .now-head h2,.gearband h2,.block h2 { position: relative; }
+.plate h2:after,.nowband .now-head h2:after,.gearband h2:after,.block > .wrap > h2:after {
   content: "";
   display: block;
   width: 54px; height: 5px;
@@ -5326,17 +5299,17 @@ footer:before {
   -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 34' preserveAspectRatio='none'%3E%3Cpath d='M0 14C160 30 320 30 480 18S780 0 940 10s200 14 260 8V34H0z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
   mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 34' preserveAspectRatio='none'%3E%3Cpath d='M0 14C160 30 320 30 480 18S780 0 940 10s200 14 260 8V34H0z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
 }
-footer a, footer .fcols li a, footer .flogo, footer .flogo span, footer .fhead, footer b { color: #fff; }
+footer a,footer .fcols li a,footer .flogo,footer .flogo span,footer .fhead,footer b { color: #fff; }
 footer .logo { color: #f3c945; --logo-accent: #f3c945; }
 footer .fhead { color: #f3d98a; }
 footer a:focus-visible { outline-color: #f3c945; }
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) footer, :root:not([data-theme="light"]) footer:before { background: #17261b; }
+  :root:not([data-theme="light"]) footer,:root:not([data-theme="light"]) footer:before { background: #17261b; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bird:hover, .explore a:hover { transform: none; }
-  .bird:hover img, .nowcards a:hover img { scale: none; }
+  .bird:hover,.explore a:hover { transform: none; }
+  .bird:hover img,.nowcards a:hover img { scale: none; }
 }
 @media (max-width: 760px) {
   .spot6 .s6-photo { rotate: none; }
@@ -5364,10 +5337,10 @@ footer a:focus-visible { outline-color: #f3c945; }
   box-shadow: 0 18px 40px -18px #22332a66;
   outline: 4px solid color-mix(in srgb, var(--surface) 70%, transparent);
 }
-.sp-main > section > h2, .sp .related > h2, .sp .life > h2 {
+.sp-main > section > h2,.sp .related > h2,.sp .life > h2 {
   position: relative;
 }
-.sp-main > section > h2:after, .sp .related > h2:after {
+.sp-main > section > h2:after,.sp .related > h2:after {
   content: "";
   display: block;
   width: 54px; height: 5px;

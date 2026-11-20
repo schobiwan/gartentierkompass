@@ -1,10 +1,13 @@
 """Startseite und Artenliste."""
-import json, math, os, re
-from urllib.parse import quote_plus
-from gtk.config import *
-from gtk.util import *
-from gtk.layout import *
-from gtk.components import *
+
+import math
+from data.more import HOME_GEAR, PAIRS
+from data.species import GROUPS, HABS, S
+from data.vk import MERKMALE
+from gtk.components import card, cred_pop, cred_short, product
+from gtk.config import ACT, BASE, MN, NOW, ORG_ID, PHOTOS, PLATE, POPRANK, SITE, SIZES, SP, SPOT
+from gtk.layout import ADNOTE, crumbs, footer, head, nav, SEARCH_ICO
+from gtk.util import e, fit_title, write
 
 def filter_bar():
     def chips(g, vals):

@@ -1,10 +1,16 @@
 """Artseiten (Steckbriefe)."""
-import json, math, os, re
+
 from urllib.parse import quote_plus
-from gtk.config import *
-from gtk.util import *
-from gtk.layout import *
-from gtk.components import *
+from data.more import DAMAGE, PAIRS
+from data.species import ROLE, S
+from data.vk import MERKMALE, RATGEBER
+from gtk.components import (
+    act_text, card, cred_long, grp_tag, img, month_range, months_bar, product,
+    role_badge,
+)
+from gtk.config import ACT, ART, BASE, MN, MS, NAMES, ORG_ID, PHOTOS, SITE, SP, STAND_DE, STAND_ISO
+from gtk.layout import ADNOTE, crumbs, footer, head, nav, NEWWIN
+from gtk.util import decline, e, join_de, write
 
 def merkmal_links_for(k):
     return [(slug, short) for slug, title, short, intro, items in MERKMALE if any(x == k for x, _ in items)]
@@ -120,7 +126,7 @@ def page_species(s):
           faq_ld(s)]
     body = (head(R, title, desc, f'arten/{k}/', "article", og_img=f'photos/{k}.webp', og_alt=N, ld=ld)
             + nav(R, "bestimmen") + '<main id="main" tabindex="-1"> ' + crumbs(R, [("Arten", "arten/"), (N, f"arten/{k}/")]) +
-            f'<article class="sp wrap"> <div class="sp-top"> <figure class="sp-photo"> {img(R, k, "(max-width: 760px) 92vw, 560px", eager=True, alt=N if k in PHOTOS else "")} <figcaption>{cred_long(k)}</figcaption> </figure> '
+            f'<article class="sp wrap"> <div class="sp-top"> <figure class="sp-photo"> {img(R, k, "(max-width: 760px) 92vw, 560px", priority=True, alt=N if k in PHOTOS else "")} <figcaption>{cred_long(k)}</figcaption> </figure> '
             f'<div class="sp-intro"> <h1>{e(N)}</h1> <p class="latin" lang="la">{e(s["latin"])}</p> <p class="row">{role_badge(s)}{grp_tag(s)}<span class="tag">{e(s["size"])}</span>'
             + "".join(f'<span class="tag act-tag"><svg aria-hidden="true"><use href="#{ACT[a][1]}"></use></svg>{ACT[a][0]}</span>' for a in s["acts"]) +
             f'</p> <p class="habs">{"".join(f"<span>{e(h)}</span>" for h in s["hab"])}</p> <p class="text">{e(s["short"])} {e(s["hl"])}</p> '

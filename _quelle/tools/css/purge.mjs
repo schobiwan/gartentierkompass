@@ -16,7 +16,8 @@ root.walkRules(rule=>{
   if(rule.parent && rule.parent.type==='atrule' && /keyframes/.test(rule.parent.name))return;
   const keep=[];
   sp(sels=>{sels.each(sel=>{let ok=true;
-    sel.walk(n=>{ if(n.type==='class'&&!used.has(n.value))ok=false; if(n.type==='id'&&!ids.has(n.value))ok=false;
+    const inPseudo=n=>{for(let q=n.parent;q;q=q.parent){if(q.type==='pseudo'&&/^:(not|is|where|has)$/.test(q.value))return true}return false};
+    sel.walk(n=>{ if(inPseudo(n))return; if(n.type==='class'&&!used.has(n.value))ok=false; if(n.type==='id'&&!ids.has(n.value))ok=false;
       if(n.type==='tag'&&/^[a-z]/.test(n.value)&&!tags.has(n.value)&&!['html','body','svg','path','circle','rect','line','polyline','polygon','g','use','symbol','i','b','strong','em','span','small','picture','source','img','a','p','ul','ol','li','dl','dt','dd','h1','h2','h3','h4','button','input','select','option','label','form','table','thead','tbody','tr','th','td','details','summary','dialog','nav','main','header','footer','section','article','aside','figure','figcaption','abbr','code','kbd','hr','mark','time','sup','sub','to','from'].includes(n.value)) ok=false;});
     if(ok)keep.push(sel.toString().trim()); else removedSel++;});}).processSync(rule.selector);
   if(!keep.length){rule.remove();removedRules++;} else rule.selector=keep.join(',');

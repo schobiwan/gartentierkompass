@@ -1,8 +1,11 @@
 """Wiederverwendbare Bausteine: Bilder, Karten, Produkte, Monatsleiste."""
-from urllib.parse import quote_plus
-from gtk.config import *
-from gtk.util import *
-from gtk.layout import *
+
+from data.more import ICONS, PRODUCTS
+from data.species import GROUP_FORMS, ROLE
+from data.vk import RATGEBER
+from gtk.config import ACT, LATIN, MA, MN, NAMES, PHOTOS, POPRANK, PPHOTOS
+from gtk.layout import ARROW
+from gtk.util import amazon, e, join_de
 
 def cred_short(R, key):
     if key in PHOTOS:
@@ -26,8 +29,10 @@ def cred_pop(inner):
 def cred_small(k):
     return f'<small class="cred"><span>{cred_long(k, cropped=False)}</span></small>'
 
-def img(R, key, sizes, w=720, h=576, eager=False, alt=""):
-    return (f'<img src="{R}photos/{key}.webp" srcset="{R}photos/{key}-400.webp 400w, {R}photos/{key}.webp 720w" sizes="{sizes}" alt="{e(alt)}" width="{w}" height="{h}" loading="{"eager" if eager else "lazy"}" decoding="async">')
+def img(R, key, sizes, w=720, h=576, eager=False, alt="", priority=False):
+    """Foto mit srcset. priority=True nur für das größte Bild oben auf der Seite (LCP)."""
+    load = 'fetchpriority="high"' if priority else f'loading="{"eager" if eager else "lazy"}" decoding="async"'
+    return (f'<img src="{R}photos/{key}.webp" srcset="{R}photos/{key}-400.webp 400w, {R}photos/{key}.webp 720w" sizes="{sizes}" alt="{e(alt)}" width="{w}" height="{h}" {load}>')
 
 def acts_html(s):
     return "".join(f'<span class="act" title="{ACT[a][0]}"><svg aria-hidden="true"><use href="#{ACT[a][1]}"></use></svg><span class="sr-only">{ACT[a][0]}</span></span>' for a in s["acts"])

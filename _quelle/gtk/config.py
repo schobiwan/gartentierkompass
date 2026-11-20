@@ -1,8 +1,6 @@
 """Konstanten, Daten und abgeleitete Nachschlagetabellen."""
 import json, os
-from data.species import S, GROUPS, GROUP_FORMS, HABS, ROLE, EXTRA
-from data.more import PAIRS, DAMAGE, DAMAGE_STEPS, MONTH_EVENTS, MONTH_PRODS, ICONS, PRODUCTS, GEAR_SECTIONS, HOME_GEAR
-from data.vk import MERKMALE, RATGEBER, GESCHENKE, GESCHENKE_OHNE, LINKS
+from data.species import S, GROUPS, EXTRA
 
 SRC = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.environ.get("GTK_OUT", os.path.join(SRC, "out"))

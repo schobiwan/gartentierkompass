@@ -1,10 +1,14 @@
 """Bestimmen: Vergleiche, Schadbilder, Merkmale, Größen."""
-import json, math, os, re
-from urllib.parse import quote_plus
-from gtk.config import *
-from gtk.util import *
-from gtk.layout import *
-from gtk.components import *
+
+import math
+import re
+from data.more import DAMAGE, DAMAGE_STEPS, PAIRS
+from data.species import ROLE, S
+from data.vk import MERKMALE
+from gtk.components import mcard, pair_card, pair_fig, product
+from gtk.config import BASE, NAMES, SITE, SP
+from gtk.layout import ADNOTE, crumbs, footer, head, nav
+from gtk.util import e, fit_desc, fit_title, join_de, write
 
 def page_pairs():
     R = "../"

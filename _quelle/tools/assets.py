@@ -4,9 +4,13 @@
 ACHTUNG: main() überschreibt die echten Fotos in static/photos mit Platzhaltern.
 Nur gezielt einzelne Jobs rendern (siehe og_svg / favicon_svg). Aufruf aus src/: python -m tools.assets
 """
-import json, os, subprocess, hashlib, io, shutil
+import json
+import os
+import subprocess
+import hashlib
+import shutil
 from PIL import Image
-from data.species import S, EXTRA
+from data.species import S
 
 OUT = "static"
 TMP = "tmp_png"
@@ -14,7 +18,7 @@ TMP = "tmp_png"
 CHROME = "#24412f"; INK = "#f6f1e3"; GOLD = "#f2b53a"
 
 # Blatt im Kompassring (48er Raster)
-from gtk.logo import LEAF, LOGO_SYMBOL
+from gtk.logo import LEAF
 
 def favicon_svg(pad=True):
     return ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">'

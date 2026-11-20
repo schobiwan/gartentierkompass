@@ -1,10 +1,11 @@
 """Info-Seiten: Impressum, Datenschutz, Bildnachweis, Über, Links."""
-import json, math, os, re
-from urllib.parse import quote_plus
-from gtk.config import *
-from gtk.util import *
-from gtk.layout import *
-from gtk.components import *
+
+from data.more import PAIRS, PRODUCTS
+from data.species import EXTRA, S
+from data.vk import LINKS
+from gtk.config import NAMES, PHOTOS, PPHOTOS, SISTERS, SITE, SP
+from gtk.layout import crumbs, footer, head, nav, NEWWIN
+from gtk.util import e, ext_link, write
 
 def prose_page(path, title, crumb, inner, desc):
     R = "../"

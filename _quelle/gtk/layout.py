@@ -1,8 +1,12 @@
 """Seitengerüst: <head>, Navigation, Brotkrumen, Footer."""
+
 import json
-from gtk.config import *
-from gtk.util import *
+from data.more import PAIRS
+from data.species import S
+from data.vk import RATGEBER
+from gtk.config import BASE, SISTERS, SITE
 from gtk.logo import LOGO_SYMBOL
+from gtk.util import e, ver
 
 ICON_DEFS = ('<symbol id="i-sun" viewBox="0 0 16 16"><circle cx="8" cy="8" r="3"/><path d="M8 1.5v2M8 12.5v2M1.5 8h2M12.5 8h2M3.4 3.4l1.4 1.4M11.2 11.2l1.4 1.4M3.4 12.6l1.4-1.4M11.2 4.8l1.4-1.4"/></symbol>'
              '<symbol id="i-dusk" viewBox="0 0 16 16"><path d="M2 11.5h12M4 11.5a4 4 0 0 1 8 0M8 3.5v2M3.2 6.2l1.3 1.1M12.8 6.2l-1.3 1.1"/></symbol>'

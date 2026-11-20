@@ -1,10 +1,17 @@
 """Skripte, Suchindex, Sitemap, llms.txt und die Zählkarte."""
-import datetime, io, json, math, os, re, shutil
-from urllib.parse import quote_plus
-from gtk.config import *
-from gtk.util import *
-from gtk.layout import *
-from gtk.components import *
+
+import datetime
+import io
+import json
+import os
+import re
+import shutil
+from data.more import PAIRS
+from data.species import GROUP_FORMS, ROLE, S
+from data.vk import MERKMALE
+from gtk.components import act_text
+from gtk.config import BASE, IS_KEYS, MS, NAMES, OUT, SITE, SP, STAND_ISO, STATIC
+from gtk.util import e, write
 
 def copy_static():
     """Kopiert static/ (CSS, JS, Schriften, Fotos, Icons, Downloads) in den Ausgabeordner."""
