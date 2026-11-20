@@ -1,0 +1,5 @@
+# statichost.eu: Die fertige Seite liegt bereits in dist/, ein Build ist nicht nötig.
+# Nur dist/ wird veröffentlicht; der Generator in _quelle/ bleibt privat.
+image: alpine:latest
+command: "echo 'Kein Build nötig, dist/ ist fertig'"
+public: dist

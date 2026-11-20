@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Baut gartentierkompass.de als statische Website.
 
-Aufruf aus diesem Ordner:  python3 build.py            -> schreibt nach ./out
+Aufruf aus diesem Ordner:  python3 build.py            -> schreibt die Website nach ../dist
                             GTK_OUT=/pfad python3 build.py
-                            python3 build.py --preview  -> Links behalten index.html (für die Vorschau im Chat,
+                            python3 build.py --preview  -> nach ./out, Links behalten index.html (für die Vorschau im Chat,
                                                            die keine Ordner-Adressen kennt)
 Danach optional:           python3 -m tools.zaehlkarte  (PDF neu erzeugen, braucht Chrome + Playwright)
                             python3 -m tools.check      (Links und strukturierte Daten prüfen)

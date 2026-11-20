@@ -1,6 +1,6 @@
 # Baut die Website am 1. jedes Monats neu (wie Vogel-, Waldtier- und Meereskompass): „Jetzt im <Monat> im Garten“,
 # das Tier des Monats und die Reihenfolge „Jetzt aktiv zuerst“ stimmen dann auch für Google und ohne JavaScript.
-# Die fertigen Seiten liegen im Hauptordner; statichost veröffentlicht nach dem Push.
+# Die fertigen Seiten liegen in dist/; statichost veröffentlicht den Ordner nach dem Push.
 name: Monatlicher Neubau
 on:
   schedule:
@@ -20,7 +20,6 @@ jobs:
         working-directory: _quelle
         env:
           TZ: Europe/Berlin
-          GTK_OUT: ..
         run: |
           python3 build.py
           python3 -m tools.check
@@ -28,7 +27,7 @@ jobs:
         run: |
           git config user.name "Nico Schober"
           git config user.email "info@nicoschober.com"
-          git add -A -- . ':(exclude)_quelle'
+          git add -A -- dist
           if git diff --cached --quiet; then echo "Nichts geändert"; exit 0; fi
           git commit -m "Monatlicher Neubau ($(date +%Y-%m))"
           git push

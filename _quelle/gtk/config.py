@@ -3,7 +3,10 @@ import datetime as _dt, json, os
 from data.species import S, GROUPS, EXTRA
 
 SRC = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-OUT = os.environ.get("GTK_OUT", os.path.join(SRC, "out"))
+# Live-Seite: ../dist (diesen Ordner veröffentlicht statichost, siehe statichost.yml); Vorschau (--preview): ./out
+import sys as _sys
+OUT = os.environ.get("GTK_OUT") or os.path.join(SRC, "out" if "--preview" in _sys.argv else os.path.join("..", "dist"))
+OUT = os.path.normpath(OUT)
 STATIC = os.path.join(SRC, "static")
 
 # --- Website

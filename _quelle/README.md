@@ -1,12 +1,12 @@
 # Generator für gartentierkompass.de
 
-Python-Skripte, die die statische Website im Hauptordner erzeugen.
+Python-Skripte, die die statische Website in `../dist/` erzeugen.
 
 ## Aufbau
 
 | Ordner / Datei | Inhalt |
 | --- | --- |
-| `build.py` | Einstieg: kopiert `static/` und schreibt alle Seiten nach `out/` (oder `GTK_OUT`) |
+| `build.py` | Einstieg: kopiert `static/` und schreibt alle Seiten nach `../dist/` (Vorschau mit `--preview` nach `out/`, anderer Ort über `GTK_OUT`) |
 | `data/` | Inhalte: Arten (`species.py`), Vergleiche, Schadbilder, Produkte (`more.py`), Merkmale, Ratgeber, Geschenke, Links (`vk.py`), Fotonachweise (`photos.json`, `pphotos.json`) |
 | `gtk/config.py` | Konstanten (Domain, Partner-ID, Stand-Datum) und abgeleitete Tabellen |
 | `gtk/util.py`, `gtk/layout.py`, `gtk/components.py` | Helfer, Seitengerüst (Kopf, Navigation, Footer), Bausteine (Bilder, Karten, Produkte) |
@@ -20,8 +20,8 @@ Python-Skripte, die die statische Website im Hauptordner erzeugen.
 
 ```bash
 cd _quelle
-python3 build.py                 # -> _quelle/out
-GTK_OUT=.. python3 build.py      # direkt in den Hauptordner (Website) schreiben
+python3 build.py                 # -> ../dist (die Website)
+python3 build.py --preview       # -> _quelle/out (Vorschau mit index.html-Links)
 python3 -m tools.check           # prüft den Ausgabeordner
 ```
 
