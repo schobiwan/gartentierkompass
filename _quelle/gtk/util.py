@@ -35,7 +35,8 @@ def decline(name, case, pron):
         name = f"{first} {rest}"
     return f"{art} {name}"
 
-FAMILY = ("vogelkompass.de", "waldtierkompass.de", "meereskompass.de", "gartentierkompass.de")
+# Eigene Seiten von Nico: öffnen im selben Fenster (Kompass-Familie und seine Homepage)
+FAMILY = ("vogelkompass.de", "waldtierkompass.de", "meereskompass.de", "gartentierkompass.de", "nicoschober.com")
 
 def ext_link(url, text_html, rel="noopener"):
     """Link-Regel: fremde Seiten öffnen ein neues Fenster (mit Hinweis für Screenreader),
