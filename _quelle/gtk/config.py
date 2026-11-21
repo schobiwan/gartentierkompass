@@ -16,7 +16,8 @@ ORG_ID = BASE + "#org"
 # Gemeinsame Kennung für Nico Schober auf allen Kompassseiten (Vogel-, Wald-, Meeres-, Gartentierkompass).
 # Muss nicht erreichbar sein; so erkennt Google, dass dieselbe Person hinter allen Seiten steht.
 PERSON_ID = "https://nicoschober.com/#person"
-AUTHOR = {"@type": "Person", "@id": PERSON_ID, "name": "Nico Schober", "url": "https://nicoschober.com/"}
+AUTHOR = {"@type": "Person", "@id": PERSON_ID, "name": "Nico Schober", "url": "https://www.nicoschober.com/",
+          "sameAs": ["https://www.linkedin.com/in/schobernico/", "https://www.xing.com/profile/Nico_Schober/"]}
 TAG = "schobiwan-21"          # Amazon-Partner-ID
 try:                          # Monat für die statische Vorbelegung (JS korrigiert live), deutsche Zeit
     from zoneinfo import ZoneInfo as _ZI
