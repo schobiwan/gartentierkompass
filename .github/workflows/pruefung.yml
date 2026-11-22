@@ -1,0 +1,42 @@
+# Prüft bei jedem Push automatisch Barrierefreiheit und PageSpeed – dieselben Tests wie von Hand (siehe CLAUDE.md):
+# npm test  = Seitentest im echten Browser über alle Seiten, axe hell und dunkel (WCAG AA), Links, Titel, kein seitliches Scrollen
+# npm run perf = Leistungsbudget mit Lighthouse (Handy wie PageSpeed Insights), Grenzen in tests/kompass/kompass.config.mjs
+# Schlägt etwas fehl, wird der Lauf rot und GitHub schickt Nico eine E-Mail. Hinweis: statichost veröffentlicht unabhängig davon
+# nach jedem Push; die Prüfung meldet also Verschlechterungen, sie hält die Veröffentlichung nicht auf.
+# Lighthouse schwankt auf den GitHub-Rechnern etwas; ein einzelner roter Perf-Lauf kann per „Re-run“ gegengeprüft werden.
+name: Prüfung
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+concurrency: { group: pruefung-${{ github.ref }}, cancel-in-progress: true }
+jobs:
+  barrierefreiheit:
+    name: Barrierefreiheit und Seitentest
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults: { run: { working-directory: _quelle } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.13' }
+      - uses: actions/setup-node@v4
+        with: { node-version: '22', cache: npm, cache-dependency-path: _quelle/package-lock.json }
+      - run: npm ci
+      - name: npm test (geprüft wird das eingecheckte dist/)
+        env: { TZ: Europe/Berlin, CHROME: /usr/bin/google-chrome }
+        run: npm test
+  pagespeed:
+    name: PageSpeed-Budget
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    defaults: { run: { working-directory: _quelle } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22', cache: npm, cache-dependency-path: _quelle/package-lock.json }
+      - run: npm ci
+      - name: npm run perf
+        env: { CHROME: /usr/bin/google-chrome }
+        run: npm run perf

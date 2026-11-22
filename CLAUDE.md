@@ -30,6 +30,7 @@ Gilt gleich für Vogel-, Waldtier-, Meeres- und Gartentierkompass. Dieser Abschn
 5. Prüfen, dass die Änderung live ist (`https://gartentierkompass.de/version.txt`)
 
 ## Nützliches
+- Automatische Prüfung: `.github/workflows/pruefung.yml` läuft bei jedem Push auf `main` (und bei Pull Requests) mit `npm test` und `npm run perf`. Ein roter Lauf heißt: Barrierefreiheit oder PageSpeed-Budget verletzt – vor weiteren Änderungen beheben. Die Veröffentlichung bei statichost hält er nicht auf. Perf-Ausreißer auf den GitHub-Rechnern per „Re-run“ gegenprüfen.
 - Aufbau und Redaktionsregeln: siehe `_quelle/README.md`.
 - Gestaltung: `_quelle/css/site.css` bearbeiten, dann `npm --prefix tools/css run build` und neu bauen.
 - Nach inhaltlichen Änderungen `STAND_ISO` und `STAND_DE` in `_quelle/gtk/config.py` anpassen.
