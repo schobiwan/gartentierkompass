@@ -68,8 +68,8 @@ def guide_map():
 
 def product(R, key, compact=False, why=True, guide=True):
     cat, name, by, pwhy, q, ico, _, pick = PRODUCTS[key]
-    tip = '<span class="ptip">Unser Tipp</span>' if pick and not compact else ""
-    meta = cat + (" · Unser Tipp" if pick and compact else "")
+    tip = '<span class="ptip">Mein Tipp</span>' if pick and not compact else ""
+    meta = cat + (" · Mein Tipp" if pick and compact else "")
     pcred2 = ""
     if key in PPHOTOS and compact:
         a, lic = PPHOTOS[key][0], PPHOTOS[key][1]
