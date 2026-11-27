@@ -101,7 +101,7 @@ def page_species(s):
         also = (" <p>Wird auch verwechselt mit: " + ", ".join(f'<a href="{R}unterscheiden/{q[0]}/index.html">{e(NAMES[q[2] if q[1] == k else q[1]])}</a>' for q in more_p) + "</p>") if more_p else ""
         port = f' · <a href="{R}arten/{other}/index.html">{e(NAMES[other])} im Porträt</a>' if other in SP else ""
         img_href = f'{R}arten/{other}/index.html' if other in SP else f'{R}unterscheiden/{p[0]}/index.html'
-        alike = (f'<section class="alike" aria-labelledby="h-alike"> <a class="alike-img" href="{img_href}" tabindex="-1" aria-hidden="true">{img(R, other, "(max-width: 600px) 92vw, 400px")}</a> <div> <h2 id="h-alike">Nicht verwechseln: {e(NAMES[other])}</h2> '
+        alike = (f'<section class="alike" aria-labelledby="h-alike"> <a class="alike-img" href="{img_href}" tabindex="-1" aria-hidden="true">{img(R, other, "(max-width: 600px) 92vw, 400px")}</a> <div> <h2 id="h-alike">Nicht verwechseln: <a href="{img_href}">{e(NAMES[other])}</a></h2> '
                  f'<p>{e(p[4])}</p> <p class="alike-cred"><small class="cred-inline">{cred}</small></p> '
                  f'<p><a href="{R}unterscheiden/{p[0]}/index.html">{e(NAMES[p[1]])} oder {e(NAMES[p[2]])}? Alle Unterschiede</a>{port}</p>{also} </div> </section> ')
     ml = merkmal_links_for(k)

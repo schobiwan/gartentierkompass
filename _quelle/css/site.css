@@ -5428,3 +5428,4 @@ footer a:focus-visible { outline-color: #f3c945; }
 
 /* Schadbilder: lange Wörter (z. B. „Eichenprozessionsspinner“) dürfen auf schmalen Handys umbrechen */
 .trk .trk-t { min-width: 0; overflow-wrap: break-word; hyphens: auto; }
+.alike h2 a { font-weight: inherit; }
