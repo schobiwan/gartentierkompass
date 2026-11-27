@@ -1730,6 +1730,7 @@ section.sub {
   font-size: 1.25rem;
 }
 
+.gearband.gb-defer { content-visibility: auto; contain-intrinsic-size: auto 520px; }
 .gearband {
   border-block: 1px solid var(--line);
   margin-top: 48px;

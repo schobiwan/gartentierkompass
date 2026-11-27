@@ -66,14 +66,12 @@ def guide_map():
                     GUIDE_FOR.setdefault(p, (slug, d["nav"]))
     return GUIDE_FOR
 
-def product(R, key, compact=False, why=True, guide=True, photo=True):
+def product(R, key, compact=False, why=True, guide=True):
     cat, name, by, pwhy, q, ico, _, pick = PRODUCTS[key]
     tip = '<span class="ptip">Mein Tipp</span>' if pick and not compact else ""
     meta = cat + (" · Mein Tipp" if pick and compact else "")
     pcred2 = ""
-    if not photo:
-        pimg = f'<div class="pimg"><span class="picon"><svg viewBox="0 0 24 24" aria-hidden="true">{ICONS[ico]}</svg></span>{tip}</div>'
-    elif key in PPHOTOS and compact:
+    if key in PPHOTOS and compact:
         a, lic = PPHOTOS[key][0], PPHOTOS[key][1]
         pimg = f'<div class="pimg"><img src="{R}photos/p-{key}-400.webp" srcset="{R}photos/p-{key}-400.webp 400w, {R}photos/p-{key}.webp 720w" sizes="88px" alt="" width="400" height="300" loading="lazy" decoding="async"></div>'
         pcred2 = f'<a class="cred pcred2" href="{R}bildnachweis/index.html#p-{key}">Beispielfoto · Foto: {e(a)}, {e(lic)}<span class="sr-only"> – Lizenzangaben im Bildnachweis</span></a> '
@@ -137,11 +135,11 @@ def rlist(items, cls):
     return f'<ul class="rlist {cls}">' + "".join(f"<li>{e(x)}</li>" for x in items) + "</ul>"
 
 
-def gearband(R, title, keys, photo=True):
+def gearband(R, title, keys, defer=False):
     """Band mit Produktempfehlungen über die ganze Breite, vor dem Seitenende (mit Hinweis auf Werbelinks)."""
-    return (f'<section class="gearband" aria-labelledby="h-gear"><div class="wrap"><div class="head-row"><h2 id="h-gear">{e(title)}</h2>'
+    return (f'<section class="gearband{" gb-defer" if defer else ""}" aria-labelledby="h-gear"><div class="wrap"><div class="head-row"><h2 id="h-gear">{e(title)}</h2>'
             f'<a class="gearmore" href="{R}ausruestung/index.html">Alle Ausrüstungstipps ansehen</a></div>'
-            f'<ul class="products">{"".join(product(R, k, photo=photo) for k in keys)}</ul>{ADNOTE}</div></section>')
+            f'<ul class="products">{"".join(product(R, k) for k in keys)}</ul>{ADNOTE}</div></section>')
 
 # Passende Ausrüstung je Tiergruppe; Schnecken und Kohlweißling haben eigene, genauere Tipps
 GROUP_GEAR = {
