@@ -5429,3 +5429,9 @@ footer a:focus-visible { outline-color: #f3c945; }
 /* Schadbilder: lange Wörter (z. B. „Eichenprozessionsspinner“) dürfen auf schmalen Handys umbrechen */
 .trk .trk-t { min-width: 0; overflow-wrap: break-word; hyphens: auto; }
 .alike h2 a { font-weight: inherit; }
+
+/* Ganzer Block „Nicht verwechseln“ führt zum Vergleich: der Vergleichslink füllt den Block, Name und Textlinks liegen darüber */
+.alike{position:relative}
+.alike .alike-main::after{content:"";position:absolute;inset:0}
+.alike a:not(.alike-main):not(.alike-img){position:relative;z-index:1}
+.alike:hover .alike-main{text-decoration-thickness:2px}
