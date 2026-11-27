@@ -3,7 +3,7 @@
 from data.more import GEAR_SECTIONS, MONTH_EVENTS, MONTH_PRODS, PRODUCTS
 from data.species import GROUPS, ROLE, S
 from data.vk import GESCHENKE, GESCHENKE_OHNE, RATGEBER
-from gtk.components import card, cred_long, img, mcard, product, rlist
+from gtk.components import card, cred_long, gearband, img, mcard, product, rlist
 from gtk.config import AUTHOR, BASE, IS_KEYS, IS_TIPS, MA, MN, MS, ORG_ID, SITE, SP, STAND_DE, STAND_ISO
 from gtk.layout import ADBANNER, ADNOTE, crumbs, footer, head, nav, NEWWIN
 from gtk.util import e, fit_desc, fit_title, write
@@ -32,7 +32,7 @@ def page_year():
             '<main id="main" tabindex="-1"> ' + crumbs(R, [("Gartenjahr", "gartenjahr/")]) +
             '<section class="block page"> <div class="wrap"> <h1>Das Gartenjahr</h1> <p class="intro">Was im Garten wann passiert: Krötenwanderung, Schneckenzeit, Winterquartier. Wähle einen Monat, um zu sehen, wer dann unterwegs ist und was jetzt zu tun ist.</p> '
             f'<ul class="monthlinks">{ml}</ul> </div> </section>\n<section class="block" aria-labelledby="h-ev"> <div class="wrap"> <h2 id="h-ev">Das Wichtigste im Jahreslauf</h2> <ul class="yearline">{yl}</ul> </div> </section>\n'
-            f'<section class="block" aria-labelledby="h-cal"> <div class="wrap"> <h2 id="h-cal">Wann siehst du wen?</h2> <p class="intro">Monate, in denen die Art aktiv ist, und wann sie besonders gut zu beobachten ist.</p> {legend} <p class="swipe">Seitlich wischen, um alle Monate zu sehen.</p> {cal_table(R)} </div> </section> </main> ' + footer(R))
+            f'<section class="block" aria-labelledby="h-cal"> <div class="wrap"> <h2 id="h-cal">Wann siehst du wen?</h2> <p class="intro">Monate, in denen die Art aktiv ist, und wann sie besonders gut zu beobachten ist.</p> {legend} <p class="swipe">Seitlich wischen, um alle Monate zu sehen.</p> {cal_table(R)} </div> </section> ' + gearband(R, "Für jede Jahreszeit im Garten", ("buch", "wildblumen", "insektenhotel", "igelhaus")) + '</main> ' + footer(R))
     write("gartenjahr/index.html", body)
     R = "../../"
     for m in range(1, 13):

@@ -4,7 +4,7 @@ from data.more import ICONS, PRODUCTS
 from data.species import GROUP_FORMS, ROLE
 from data.vk import RATGEBER
 from gtk.config import ACT, LATIN, MA, MN, NAMES, PHOTOS, POPRANK, PPHOTOS
-from gtk.layout import ARROW
+from gtk.layout import ADNOTE, ARROW
 from gtk.util import amazon, e, join_de
 
 def cred_short(R, key):
@@ -133,3 +133,30 @@ def pair_card(R, p, h="h2"):
 
 def rlist(items, cls):
     return f'<ul class="rlist {cls}">' + "".join(f"<li>{e(x)}</li>" for x in items) + "</ul>"
+
+
+def gearband(R, title, keys):
+    """Band mit Produktempfehlungen über die ganze Breite, vor dem Seitenende (mit Hinweis auf Werbelinks)."""
+    return (f'<section class="gearband" aria-labelledby="h-gear"><div class="wrap"><div class="head-row"><h2 id="h-gear">{e(title)}</h2>'
+            f'<a class="gearmore" href="{R}ausruestung/index.html">Alle Ausrüstungstipps ansehen</a></div>'
+            f'<ul class="products">{"".join(product(R, k) for k in keys)}</ul>{ADNOTE}</div></section>')
+
+# Passende Ausrüstung je Tiergruppe; Schnecken und Kohlweißling haben eigene, genauere Tipps
+GROUP_GEAR = {
+    "Nützlinge": ("buch", "becherlupe", "insektenhotel"),
+    "Bestäuber": ("insektenhotel", "hummelkasten", "wildblumen"),
+    "Schädlinge": ("buch", "becherlupe", "kulturschutznetz"),
+    "Säugetiere": ("wildkamera", "buch", "wuehlmauskorb"),
+    "Amphibien & Reptilien": ("buch", "wildkamera", "komposter"),
+    "Krabbeltiere": ("buch", "becherlupe"),
+}
+SNAIL_GEAR = ("schneckenzaun", "hochbeet", "buch")
+CABBAGE_GEAR = ("kulturschutznetz", "buch", "becherlupe")
+GENERIC_GEAR = ("buch", "becherlupe", "wildkamera")
+
+def gear_for(grp, slug=""):
+    if "schnecke" in slug or "schnegel" in slug:
+        return SNAIL_GEAR
+    if "kohlweissling" in slug or slug in ("weisser-schmetterling", "gruene-raupe"):
+        return CABBAGE_GEAR
+    return GROUP_GEAR.get(grp, GENERIC_GEAR)

@@ -5,7 +5,7 @@ import re
 from data.more import DAMAGE, DAMAGE_STEPS, PAIRS
 from data.species import ROLE, S
 from data.vk import MERKMALE
-from gtk.components import mcard, pair_card, pair_fig, product
+from gtk.components import GENERIC_GEAR, gear_for, gearband, mcard, pair_card, pair_fig, product
 from gtk.config import BASE, NAMES, SITE, SP
 from gtk.layout import ADNOTE, crumbs, footer, head, nav
 from gtk.util import e, fit_desc, fit_title, join_de, write
@@ -15,7 +15,7 @@ def page_pairs():
     body = (head(R, f"Doppelgänger im Garten unterscheiden · {SITE}", "Marienkäfer oder Asiatischer Marienkäfer, Schwebfliege oder Wespe, Maulwurf oder Schermaus: die entscheidenden Merkmale im Vergleich.", "unterscheiden/") + nav(R, "bestimmen") +
             '<main id="main" tabindex="-1"> ' + crumbs(R, [("Doppelgänger", "unterscheiden/")]) +
             '<section class="block page"> <div class="wrap"> <h1>Doppelgänger unterscheiden</h1> <p class="intro">Manche Gartentiere sehen sich zum Verwechseln ähnlich, und oft ist der eine ein Helfer, der andere ein Schädling. Diese Merkmale helfen beim Unterscheiden.</p> '
-            f'<ul class="pairs">{"".join(pair_card(R, p) for p in PAIRS)}</ul> </div> </section> </main> ' + footer(R))
+            f'<ul class="pairs">{"".join(pair_card(R, p) for p in PAIRS)}</ul> </div> </section> ' + gearband(R, "Zum Unterscheiden im Garten", GENERIC_GEAR) + '</main> ' + footer(R))
     write("unterscheiden/index.html", body)
     R = "../../"
     for i, p in enumerate(PAIRS):
@@ -29,7 +29,7 @@ def page_pairs():
                 f'<article class="wrap pairpage"> <h1>{e(na)} oder {e(nb)}?</h1> <p class="intro">{e(intro)}</p> <div class="ph big"> {pair_fig(R, a, "(max-width: 760px) 92vw, 560px", True, True)}{pair_fig(R, b, "(max-width: 760px) 92vw, 560px", True, True)} </div> '
                 f'<section aria-labelledby="h-cmp"> <h2 id="h-cmp">Die Unterschiede</h2> <div class="cmp-wrap"><table class="cmp cmp-pair"> <thead><tr><td></td><th scope="col">{e(na)}</th><th scope="col">{e(nb)}</th></tr></thead> <tbody>{trs}</tbody> </table></div> '
                 f'<p class="merksatz"><b>Merkhilfe:</b> {e(merk)}</p> <p class="actions"> {btns} </p> </section> '
-                f'<section class="related" aria-labelledby="h-more"> <h2 id="h-more">Weitere Doppelgänger</h2> <ul class="pairs three">{"".join(pair_card(R, q, "h3") for q in rel)}</ul> </section> </article> </main> ' + footer(R))
+                f'<section class="related" aria-labelledby="h-more"> <h2 id="h-more">Weitere Doppelgänger</h2> <ul class="pairs three">{"".join(pair_card(R, q, "h3") for q in rel)}</ul> </section> </article> ' + gearband(R, "Zum Unterscheiden im Garten", gear_for(SP[a]["grp"], slug)) + '</main> ' + footer(R))
         write(f"unterscheiden/{slug}/index.html", body)
 
 DMG_ICO = {
@@ -81,7 +81,7 @@ def page_merkmale():
     body = (head(R, f"Gartentiere nach Aussehen bestimmen · {SITE}", "Roter Käfer, grüne Raupe, Schnecke oder weißer Schmetterling? Gartentiere nach dem auffälligsten Merkmal bestimmen.", "merkmale/") + nav(R, "bestimmen") +
             '<main id="main" tabindex="-1"> ' + crumbs(R, [("Nach Aussehen", "merkmale/")]) +
             '<section class="block page"> <div class="wrap"> <h1>Gartentiere nach Aussehen bestimmen</h1> <p class="intro">Du hast ein Tier im Garten entdeckt, kennst aber den Namen nicht? Wähle das auffälligste Merkmal. Auf jeder Seite findest du die passenden Arten mit Foto und dem Merkmal, an dem du sie erkennst.</p> '
-            f'<ul class="mlist">{"".join(cards)}</ul> </div> </section> </main> ' + footer(R))
+            f'<ul class="mlist">{"".join(cards)}</ul> </div> </section> ' + gearband(R, "Zum Bestimmen im Garten", GENERIC_GEAR) + '</main> ' + footer(R))
     write("merkmale/index.html", body)
     R = "../../"
     for slug, title, short, intro, items in MERKMALE:
@@ -93,7 +93,7 @@ def page_merkmale():
         body = (head(R, f"{title} – was ist das? · {SITE}", fit_desc(intro), f"merkmale/{slug}/", ld=ld, og_img=f"photos/{items[0][0]}.webp", og_alt=SP[items[0][0]]["name"]) + nav(R, "bestimmen") +
                 '<main id="main" tabindex="-1"> ' + crumbs(R, [("Nach Aussehen", "merkmale/"), (title, f"merkmale/{slug}/")]) +
                 f'<section class="block page"> <div class="wrap"> <h1>{e(title)}</h1> <p class="intro">{e(intro)}</p> <ul class="mlist">{lis}</ul> '
-                f'<h2 class="h3 mt">Andere Merkmale</h2> <ul class="morelinks">{ol}<li><a href="{R}merkmale/index.html">Alle Merkmale ansehen</a></li></ul> </div> </section> </main> ' + footer(R))
+                f'<h2 class="h3 mt">Andere Merkmale</h2> <ul class="morelinks">{ol}<li><a href="{R}merkmale/index.html">Alle Merkmale ansehen</a></li></ul> </div> </section> ' + gearband(R, "Zum Bestimmen im Garten", gear_for(SP[items[0][0]]["grp"], slug)) + '</main> ' + footer(R))
         write(f"merkmale/{slug}/index.html", body)
 
 def size_range(s):
@@ -119,5 +119,5 @@ def page_sizes():
     body = (head(R, f"Größenvergleich: wie groß sind Gartentiere? · {SITE}", "Von der winzigen Blattlaus bis zum Steinmarder: alle Gartentiere im Größenvergleich.", "groessen/") + nav(R, "bestimmen") +
             '<main id="main" tabindex="-1"> ' + crumbs(R, [("Größenvergleich", "groessen/")]) +
             '<section class="block page"> <div class="wrap"> <h1>Wie groß ist welches Gartentier?</h1> <p class="intro">Körperlänge, bei Schmetterlingen die Flügelspannweite, bei der Weinbergschnecke das Gehäuse. Weil eine Blattlaus und ein Steinmarder so verschieden sind, wächst die Skala in Zehnerschritten: 1 mm, 1 cm, 10 cm.</p> '
-            f'<p class="swipe">Seitlich wischen, um die ganze Skala zu sehen.</p> <div class="scale"><div class="scale-inner" role="list" style="--grid:{grid}"> {axis} {"".join(rows)} {axis} </div></div> </div> </section> </main> ' + footer(R))
+            f'<p class="swipe">Seitlich wischen, um die ganze Skala zu sehen.</p> <div class="scale"><div class="scale-inner" role="list" style="--grid:{grid}"> {axis} {"".join(rows)} {axis} </div></div> </div> </section> ' + gearband(R, "Zum Beobachten im Garten", GENERIC_GEAR) + '</main> ' + footer(R))
     write("groessen/index.html", body)

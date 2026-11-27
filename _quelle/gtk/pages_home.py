@@ -4,7 +4,7 @@ import math
 from data.more import HOME_GEAR, PAIRS
 from data.species import GROUPS, HABS, S
 from data.vk import MERKMALE
-from gtk.components import card, cred_pop, cred_short, product
+from gtk.components import GENERIC_GEAR, card, cred_pop, cred_short, gearband, product
 from gtk.config import AUTHOR, ACT, BASE, MN, NOW, ORG_ID, PHOTOS, PLATE, POPRANK, SITE, SIZES, SP, SPOT
 from gtk.layout import ADNOTE, crumbs, footer, head, nav, SEARCH_ICO
 from gtk.util import e, fit_title, write
@@ -98,5 +98,5 @@ def page_arten():
     body = (head(R, fit_title(f"Alle Gartentiere von A bis Z: {len(S)} Steckbriefe"), f"Alle {len(S)} Gartentiere im Überblick: Nützlinge, Bestäuber, Schädlinge, Säugetiere, Amphibien, Reptilien und Krabbeltiere, jeweils mit Foto und Merkmalen.", "arten/") + nav(R, "bestimmen") +
             '<main id="main" tabindex="-1"> ' + crumbs(R, [("Arten", "arten/")]) +
             '<section class="block page"> <div class="wrap"> <h1>Alle Gartentiere</h1> <p class="actlegend" aria-hidden="true"><span><svg aria-hidden="true"><use href="#i-sun"></use></svg> tagaktiv</span><span><svg aria-hidden="true"><use href="#i-dusk"></use></svg> dämmerungsaktiv</span><span><svg aria-hidden="true"><use href="#i-moon"></use></svg> nachtaktiv</span></p> '
-            f'<p class="intro">{len(S)} Arten, nach Gruppen geordnet. Zum Suchen und Filtern geht es zur <a href="../index.html#arten">Startseite</a>.</p> {"".join(parts)} </div> </section> </main> ' + footer(R))
+            f'<p class="intro">{len(S)} Arten, nach Gruppen geordnet. Zum Suchen und Filtern geht es zur <a href="../index.html#arten">Startseite</a>.</p> {"".join(parts)} </div> </section> ' + gearband(R, "Zum Beobachten und Bestimmen", GENERIC_GEAR) + '</main> ' + footer(R))
     write("arten/index.html", body)
